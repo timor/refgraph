@@ -1,4 +1,36 @@
-# Idea
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. Idea</a></li>
+<li><a href="#orgheadline34">2. Application</a>
+<ul>
+<li><a href="#orgheadline5">2.1. Styling</a>
+<ul>
+<li><a href="#orgheadline2">2.1.1. General CSS Classes</a></li>
+<li><a href="#orgheadline3">2.1.2. Circle-Packing CSS Classes</a></li>
+<li><a href="#orgheadline4">2.1.3. Tooltip</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline33">2.2. Code</a>
+<ul>
+<li><a href="#orgheadline6">2.2.1. Global Variables</a></li>
+<li><a href="#orgheadline9">2.2.2. SVG DOM Structure</a></li>
+<li><a href="#orgheadline10">2.2.3. Zooming</a></li>
+<li><a href="#orgheadline28">2.2.4. Used Layouts</a></li>
+<li><a href="#orgheadline31">2.2.5. View Modes</a></li>
+<li><a href="#orgheadline32">2.2.6. Application Initialization/Data Loading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline35">3. Hacking</a></li>
+</ul>
+</div>
+</div>
+
+
+# Idea<a id="orgheadline1"></a>
 
 -   Goal: get overview over certain scientific field by taking advantage
     of the information that is usually provided by reference managers,
@@ -13,7 +45,7 @@
     1.  Collaboration Graph
     2.  Classification
 
-# Application
+# Application<a id="orgheadline34"></a>
 
 The application basically consists of one html file that includes the
 necessary CSS and Javascript.
@@ -40,9 +72,9 @@ identicon generation.
       </script>
     </body>
 
-## Styling
+## Styling<a id="orgheadline5"></a>
 
-### General CSS Classes
+### General CSS Classes<a id="orgheadline2"></a>
 
 General page layout:
 
@@ -108,7 +140,7 @@ colors are chosen.  The background of author nodes is hidden
         stroke: #ccc;
     }
 
-### Circle-Packing CSS Classes
+### Circle-Packing CSS Classes<a id="orgheadline3"></a>
 
 Specifically for the circle packing layout, which is currently used
 for the Classification view:
@@ -136,7 +168,7 @@ are not shown.
         fill: #fcc;
     }
 
-### Tooltip
+### Tooltip<a id="orgheadline4"></a>
 
 The tooltip is styled here.
 
@@ -154,9 +186,9 @@ The tooltip is styled here.
         opacity: 0.85;
     }
 
-## Code
+## Code<a id="orgheadline33"></a>
 
-### Global Variables
+### Global Variables<a id="orgheadline6"></a>
 
 For lack of better programming style, the following information is
 defined in global variables:
@@ -180,7 +212,7 @@ elements of that data (TODO link to json data layout)
 
 Other globals are defined before their respective usage.
 
-### SVG DOM Structure
+### SVG DOM Structure<a id="orgheadline9"></a>
 
 generally, d3.js functionality is used to generate the DOM structure.
 
@@ -274,7 +306,7 @@ the one that the zoom and pan transformations are performed upon:
             .attr("stdDeviation", "3.5")
             .attr("result", "coloredBlur");
 
-### Zooming
+### Zooming<a id="orgheadline10"></a>
 
 Zooming is provided as d3.js-provided behavior, with the following
 being the zoom event handler.
@@ -284,7 +316,7 @@ being the zoom event handler.
         // svg.attr("transform", "translate(" + d3.event.translate + ")");
     };
 
-### Used Layouts
+### Used Layouts<a id="orgheadline28"></a>
 
 Several different d3.js layouts are used.  All of them are initialized
 here.  For some reason it is important that the force layout is
@@ -461,7 +493,7 @@ layout.
         3.  Node Background
         
             The background rectangles are attached.  These are connected to the
-            [2.2.2.2](#orgtarget1) using [CSS](#orgheadline1).  A class is added with the same name as the
+            [2.2.2.2](#orgtarget1) using [CSS](#orgheadline5).  A class is added with the same name as the
             personal reading state indicated in the data.
             
                 node.append("rect")
@@ -568,7 +600,7 @@ layout.
     The node value for this layout is a constant, resulting in
     evenly-sized leaf nodes (papers), which themselves are not actually
     displayed but only used as an attraction center point.
-    (see [2.1](#orgheadline1))
+    (see [2.1](#orgheadline5))
     
         var pack = d3.layout.pack()
             .size([width , width])
@@ -617,7 +649,7 @@ layout.
                 .style("text-anchor", "middle")
                 .text(function(d) { return d.name.substring(0, d.r / 3); });
 
-### View Modes
+### View Modes<a id="orgheadline31"></a>
 
 The different layout modes are switched using `change_mode`, which
 takes a mode string as a single argument.  Depending on the mode,
@@ -719,7 +751,7 @@ with the changed parameters.
             node.y_target = node.pack_node.y;
         }
 
-### Application Initialization/Data Loading
+### Application Initialization/Data Loading<a id="orgheadline32"></a>
 
 Since we are using d3.js's json load function, everything that needs
 to happen after loading must be clumsily put into the event handler to
@@ -756,7 +788,7 @@ values.  [14](#orgsrcblock5) is responsible for actually creating all layouts.
         make_layout();
     });
 
-# Hacking
+# Hacking<a id="orgheadline35"></a>
 
 This file is used to generate code and documentation.  It requires
 org-mode which is supplied by emacs.  To (re-)generate the code file,

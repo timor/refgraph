@@ -1,7 +1,5 @@
 #+TITLE: Reference Graph Visualization
 
-#+OPTIONS: toc:nil
-
 * Idea
 - Goal: get overview over certain scientific field by taking advantage
   of the information that is usually provided by reference managers,
