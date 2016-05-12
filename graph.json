@@ -1,0 +1,4944 @@
+{
+    "nodes": [
+        {
+            "name": "lingamneni2013designing",
+            "index": 0,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Designing energy-efficient arithmetic operators using inexact computing(2013): 9",
+            "citations": 9,
+            "state": "unread"
+        },
+        {
+            "name": "shi2015imprecise",
+            "index": 1,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Imprecise Datapath Design: An Overclocking Approach(2015): 1",
+            "citations": 1,
+            "state": "unread"
+        },
+        {
+            "name": "palem2013design",
+            "index": 2,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Why design reliable chips when faulty ones are even better(2013): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "palem2014inexactness",
+            "index": 3,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Inexactness and a future of computing(2014): 5",
+            "citations": 5,
+            "state": "unread"
+        },
+        {
+            "name": "chippa2010scalable",
+            "index": 4,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Scalable Effort Hardware Design: Exploiting Algorithmic Resilience for Energy Efficiency(2010): 90",
+            "citations": 90,
+            "state": "started"
+        },
+        {
+            "name": "hegde1999energy",
+            "index": 5,
+            "type": "paper",
+            "year": 1999,
+            "labeltooltip": "Energy-efficient signal processing via algorithmic noise-tolerance(1999): 163",
+            "citations": 163,
+            "state": "unread"
+        },
+        {
+            "name": "breuer2010hardware",
+            "index": 6,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Hardware that produces bounded rather than exact results(2010): 27",
+            "citations": 27,
+            "state": "read"
+        },
+        {
+            "name": "naseer2015designing",
+            "index": 7,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Designing energy-efficient approximate adders using parallel genetic algorithms(2015): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "momeni2015design",
+            "index": 8,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Design and Analysis of Approximate Compressors for Multiplication(2015): 15",
+            "citations": 15,
+            "state": "unread"
+        },
+        {
+            "name": "liu2014low-power",
+            "index": 9,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "A Low-power, High-performance Approximate Multiplier with Configurable Partial Error Recovery(2014): 20",
+            "citations": 20,
+            "state": "unread"
+        },
+        {
+            "name": "lin2013high",
+            "index": 10,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "High accuracy approximate multiplier with error correction(2013): 8",
+            "citations": 8,
+            "state": "unread"
+        },
+        {
+            "name": "jiang2015approximate",
+            "index": 11,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Approximate Radix-8 Booth Multipliers for Low-Power and High-performance Operation(2015): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "mehta2015accuracy",
+            "index": 12,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Accuracy-configurable approximate multiplier with error detection and correction(2015): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "kulkarni2011trading",
+            "index": 13,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "Trading Accuracy for Power with an Underdesigned Multiplier Architecture(2011): 94",
+            "citations": 94,
+            "state": "unread"
+        },
+        {
+            "name": "miao2013approximate",
+            "index": 14,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Approximate logic synthesis under general error magnitude and frequency constraints(2013): 17",
+            "citations": 17,
+            "state": "unread"
+        },
+        {
+            "name": "sampson2015accept",
+            "index": 15,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Accept: A programmer-guided compiler framework for practical approximate computing(2015): 6",
+            "citations": 6,
+            "state": "unread"
+        },
+        {
+            "name": "venkatesan2011macaco",
+            "index": 16,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "MACACO: Modeling and analysis of circuits for approximate computing(2011): 66",
+            "citations": 66,
+            "state": "started"
+        },
+        {
+            "name": "venkataramani2012salsa",
+            "index": 17,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "SALSA: systematic logic synthesis of approximate circuits(2012): 91",
+            "citations": 91,
+            "state": "unread"
+        },
+        {
+            "name": "zhang2014approxit",
+            "index": 18,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "ApproxIt: An approximate computing framework for iterative methods(2014): 16",
+            "citations": 16,
+            "state": "unread"
+        },
+        {
+            "name": "park2014expectation",
+            "index": 19,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Expectation-oriented framework for automating approximate programming(2014): 0",
+            "citations": 0,
+            "state": "started"
+        },
+        {
+            "name": "nepal2014abacus",
+            "index": 20,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "ABACUS: A Technique for Automated Behavioral Synthesis of Approximate Computing Circuits(2014): 25",
+            "citations": 25,
+            "state": "unread"
+        },
+        {
+            "name": "roy2014asac",
+            "index": 21,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "ASAC: Automatic Sensitivity Analysis for Approximate Computing(2014): 15",
+            "citations": 15,
+            "state": "overview"
+        },
+        {
+            "name": "mahajan2015axilog",
+            "index": 22,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Axilog: Abstractions for Approximate Hardware Design and Reuse(2015): 1",
+            "citations": 1,
+            "state": "read"
+        },
+        {
+            "name": "shin2008re-design",
+            "index": 23,
+            "type": "paper",
+            "year": 2008,
+            "labeltooltip": "A Re-design Technique for Datapath Modules in Error Tolerant Applications(2008): 32",
+            "citations": 32,
+            "state": "unread"
+        },
+        {
+            "name": "shin2011circuit",
+            "index": 24,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "A new circuit simplification method for error tolerant applications(2011): 29",
+            "citations": 29,
+            "state": "unread"
+        },
+        {
+            "name": "gupta2011impact",
+            "index": 25,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "IMPACT: Imprecise Adders for Low-power Approximate Computing(2011): 114",
+            "citations": 114,
+            "state": "unread"
+        },
+        {
+            "name": "huang2012methodology",
+            "index": 26,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "A Methodology for Energy-quality Tradeoff Using Imprecise Hardware(2012): 29",
+            "citations": 29,
+            "state": "unread"
+        },
+        {
+            "name": "chippa2013analysis",
+            "index": 27,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Analysis and Characterization of Inherent Application Resilience for Approximate Computing(2013): 67",
+            "citations": 67,
+            "state": "unread"
+        },
+        {
+            "name": "kedem2011approach",
+            "index": 28,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "An Approach to Energy-error Tradeoffs in Approximate Ripple Carry Adders(2011): 24",
+            "citations": 24,
+            "state": "unread"
+        },
+        {
+            "name": "misailovic2011probabilistically",
+            "index": 29,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "Probabilistically Accurate Program Transformations(2011): 58",
+            "citations": 58,
+            "state": "unread"
+        },
+        {
+            "name": "chong2005hardware",
+            "index": 30,
+            "type": "paper",
+            "year": 2005,
+            "labeltooltip": "Hardware testing for error tolerant multimedia compression based on linear transforms(2005): 86",
+            "citations": 86,
+            "state": "unread"
+        },
+        {
+            "name": "schlachter2015automatic",
+            "index": 31,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Automatic generation of inexact digital circuits by gate-level pruning(2015): 3",
+            "citations": 3,
+            "state": "unread"
+        },
+        {
+            "name": "breuer2004intelligible",
+            "index": 32,
+            "type": "paper",
+            "year": 2004,
+            "labeltooltip": "Intelligible test techniques to support error-tolerance(2004): 69",
+            "citations": 69,
+            "state": "unread"
+        },
+        {
+            "name": "zhang2015approxeigen",
+            "index": 33,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "ApproxEigen: An Approximate Computing Technique for Large-Scale Eigen-Decomposition(2015): 1",
+            "citations": 1,
+            "state": "unread"
+        },
+        {
+            "name": "leem2010ersa",
+            "index": 34,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "ERSA: Error Resilient System Architecture for probabilistic applications(2010): 188",
+            "citations": 188,
+            "state": "unread"
+        },
+        {
+            "name": "hoffmann2011dynamic",
+            "index": 35,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "Dynamic Knobs for Responsive Power-aware Computing(2011): 145",
+            "citations": 145,
+            "state": "unread"
+        },
+        {
+            "name": "carbin2013verified",
+            "index": 36,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Verified Integrity Properties for Safe Approximate Program Transformations(2013): 9",
+            "citations": 9,
+            "state": "unread"
+        },
+        {
+            "name": "carbin2013verifying",
+            "index": 37,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Verifying Quantitative Reliability for Programs That Execute on Unreliable Hardware(2013): 96",
+            "citations": 96,
+            "state": "unread"
+        },
+        {
+            "name": "misailovic2010quality",
+            "index": 38,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Quality of Service Profiling(2010): 137",
+            "citations": 137,
+            "state": "unread"
+        },
+        {
+            "name": "carbin2012proving",
+            "index": 39,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Proving Acceptability Properties of Relaxed Nondeterministic Approximate Programs(2012): 44",
+            "citations": 44,
+            "state": "unread"
+        },
+        {
+            "name": "zhu2012randomized",
+            "index": 40,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Randomized Accuracy-aware Program Transformations for Efficient Approximate Computations(2012): 60",
+            "citations": 60,
+            "state": "unread"
+        },
+        {
+            "name": "cho2012ersa",
+            "index": 41,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "ERSA: Error Resilient System Architecture for Probabilistic Applications(2012): 188",
+            "citations": 188,
+            "state": "unread"
+        },
+        {
+            "name": "misailovic2014chisel",
+            "index": 42,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Chisel: Reliability- and Accuracy-aware Optimization of Approximate Computational Kernels(2014): 28",
+            "citations": 28,
+            "state": "unread"
+        },
+        {
+            "name": "verma2008variable",
+            "index": 43,
+            "type": "paper",
+            "year": 2008,
+            "labeltooltip": "Variable Latency Speculative Addition: A New Paradigm for Arithmetic Circuit Design(2008): 88",
+            "citations": 88,
+            "state": "unread"
+        },
+        {
+            "name": "filieri2016approximate",
+            "index": 44,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Approximate and Probabilistic Computing: Design, Coding, Verification (Dagstuhl Seminar 15491)(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "poppelbaum1967stochastic",
+            "index": 45,
+            "type": "paper",
+            "year": 1967,
+            "labeltooltip": "Stochastic Computing Elements and Systems(1967): 50",
+            "citations": 50,
+            "state": "unread"
+        },
+        {
+            "name": "baek2010green",
+            "index": 46,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Green: A Framework for Supporting Energy-conscious Programming Using Controlled Approximation(2010): 236",
+            "citations": 236,
+            "state": "unread"
+        },
+        {
+            "name": "jiang2015comparative",
+            "index": 47,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "A Comparative Review and Evaluation of Approximate Adders(2015): 4",
+            "citations": 4,
+            "state": "unread"
+        },
+        {
+            "name": "mani2004statistical",
+            "index": 48,
+            "type": "paper",
+            "year": 2004,
+            "labeltooltip": "A new statistical optimization algorithm for gate sizing(2004): 73",
+            "citations": 73,
+            "state": "unread"
+        },
+        {
+            "name": "xu2016approximate",
+            "index": 49,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Approximate Computing: A Survey(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "venkataramani2013quality",
+            "index": 50,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Quality Programmable Vector Processors for Approximate Computing(2013): 78",
+            "citations": 78,
+            "state": "unread"
+        },
+        {
+            "name": "mahdiani2010bio-inspired",
+            "index": 51,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Bio-Inspired Imprecise Computational Blocks for Efficient VLSI Implementation of Soft-Computing Applications(2010): 48",
+            "citations": 48,
+            "state": "unread"
+        },
+        {
+            "name": "boston2014tuning",
+            "index": 52,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Tuning approximate computations with constraint-based type inference(2014): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "boston2015probability",
+            "index": 53,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Probability type inference for flexible approximate programming(2015): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "chakradhar2010best",
+            "index": 54,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Best-effort Computing: Re-thinking Parallel Software and Hardware(2010): 59",
+            "citations": 59,
+            "state": "unread"
+        },
+        {
+            "name": "sampson2014approximate",
+            "index": 55,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Approximate Storage in Solid-State Memories(2014): 95",
+            "citations": 95,
+            "state": "unread"
+        },
+        {
+            "name": "sampson2014expressing",
+            "index": 56,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Expressing and Verifying Probabilistic Assertions(2014): 30",
+            "citations": 30,
+            "state": "unread"
+        },
+        {
+            "name": "sampson2011enerj",
+            "index": 57,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "EnerJ: Approximate Data Types for Safe and General Low-power Computation(2011): 288",
+            "citations": 288,
+            "state": "unread"
+        },
+        {
+            "name": "qian2011architecture",
+            "index": 58,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "An Architecture for Fault-Tolerant Computation with Stochastic Logic(2011): 119",
+            "citations": 119,
+            "state": "unread"
+        },
+        {
+            "name": "park2014expax",
+            "index": 59,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "ExpAX: A Framework for Automating Approximate Programming(2014): 7",
+            "citations": 7,
+            "state": "unread"
+        },
+        {
+            "name": "tian2015approxma",
+            "index": 60,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "ApproxMA: Approximate Memory Access for Dynamic Precision Scaling(2015): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "esmaeilzadeh2012architecture",
+            "index": 61,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Architecture Support for Disciplined Approximate Programming(2012): 196",
+            "citations": 196,
+            "state": "started"
+        },
+        {
+            "name": "jain2016cpsa",
+            "index": 62,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "CPSA: Compute Precisely Store Approximately(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "chakrapani2006ultra",
+            "index": 63,
+            "type": "paper",
+            "year": 2006,
+            "labeltooltip": "Ultra-efficient (Embedded) SOC Architectures Based on Probabilistic CMOS (PCMOS) Technology(2006): 101",
+            "citations": 101,
+            "state": "unread"
+        },
+        {
+            "name": "ingole2015does",
+            "index": 64,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Does Customizing Inexactness Help over Simplistic Precision (Bit-width) Reduction?: A Case Study(2015): 0",
+            "citations": 0,
+            "state": "started"
+        },
+        {
+            "name": "zhu2016lradnn",
+            "index": 65,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "LRADNN: High-throughput and energy-efficient Deep Neural Network accelerator using Low Rank Approximation(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "jung2016efficient",
+            "index": 66,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Efficient reliability management in SoCs - an approximate DRAM perspective(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "jayakumar2016energy",
+            "index": 67,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Energy-efficient system design for IoT devices(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "yi2016approxmap",
+            "index": 68,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "ApproxMap: On task allocation and scheduling for resilient applications(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "he2016enabling",
+            "index": 69,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "ACR: Enabling computation reuse for approximate computing(2016): 0",
+            "citations": 0,
+            "state": "started"
+        },
+        {
+            "name": "albicocco2012imprecise",
+            "index": 70,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Imprecise arithmetic for low power image processing(2012): 9",
+            "citations": 9,
+            "state": "unread"
+        },
+        {
+            "name": "chakrapani2010probabilistic",
+            "index": 71,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "A Probabilistic Boolean Logic for Energy Efficient Circuit and System Design(2010): 10",
+            "citations": 10,
+            "state": "unread"
+        },
+        {
+            "name": "esmaeilzadeh2012neural",
+            "index": 72,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Neural Acceleration for General-Purpose Approximate Programs(2012): 209",
+            "citations": 209,
+            "state": "unread"
+        },
+        {
+            "name": "venkataraman2015designing",
+            "index": 73,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Designing Inexact Systems Efficiently Using Elimination Heuristics(2015): 1",
+            "citations": 1,
+            "state": "started"
+        },
+        {
+            "name": "samadi2013sage",
+            "index": 74,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "SAGE: Self-tuning Approximation for Graphics Engines(2013): 71",
+            "citations": 71,
+            "state": "unread"
+        },
+        {
+            "name": "palem2005energy",
+            "index": 75,
+            "type": "paper",
+            "year": 2005,
+            "labeltooltip": "Energy aware computing through probabilistic switching: a study of limits(2005): 155",
+            "citations": 155,
+            "state": "unread"
+        },
+        {
+            "name": "du2015leveraging",
+            "index": 76,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Leveraging the Error Resilience of Neural Networks for Designing Highly Energy Efficient Accelerators(2015): 2",
+            "citations": 2,
+            "state": "unread"
+        },
+        {
+            "name": "ye2013reconfiguration",
+            "index": 77,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "On reconfiguration-oriented approximate adder design and its application(2013): 34",
+            "citations": 34,
+            "state": "unread"
+        },
+        {
+            "name": "park2016axgames",
+            "index": 78,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "AxGames: Towards Crowdsourcing Quality Target Determination in Approximate Computing(2016): 0",
+            "citations": 0,
+            "state": "overview"
+        },
+        {
+            "name": "liang2013metrics",
+            "index": 79,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "New metrics for the reliability of approximate and probabilistic adders(2013): 35",
+            "citations": 35,
+            "state": "unread"
+        },
+        {
+            "name": "frustaci2016approximate",
+            "index": 80,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Approximate SRAMs With Dynamic Energy-Quality Management(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "miao2012modeling",
+            "index": 81,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Modeling and Synthesis of Quality-energy Optimal Approximate Adders(2012): 32",
+            "citations": 32,
+            "state": "unread"
+        },
+        {
+            "name": "lu2004speeding",
+            "index": 82,
+            "type": "paper",
+            "year": 2004,
+            "labeltooltip": "Speeding up processing with approximation circuits(2004): 101",
+            "citations": 101,
+            "state": "unread"
+        },
+        {
+            "name": "dvoracek2016evolutionary",
+            "index": 83,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Evolutionary Approximation of Edge Detection Circuits(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "miguel2015doppelg",
+            "index": 84,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Doppelg\u00c4Nger: A Cache for Approximate Computing(2015): 1",
+            "citations": 1,
+            "state": "unread"
+        },
+        {
+            "name": "park2015flexjava",
+            "index": 85,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "FlexJava: Language support for safe and modular approximate programming(2015): 5",
+            "citations": 5,
+            "state": "unread"
+        },
+        {
+            "name": "kritchallo2016balancing",
+            "index": 86,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Balancing High-Performance Parallelization and Accuracy in Canny Edge Detector(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "haider2016inexact",
+            "index": 87,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Inexact Designs for Approximate Low Power Addition by Cell Replacement(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "gupta2013low-power",
+            "index": 88,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Low-Power Digital Signal Processing Using Approximate Adders(2013): 95",
+            "citations": 95,
+            "state": "unread"
+        },
+        {
+            "name": "barrois2016leveraging",
+            "index": 89,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Leveraging Power Spectral Density for Scalable System-Level Accuracy Evaluation(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "lofti2016grater",
+            "index": 90,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "GRATER: An Approximation Workflow for Exploiting Data-Level Parallelism in FPGA Acceleration(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "yang2013approximate",
+            "index": 91,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Approximate XOR\/XNOR-based adders for inexact computing(2013): 18",
+            "citations": 18,
+            "state": "unread"
+        },
+        {
+            "name": "sinha2016low-power",
+            "index": 92,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Low-Power FPGA Design Using Memoization-Based Approximate Computing(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "schlachter2015near",
+            "index": 93,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Near\/Sub-Threshold Circuits and Approximate Computing: The Perfect Combination for Ultra-Low-Power Systems(2015): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "yang2015transmission",
+            "index": 94,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Transmission gate-based approximate adders for inexact computing(2015): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "zhu2010design",
+            "index": 95,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Design of Low-Power High-Speed Truncation-Error-Tolerant Adder and Its Application in Digital Signal Processing(2010): 76",
+            "citations": 76,
+            "state": "started"
+        },
+        {
+            "name": "sui2016proactive",
+            "index": 96,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Proactive Control of Approximate Programs(2016): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "sampson2015hardware",
+            "index": 97,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Hardware and Software for Approximate Computing(2015): 0",
+            "citations": 0,
+            "state": "started"
+        },
+        {
+            "name": "nawab1997approximate",
+            "index": 98,
+            "type": "paper",
+            "year": 1997,
+            "labeltooltip": "Approximate signal processing(1997): 125",
+            "citations": 125,
+            "state": "unread"
+        },
+        {
+            "name": "esmaeilzadeh2013approximate",
+            "index": 99,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Approximate Acceleration for a Post Multicore Era(2013): 1",
+            "citations": 1,
+            "state": "unread"
+        },
+        {
+            "name": "ludwig1996low-power",
+            "index": 100,
+            "type": "paper",
+            "year": 1996,
+            "labeltooltip": "Low-power digital filtering using approximate processing(1996): 137",
+            "citations": 137,
+            "state": "started"
+        },
+        {
+            "name": "hegde2001soft",
+            "index": 101,
+            "type": "paper",
+            "year": 2001,
+            "labeltooltip": "Soft digital signal processing(2001): 200",
+            "citations": 200,
+            "state": "unread"
+        },
+        {
+            "name": "palem2013years",
+            "index": 102,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Ten Years of Building Broken Chips: The Physics and Engineering of Inexact Computing(2013): 34",
+            "citations": 34,
+            "state": "started"
+        },
+        {
+            "name": "lingamneni2013synthesizing",
+            "index": 103,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Synthesizing Parsimonious Inexact Circuits through Probabilistic Design Techniques(2013): 21",
+            "citations": 21,
+            "state": "unread"
+        },
+        {
+            "name": "yazdanbakhsh2014methodical",
+            "index": 104,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Methodical Approximate Hardware Design and Reuse(2014): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "mohapatra2011design",
+            "index": 105,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "Design of voltage-scalable meta-functions for approximate computing(2011): 52",
+            "citations": 52,
+            "state": "unread"
+        },
+        {
+            "name": "shin2010approximate",
+            "index": 106,
+            "type": "paper",
+            "year": 2010,
+            "labeltooltip": "Approximate Logic Synthesis for Error Tolerant Applications(2010): 74",
+            "citations": 74,
+            "state": "unread"
+        },
+        {
+            "name": "lingamneni2011energy",
+            "index": 107,
+            "type": "paper",
+            "year": 2011,
+            "labeltooltip": "Energy parsimonious circuit design through probabilistic pruning(2011): 72",
+            "citations": 72,
+            "state": "overview"
+        },
+        {
+            "name": "han2013approximate",
+            "index": 108,
+            "type": "paper",
+            "year": 2013,
+            "labeltooltip": "Approximate computing: An emerging paradigm for energy-efficient design(2013): 110",
+            "citations": 110,
+            "state": "overview"
+        },
+        {
+            "name": "hu2015approximate",
+            "index": 109,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "A New Approximate Adder with Low Relative Error and Correct Sign Calculation(2015): 4",
+            "citations": 4,
+            "state": "unread"
+        },
+        {
+            "name": "mckinley2016programming",
+            "index": 110,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "Programming the World of Uncertain Things (Keynote)(2016): 0",
+            "citations": 0,
+            "state": "read"
+        },
+        {
+            "name": "kadiyala2015perceptually",
+            "index": 111,
+            "type": "paper",
+            "year": 2015,
+            "labeltooltip": "Perceptually guided inexact DSP design for power, area efficient hearing aid(2015): 0",
+            "citations": 0,
+            "state": "unread"
+        },
+        {
+            "name": "duben2014inexact",
+            "index": 112,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "On the use of inexact, pruned hardware in atmospheric modelling(2014): 16",
+            "citations": 16,
+            "state": "overview"
+        },
+        {
+            "name": "krishnan2016incapprox",
+            "index": 113,
+            "type": "paper",
+            "year": 2016,
+            "labeltooltip": "IncApprox: A Data Analytics System for Incremental Approximate Computing(2016): 1",
+            "citations": 1,
+            "state": "started"
+        },
+        {
+            "name": "palem2003energy",
+            "index": 114,
+            "type": "paper",
+            "year": 2003,
+            "labeltooltip": "Energy aware algorithm design via probabilistic computing: from algorithms and models to Moore's law and novel (semiconductor) devices(2003): 59",
+            "citations": 59,
+            "state": "unread"
+        },
+        {
+            "name": "von_neumann1956probabilistic",
+            "index": 115,
+            "type": "paper",
+            "year": 1956,
+            "labeltooltip": "Probabilistic logics and the synthesis of reliable organisms from unreliable components(1956): 2307",
+            "citations": 2307,
+            "state": "unread"
+        },
+        {
+            "name": "cheemalavagu2005probabilistic",
+            "index": 116,
+            "type": "paper",
+            "year": 2005,
+            "labeltooltip": "A probabilistic CMOS switch and its realization by exploiting noise(2005): 54",
+            "citations": 54,
+            "state": "started"
+        },
+        {
+            "name": "chakrapani2007probabilistic",
+            "index": 117,
+            "type": "paper",
+            "year": 2007,
+            "labeltooltip": "Probabilistic system-on-a-chip architectures(2007): 63",
+            "citations": 63,
+            "state": "overview"
+        },
+        {
+            "name": "kim2014inexact",
+            "index": 118,
+            "type": "paper",
+            "year": 2014,
+            "labeltooltip": "Inexact computing using probabilistic circuits: Ultra low-power digital processing(2014): 7",
+            "citations": 7,
+            "state": "overview"
+        },
+        {
+            "name": "george2006probabilistic",
+            "index": 119,
+            "type": "paper",
+            "year": 2006,
+            "labeltooltip": "Probabilistic arithmetic and energy efficient embedded signal processing(2006): 102",
+            "citations": 102,
+            "state": "overview"
+        },
+        {
+            "name": "kahng2012accuracy",
+            "index": 120,
+            "type": "paper",
+            "year": 2012,
+            "labeltooltip": "Accuracy-configurable Adder for Approximate Arithmetic Designs(2012): 80",
+            "citations": 80,
+            "state": "unread"
+        },
+        {
+            "name": "Lingamneni, Avinash",
+            "index": 121,
+            "type": "author",
+            "balls": 8
+        },
+        {
+            "name": "Enz, Christian",
+            "index": 122,
+            "type": "author",
+            "balls": 7
+        },
+        {
+            "name": "Palem, Krishna",
+            "index": 123,
+            "type": "author",
+            "balls": 19
+        },
+        {
+            "name": "Piguet, Christian",
+            "index": 124,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Shi, Kan",
+            "index": 125,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Boland, David",
+            "index": 126,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Constantinides, George A.",
+            "index": 127,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Chippa, Vinay K.",
+            "index": 128,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Mohapatra, Debabrata",
+            "index": 129,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Raghunathan, Anand",
+            "index": 130,
+            "type": "author",
+            "balls": 9
+        },
+        {
+            "name": "Roy, Kaushik",
+            "index": 131,
+            "type": "author",
+            "balls": 8
+        },
+        {
+            "name": "Chakradhar, Srimat T.",
+            "index": 132,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Hegde, Rajamohana",
+            "index": 133,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Shanbhag, Naresh R.",
+            "index": 134,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Breuer, Melvin",
+            "index": 135,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Naseer, A. A.",
+            "index": 136,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ashraf, R. A.",
+            "index": 137,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Dechev, D.",
+            "index": 138,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "DeMara, R. F.",
+            "index": 139,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Momeni, A.",
+            "index": 140,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Han, Jie",
+            "index": 141,
+            "type": "author",
+            "balls": 8
+        },
+        {
+            "name": "Montuschi, P.",
+            "index": 142,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lombardi, Fabrizio",
+            "index": 143,
+            "type": "author",
+            "balls": 8
+        },
+        {
+            "name": "Liu, Cong",
+            "index": 144,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lin, C. H.",
+            "index": 145,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lin, I. C.",
+            "index": 146,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jiang, H.",
+            "index": 147,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Qiao, F.",
+            "index": 148,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mehta, A.",
+            "index": 149,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Maurya, S.",
+            "index": 150,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sharief, N.",
+            "index": 151,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Pranay, B. M.",
+            "index": 152,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jandhyala, S.",
+            "index": 153,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Purini, S.",
+            "index": 154,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kulkarni, P.",
+            "index": 155,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Gupta, P.",
+            "index": 156,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ercegovac, M.",
+            "index": 157,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Miao, J.",
+            "index": 158,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Gerstlauer, A.",
+            "index": 159,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Orshansky, M.",
+            "index": 160,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Sampson, Adrian",
+            "index": 161,
+            "type": "author",
+            "balls": 9
+        },
+        {
+            "name": "Baixo, Andr\u00e9",
+            "index": 162,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ransford, Benjamin",
+            "index": 163,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Moreau, Thierry",
+            "index": 164,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yip, Joshua",
+            "index": 165,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ceze, Luis",
+            "index": 166,
+            "type": "author",
+            "balls": 9
+        },
+        {
+            "name": "Oskin, Mark",
+            "index": 167,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Venkatesan, Rangharajan",
+            "index": 168,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Agarwal, Amit",
+            "index": 169,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Venkataramani, Swagath",
+            "index": 170,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Sabne, Amit",
+            "index": 171,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kozhikkottu, Vivek",
+            "index": 172,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Zhang, Qian",
+            "index": 173,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Yuan, Feng",
+            "index": 174,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Ye, Rong",
+            "index": 175,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Xu, Qiang",
+            "index": 176,
+            "type": "author",
+            "balls": 6
+        },
+        {
+            "name": "Park, Jongse",
+            "index": 177,
+            "type": "author",
+            "balls": 6
+        },
+        {
+            "name": "Ni, Kangqi",
+            "index": 178,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Zhang, Xin",
+            "index": 179,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Esmaeilzadeh, Hadi",
+            "index": 180,
+            "type": "author",
+            "balls": 10
+        },
+        {
+            "name": "Naik, Mayur",
+            "index": 181,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Nepal, Kumud",
+            "index": 182,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Li, Yueting",
+            "index": 183,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Bahar, R. Iris",
+            "index": 184,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Reda, Sherief",
+            "index": 185,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Roy, Pooja",
+            "index": 186,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ray, Rajarshi",
+            "index": 187,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Wang, Chundong",
+            "index": 188,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Wong, Weng Fai",
+            "index": 189,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mahajan, Divya",
+            "index": 190,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Ramkrishnan, Kartik",
+            "index": 191,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jariwala, Rudra",
+            "index": 192,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yazdanbakhsh, Amir",
+            "index": 193,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Thwaites, Bradley",
+            "index": 194,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Nagendrakumar, Anandhavel",
+            "index": 195,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Rahimi, Abbas",
+            "index": 196,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Bazargan, Kia",
+            "index": 197,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Shin, D.",
+            "index": 198,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Gupta, S. K.",
+            "index": 199,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Gupta, Vaibhav",
+            "index": 200,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Park, Sang Phill",
+            "index": 201,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Huang, Jiawei",
+            "index": 202,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lach, John",
+            "index": 203,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Robins, Gabriel",
+            "index": 204,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kedem, Zvi M.",
+            "index": 205,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mooney, Vincent J.",
+            "index": 206,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Muntimadugu, Kirthi Krishna",
+            "index": 207,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Misailovic, Sasa",
+            "index": 208,
+            "type": "author",
+            "balls": 9
+        },
+        {
+            "name": "Roy, Daniel M.",
+            "index": 209,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Rinard, Martin C.",
+            "index": 210,
+            "type": "author",
+            "balls": 8
+        },
+        {
+            "name": "Chong, In Suk",
+            "index": 211,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ortega, A.",
+            "index": 212,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Schlachter, J.",
+            "index": 213,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Camus, V.",
+            "index": 214,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Tian, Ye",
+            "index": 215,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Wang, Ting",
+            "index": 216,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Leem, L.",
+            "index": 217,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Cho, H.",
+            "index": 218,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Bau, J.",
+            "index": 219,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jacobson, Q. A.",
+            "index": 220,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mitra, S.",
+            "index": 221,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Hoffmann, Henry",
+            "index": 222,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Sidiroglou, Stelios",
+            "index": 223,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Carbin, Michael",
+            "index": 224,
+            "type": "author",
+            "balls": 5
+        },
+        {
+            "name": "Kim, Deokhwan",
+            "index": 225,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Zhu, Zeyuan Allen",
+            "index": 226,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kelner, Jonathan A.",
+            "index": 227,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Achour, Sara",
+            "index": 228,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Qi, Zichao",
+            "index": 229,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Verma, Ajay K.",
+            "index": 230,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Brisk, Philip",
+            "index": 231,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ienne, Paolo",
+            "index": 232,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Filieri, Antonio",
+            "index": 233,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kwiatkowska, Marta",
+            "index": 234,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mytkowicz, Todd",
+            "index": 235,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Poppelbaum, W. J.",
+            "index": 236,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Afuso, C.",
+            "index": 237,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Esch, J. W.",
+            "index": 238,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Baek, Woongki",
+            "index": 239,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Chilimbi, Trishul M.",
+            "index": 240,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mani, M.",
+            "index": 241,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kim, N. S.",
+            "index": 242,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mahdiani, H. R.",
+            "index": 243,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ahmadi, A.",
+            "index": 244,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Fakhraie, S. M.",
+            "index": 245,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lucas, C.",
+            "index": 246,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Boston, Brett",
+            "index": 247,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Grossman, Dan",
+            "index": 248,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Nelson, Jacob",
+            "index": 249,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Strauss, Karin",
+            "index": 250,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Panchekha, Pavel",
+            "index": 251,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "McKinley, Kathryn S.",
+            "index": 252,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Dietl, Werner",
+            "index": 253,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Fortuna, Emily",
+            "index": 254,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Gnanapragasam, Danushen",
+            "index": 255,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Qian, W.",
+            "index": 256,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Li, X.",
+            "index": 257,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Riedel, M. D.",
+            "index": 258,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lilja, D. J.",
+            "index": 259,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Burger, Doug",
+            "index": 260,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Jain, Animesh",
+            "index": 261,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Hill, Parker",
+            "index": 262,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Laurenzano, Michael A.",
+            "index": 263,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Haque, Md E.",
+            "index": 264,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Khan, Muneeb",
+            "index": 265,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mahlke, Scott",
+            "index": 266,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Tang, Lingjia",
+            "index": 267,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mars, Jason",
+            "index": 268,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Chakrapani, Lakshmi N.",
+            "index": 269,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Akgul, Bilge E. S.",
+            "index": 270,
+            "type": "author",
+            "balls": 4
+        },
+        {
+            "name": "Cheemalavagu, Suresh",
+            "index": 271,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Korkmaz, Pinar",
+            "index": 272,
+            "type": "author",
+            "balls": 3
+        },
+        {
+            "name": "Seshasayee, Balasubramanian",
+            "index": 273,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ingole, Ashutosh",
+            "index": 274,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Maiti, Biswaroop",
+            "index": 275,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Augustine, John",
+            "index": 276,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Zhu, Jingyang",
+            "index": 277,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Qian, Zhiliang",
+            "index": 278,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Tsui, Chi-Ying",
+            "index": 279,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jung, M.",
+            "index": 280,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mathew, D. M.",
+            "index": 281,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Weis, C.",
+            "index": 282,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Wehn, N.",
+            "index": 283,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jayakumar, H.",
+            "index": 284,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Raha, A.",
+            "index": 285,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kim, Y.",
+            "index": 286,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sutar, S.",
+            "index": 287,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lee, W. S.",
+            "index": 288,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Raghunathan, V.",
+            "index": 289,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yi, J.",
+            "index": 290,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Liu, W.",
+            "index": 291,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sha, E. H. M.",
+            "index": 292,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "He, X.",
+            "index": 293,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yan, G.",
+            "index": 294,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Han, Y.",
+            "index": 295,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Albicocco, P.",
+            "index": 296,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Cardarilli, G. C.",
+            "index": 297,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Nannarelli, A.",
+            "index": 298,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Petricca, M.",
+            "index": 299,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Re, M.",
+            "index": 300,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Venkataraman, Shyamsundar",
+            "index": 301,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kumar, Akash",
+            "index": 302,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Samadi, Mehrzad",
+            "index": 303,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lee, Janghaeng",
+            "index": 304,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jamshidi, D. Anoushe",
+            "index": 305,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Hormati, Amir",
+            "index": 306,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Du, Z.",
+            "index": 307,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Chen, Y.",
+            "index": 308,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Temam, O.",
+            "index": 309,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Wu, C.",
+            "index": 310,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kumar, Rakesh",
+            "index": 311,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Amaro, Emmanuel",
+            "index": 312,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Liang, Jinghang",
+            "index": 313,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Frustaci, F.",
+            "index": 314,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Blaauw, D.",
+            "index": 315,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sylvester, D.",
+            "index": 316,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Alioto, M.",
+            "index": 317,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "He, Ku",
+            "index": 318,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lu, Shih-Lien",
+            "index": 319,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Dvoracek, Petr",
+            "index": 320,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sekanina, Lukas",
+            "index": 321,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Miguel, Joshua San",
+            "index": 322,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Albericio, Jorge",
+            "index": 323,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Moshovos, Andreas",
+            "index": 324,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Jerger, Natalie Enright",
+            "index": 325,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Harris, William",
+            "index": 326,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kritchallo, Valery",
+            "index": 327,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Braithwaite, Billy",
+            "index": 328,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Vermij, Erik",
+            "index": 329,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Bertels, Koen",
+            "index": 330,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Al-Ars, Zaid",
+            "index": 331,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Haider, A. F. Almurib",
+            "index": 332,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kumar, T. Nandha",
+            "index": 333,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Barrois, Benjamin",
+            "index": 334,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Parashar, Karthick",
+            "index": 335,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sentieys, Olivier",
+            "index": 336,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lofti, Atieh",
+            "index": 337,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Gupta, Rajesh K.",
+            "index": 338,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yang, Zhixi",
+            "index": 339,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Sinha, S.",
+            "index": 340,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Zhang, W.",
+            "index": 341,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Zhu, N.",
+            "index": 342,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Goh, W. L.",
+            "index": 343,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Yeo, K. S.",
+            "index": 344,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kong, Z. H.",
+            "index": 345,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sui, Xin",
+            "index": 346,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Lenharth, Andrew",
+            "index": 347,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Fussell, Donald S.",
+            "index": 348,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Pingali, Keshav",
+            "index": 349,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Nawab, S. Hamid",
+            "index": 350,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Oppenheim, Alan V.",
+            "index": 351,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Chandrakasan, Anantha P.",
+            "index": 352,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Winograd, Joseph M.",
+            "index": 353,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Ludwig, Jeffrey T.",
+            "index": 354,
+            "type": "author",
+            "balls": 2
+        },
+        {
+            "name": "Nagel, Jean-Luc",
+            "index": 355,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Hu, Junjun",
+            "index": 356,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kadiyala, S. P.",
+            "index": 357,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Sen, A.",
+            "index": 358,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Mahajan, S.",
+            "index": 359,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Wang, Q.",
+            "index": 360,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "German, J. S.",
+            "index": 361,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Hong, X.",
+            "index": 362,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Banerjee, A.",
+            "index": 363,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Basu, A.",
+            "index": 364,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Duben, P. D.",
+            "index": 365,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Joven, J.",
+            "index": 366,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "McNamara, H.",
+            "index": 367,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "De Micheli, G.",
+            "index": 368,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Palmer, T. N.",
+            "index": 369,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Krishnan, Dhanya R.",
+            "index": 370,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Quoc, Do Le",
+            "index": 371,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Bhatotia, Pramod",
+            "index": 372,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Fetzer, Christof",
+            "index": 373,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Rodrigues, Rodrigo",
+            "index": 374,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Von Neumann, John",
+            "index": 375,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kim, Jaeyoon",
+            "index": 376,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Tiwari, Sandip",
+            "index": 377,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "George, Jason",
+            "index": 378,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Marr, Bo",
+            "index": 379,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kahng, Andrew B.",
+            "index": 380,
+            "type": "author",
+            "balls": 1
+        },
+        {
+            "name": "Kang, Seokhyeong",
+            "index": 381,
+            "type": "author",
+            "balls": 1
+        }
+    ],
+    "links": [
+        {
+            "source": 381,
+            "target": 120
+        },
+        {
+            "source": 380,
+            "target": 120
+        },
+        {
+            "source": 123,
+            "target": 119
+        },
+        {
+            "source": 270,
+            "target": 119
+        },
+        {
+            "source": 379,
+            "target": 119
+        },
+        {
+            "source": 378,
+            "target": 119
+        },
+        {
+            "source": 377,
+            "target": 118
+        },
+        {
+            "source": 376,
+            "target": 118
+        },
+        {
+            "source": 123,
+            "target": 117
+        },
+        {
+            "source": 270,
+            "target": 117
+        },
+        {
+            "source": 272,
+            "target": 117
+        },
+        {
+            "source": 269,
+            "target": 117
+        },
+        {
+            "source": 269,
+            "target": 116
+        },
+        {
+            "source": 270,
+            "target": 116
+        },
+        {
+            "source": 123,
+            "target": 116
+        },
+        {
+            "source": 272,
+            "target": 116
+        },
+        {
+            "source": 271,
+            "target": 116
+        },
+        {
+            "source": 375,
+            "target": 115
+        },
+        {
+            "source": 123,
+            "target": 114
+        },
+        {
+            "source": 374,
+            "target": 113
+        },
+        {
+            "source": 373,
+            "target": 113
+        },
+        {
+            "source": 372,
+            "target": 113
+        },
+        {
+            "source": 371,
+            "target": 113
+        },
+        {
+            "source": 370,
+            "target": 113
+        },
+        {
+            "source": 369,
+            "target": 112
+        },
+        {
+            "source": 123,
+            "target": 112
+        },
+        {
+            "source": 368,
+            "target": 112
+        },
+        {
+            "source": 367,
+            "target": 112
+        },
+        {
+            "source": 121,
+            "target": 112
+        },
+        {
+            "source": 366,
+            "target": 112
+        },
+        {
+            "source": 365,
+            "target": 112
+        },
+        {
+            "source": 364,
+            "target": 111
+        },
+        {
+            "source": 123,
+            "target": 111
+        },
+        {
+            "source": 363,
+            "target": 111
+        },
+        {
+            "source": 362,
+            "target": 111
+        },
+        {
+            "source": 361,
+            "target": 111
+        },
+        {
+            "source": 121,
+            "target": 111
+        },
+        {
+            "source": 360,
+            "target": 111
+        },
+        {
+            "source": 359,
+            "target": 111
+        },
+        {
+            "source": 358,
+            "target": 111
+        },
+        {
+            "source": 357,
+            "target": 111
+        },
+        {
+            "source": 252,
+            "target": 110
+        },
+        {
+            "source": 256,
+            "target": 109
+        },
+        {
+            "source": 356,
+            "target": 109
+        },
+        {
+            "source": 160,
+            "target": 108
+        },
+        {
+            "source": 141,
+            "target": 108
+        },
+        {
+            "source": 124,
+            "target": 107
+        },
+        {
+            "source": 123,
+            "target": 107
+        },
+        {
+            "source": 355,
+            "target": 107
+        },
+        {
+            "source": 122,
+            "target": 107
+        },
+        {
+            "source": 121,
+            "target": 107
+        },
+        {
+            "source": 199,
+            "target": 106
+        },
+        {
+            "source": 198,
+            "target": 106
+        },
+        {
+            "source": 131,
+            "target": 105
+        },
+        {
+            "source": 130,
+            "target": 105
+        },
+        {
+            "source": 128,
+            "target": 105
+        },
+        {
+            "source": 129,
+            "target": 105
+        },
+        {
+            "source": 180,
+            "target": 104
+        },
+        {
+            "source": 177,
+            "target": 104
+        },
+        {
+            "source": 194,
+            "target": 104
+        },
+        {
+            "source": 193,
+            "target": 104
+        },
+        {
+            "source": 124,
+            "target": 103
+        },
+        {
+            "source": 123,
+            "target": 103
+        },
+        {
+            "source": 122,
+            "target": 103
+        },
+        {
+            "source": 121,
+            "target": 103
+        },
+        {
+            "source": 121,
+            "target": 102
+        },
+        {
+            "source": 123,
+            "target": 102
+        },
+        {
+            "source": 134,
+            "target": 101
+        },
+        {
+            "source": 133,
+            "target": 101
+        },
+        {
+            "source": 352,
+            "target": 100
+        },
+        {
+            "source": 350,
+            "target": 100
+        },
+        {
+            "source": 354,
+            "target": 100
+        },
+        {
+            "source": 180,
+            "target": 99
+        },
+        {
+            "source": 354,
+            "target": 98
+        },
+        {
+            "source": 353,
+            "target": 98
+        },
+        {
+            "source": 352,
+            "target": 98
+        },
+        {
+            "source": 351,
+            "target": 98
+        },
+        {
+            "source": 350,
+            "target": 98
+        },
+        {
+            "source": 166,
+            "target": 97
+        },
+        {
+            "source": 161,
+            "target": 97
+        },
+        {
+            "source": 349,
+            "target": 96
+        },
+        {
+            "source": 348,
+            "target": 96
+        },
+        {
+            "source": 347,
+            "target": 96
+        },
+        {
+            "source": 346,
+            "target": 96
+        },
+        {
+            "source": 345,
+            "target": 95
+        },
+        {
+            "source": 344,
+            "target": 95
+        },
+        {
+            "source": 341,
+            "target": 95
+        },
+        {
+            "source": 343,
+            "target": 95
+        },
+        {
+            "source": 342,
+            "target": 95
+        },
+        {
+            "source": 143,
+            "target": 94
+        },
+        {
+            "source": 141,
+            "target": 94
+        },
+        {
+            "source": 339,
+            "target": 94
+        },
+        {
+            "source": 122,
+            "target": 93
+        },
+        {
+            "source": 214,
+            "target": 93
+        },
+        {
+            "source": 213,
+            "target": 93
+        },
+        {
+            "source": 341,
+            "target": 92
+        },
+        {
+            "source": 340,
+            "target": 92
+        },
+        {
+            "source": 143,
+            "target": 91
+        },
+        {
+            "source": 141,
+            "target": 91
+        },
+        {
+            "source": 313,
+            "target": 91
+        },
+        {
+            "source": 261,
+            "target": 91
+        },
+        {
+            "source": 339,
+            "target": 91
+        },
+        {
+            "source": 338,
+            "target": 90
+        },
+        {
+            "source": 180,
+            "target": 90
+        },
+        {
+            "source": 193,
+            "target": 90
+        },
+        {
+            "source": 196,
+            "target": 90
+        },
+        {
+            "source": 337,
+            "target": 90
+        },
+        {
+            "source": 336,
+            "target": 89
+        },
+        {
+            "source": 335,
+            "target": 89
+        },
+        {
+            "source": 334,
+            "target": 89
+        },
+        {
+            "source": 131,
+            "target": 88
+        },
+        {
+            "source": 130,
+            "target": 88
+        },
+        {
+            "source": 129,
+            "target": 88
+        },
+        {
+            "source": 200,
+            "target": 88
+        },
+        {
+            "source": 143,
+            "target": 87
+        },
+        {
+            "source": 333,
+            "target": 87
+        },
+        {
+            "source": 332,
+            "target": 87
+        },
+        {
+            "source": 331,
+            "target": 86
+        },
+        {
+            "source": 330,
+            "target": 86
+        },
+        {
+            "source": 329,
+            "target": 86
+        },
+        {
+            "source": 328,
+            "target": 86
+        },
+        {
+            "source": 327,
+            "target": 86
+        },
+        {
+            "source": 326,
+            "target": 85
+        },
+        {
+            "source": 181,
+            "target": 85
+        },
+        {
+            "source": 179,
+            "target": 85
+        },
+        {
+            "source": 180,
+            "target": 85
+        },
+        {
+            "source": 177,
+            "target": 85
+        },
+        {
+            "source": 325,
+            "target": 84
+        },
+        {
+            "source": 324,
+            "target": 84
+        },
+        {
+            "source": 323,
+            "target": 84
+        },
+        {
+            "source": 322,
+            "target": 84
+        },
+        {
+            "source": 321,
+            "target": 83
+        },
+        {
+            "source": 320,
+            "target": 83
+        },
+        {
+            "source": 319,
+            "target": 82
+        },
+        {
+            "source": 160,
+            "target": 81
+        },
+        {
+            "source": 159,
+            "target": 81
+        },
+        {
+            "source": 318,
+            "target": 81
+        },
+        {
+            "source": 158,
+            "target": 81
+        },
+        {
+            "source": 317,
+            "target": 80
+        },
+        {
+            "source": 316,
+            "target": 80
+        },
+        {
+            "source": 315,
+            "target": 80
+        },
+        {
+            "source": 314,
+            "target": 80
+        },
+        {
+            "source": 143,
+            "target": 79
+        },
+        {
+            "source": 141,
+            "target": 79
+        },
+        {
+            "source": 313,
+            "target": 79
+        },
+        {
+            "source": 180,
+            "target": 78
+        },
+        {
+            "source": 194,
+            "target": 78
+        },
+        {
+            "source": 190,
+            "target": 78
+        },
+        {
+            "source": 312,
+            "target": 78
+        },
+        {
+            "source": 177,
+            "target": 78
+        },
+        {
+            "source": 176,
+            "target": 77
+        },
+        {
+            "source": 311,
+            "target": 77
+        },
+        {
+            "source": 174,
+            "target": 77
+        },
+        {
+            "source": 216,
+            "target": 77
+        },
+        {
+            "source": 175,
+            "target": 77
+        },
+        {
+            "source": 310,
+            "target": 76
+        },
+        {
+            "source": 309,
+            "target": 76
+        },
+        {
+            "source": 123,
+            "target": 76
+        },
+        {
+            "source": 308,
+            "target": 76
+        },
+        {
+            "source": 121,
+            "target": 76
+        },
+        {
+            "source": 307,
+            "target": 76
+        },
+        {
+            "source": 123,
+            "target": 75
+        },
+        {
+            "source": 266,
+            "target": 74
+        },
+        {
+            "source": 306,
+            "target": 74
+        },
+        {
+            "source": 305,
+            "target": 74
+        },
+        {
+            "source": 304,
+            "target": 74
+        },
+        {
+            "source": 303,
+            "target": 74
+        },
+        {
+            "source": 122,
+            "target": 73
+        },
+        {
+            "source": 213,
+            "target": 73
+        },
+        {
+            "source": 302,
+            "target": 73
+        },
+        {
+            "source": 301,
+            "target": 73
+        },
+        {
+            "source": 260,
+            "target": 72
+        },
+        {
+            "source": 166,
+            "target": 72
+        },
+        {
+            "source": 161,
+            "target": 72
+        },
+        {
+            "source": 180,
+            "target": 72
+        },
+        {
+            "source": 123,
+            "target": 71
+        },
+        {
+            "source": 269,
+            "target": 71
+        },
+        {
+            "source": 300,
+            "target": 70
+        },
+        {
+            "source": 299,
+            "target": 70
+        },
+        {
+            "source": 298,
+            "target": 70
+        },
+        {
+            "source": 297,
+            "target": 70
+        },
+        {
+            "source": 296,
+            "target": 70
+        },
+        {
+            "source": 257,
+            "target": 69
+        },
+        {
+            "source": 295,
+            "target": 69
+        },
+        {
+            "source": 294,
+            "target": 69
+        },
+        {
+            "source": 293,
+            "target": 69
+        },
+        {
+            "source": 176,
+            "target": 68
+        },
+        {
+            "source": 292,
+            "target": 68
+        },
+        {
+            "source": 291,
+            "target": 68
+        },
+        {
+            "source": 216,
+            "target": 68
+        },
+        {
+            "source": 215,
+            "target": 68
+        },
+        {
+            "source": 173,
+            "target": 68
+        },
+        {
+            "source": 290,
+            "target": 68
+        },
+        {
+            "source": 289,
+            "target": 67
+        },
+        {
+            "source": 288,
+            "target": 67
+        },
+        {
+            "source": 287,
+            "target": 67
+        },
+        {
+            "source": 286,
+            "target": 67
+        },
+        {
+            "source": 285,
+            "target": 67
+        },
+        {
+            "source": 284,
+            "target": 67
+        },
+        {
+            "source": 283,
+            "target": 66
+        },
+        {
+            "source": 282,
+            "target": 66
+        },
+        {
+            "source": 281,
+            "target": 66
+        },
+        {
+            "source": 280,
+            "target": 66
+        },
+        {
+            "source": 279,
+            "target": 65
+        },
+        {
+            "source": 278,
+            "target": 65
+        },
+        {
+            "source": 277,
+            "target": 65
+        },
+        {
+            "source": 123,
+            "target": 64
+        },
+        {
+            "source": 276,
+            "target": 64
+        },
+        {
+            "source": 275,
+            "target": 64
+        },
+        {
+            "source": 274,
+            "target": 64
+        },
+        {
+            "source": 273,
+            "target": 63
+        },
+        {
+            "source": 123,
+            "target": 63
+        },
+        {
+            "source": 272,
+            "target": 63
+        },
+        {
+            "source": 271,
+            "target": 63
+        },
+        {
+            "source": 270,
+            "target": 63
+        },
+        {
+            "source": 269,
+            "target": 63
+        },
+        {
+            "source": 268,
+            "target": 62
+        },
+        {
+            "source": 267,
+            "target": 62
+        },
+        {
+            "source": 266,
+            "target": 62
+        },
+        {
+            "source": 265,
+            "target": 62
+        },
+        {
+            "source": 264,
+            "target": 62
+        },
+        {
+            "source": 263,
+            "target": 62
+        },
+        {
+            "source": 262,
+            "target": 62
+        },
+        {
+            "source": 261,
+            "target": 62
+        },
+        {
+            "source": 260,
+            "target": 61
+        },
+        {
+            "source": 166,
+            "target": 61
+        },
+        {
+            "source": 161,
+            "target": 61
+        },
+        {
+            "source": 180,
+            "target": 61
+        },
+        {
+            "source": 176,
+            "target": 60
+        },
+        {
+            "source": 174,
+            "target": 60
+        },
+        {
+            "source": 216,
+            "target": 60
+        },
+        {
+            "source": 173,
+            "target": 60
+        },
+        {
+            "source": 215,
+            "target": 60
+        },
+        {
+            "source": 181,
+            "target": 59
+        },
+        {
+            "source": 180,
+            "target": 59
+        },
+        {
+            "source": 178,
+            "target": 59
+        },
+        {
+            "source": 179,
+            "target": 59
+        },
+        {
+            "source": 177,
+            "target": 59
+        },
+        {
+            "source": 259,
+            "target": 58
+        },
+        {
+            "source": 197,
+            "target": 58
+        },
+        {
+            "source": 258,
+            "target": 58
+        },
+        {
+            "source": 257,
+            "target": 58
+        },
+        {
+            "source": 256,
+            "target": 58
+        },
+        {
+            "source": 248,
+            "target": 57
+        },
+        {
+            "source": 166,
+            "target": 57
+        },
+        {
+            "source": 255,
+            "target": 57
+        },
+        {
+            "source": 254,
+            "target": 57
+        },
+        {
+            "source": 253,
+            "target": 57
+        },
+        {
+            "source": 161,
+            "target": 57
+        },
+        {
+            "source": 166,
+            "target": 56
+        },
+        {
+            "source": 248,
+            "target": 56
+        },
+        {
+            "source": 252,
+            "target": 56
+        },
+        {
+            "source": 235,
+            "target": 56
+        },
+        {
+            "source": 251,
+            "target": 56
+        },
+        {
+            "source": 161,
+            "target": 56
+        },
+        {
+            "source": 166,
+            "target": 55
+        },
+        {
+            "source": 250,
+            "target": 55
+        },
+        {
+            "source": 249,
+            "target": 55
+        },
+        {
+            "source": 161,
+            "target": 55
+        },
+        {
+            "source": 130,
+            "target": 54
+        },
+        {
+            "source": 132,
+            "target": 54
+        },
+        {
+            "source": 166,
+            "target": 53
+        },
+        {
+            "source": 248,
+            "target": 53
+        },
+        {
+            "source": 161,
+            "target": 53
+        },
+        {
+            "source": 247,
+            "target": 53
+        },
+        {
+            "source": 166,
+            "target": 52
+        },
+        {
+            "source": 248,
+            "target": 52
+        },
+        {
+            "source": 161,
+            "target": 52
+        },
+        {
+            "source": 247,
+            "target": 52
+        },
+        {
+            "source": 246,
+            "target": 51
+        },
+        {
+            "source": 245,
+            "target": 51
+        },
+        {
+            "source": 244,
+            "target": 51
+        },
+        {
+            "source": 243,
+            "target": 51
+        },
+        {
+            "source": 130,
+            "target": 50
+        },
+        {
+            "source": 131,
+            "target": 50
+        },
+        {
+            "source": 132,
+            "target": 50
+        },
+        {
+            "source": 128,
+            "target": 50
+        },
+        {
+            "source": 170,
+            "target": 50
+        },
+        {
+            "source": 242,
+            "target": 49
+        },
+        {
+            "source": 235,
+            "target": 49
+        },
+        {
+            "source": 176,
+            "target": 49
+        },
+        {
+            "source": 160,
+            "target": 48
+        },
+        {
+            "source": 241,
+            "target": 48
+        },
+        {
+            "source": 143,
+            "target": 47
+        },
+        {
+            "source": 141,
+            "target": 47
+        },
+        {
+            "source": 147,
+            "target": 47
+        },
+        {
+            "source": 240,
+            "target": 46
+        },
+        {
+            "source": 239,
+            "target": 46
+        },
+        {
+            "source": 238,
+            "target": 45
+        },
+        {
+            "source": 237,
+            "target": 45
+        },
+        {
+            "source": 236,
+            "target": 45
+        },
+        {
+            "source": 235,
+            "target": 44
+        },
+        {
+            "source": 208,
+            "target": 44
+        },
+        {
+            "source": 234,
+            "target": 44
+        },
+        {
+            "source": 233,
+            "target": 44
+        },
+        {
+            "source": 232,
+            "target": 43
+        },
+        {
+            "source": 231,
+            "target": 43
+        },
+        {
+            "source": 230,
+            "target": 43
+        },
+        {
+            "source": 210,
+            "target": 42
+        },
+        {
+            "source": 229,
+            "target": 42
+        },
+        {
+            "source": 228,
+            "target": 42
+        },
+        {
+            "source": 224,
+            "target": 42
+        },
+        {
+            "source": 208,
+            "target": 42
+        },
+        {
+            "source": 221,
+            "target": 41
+        },
+        {
+            "source": 217,
+            "target": 41
+        },
+        {
+            "source": 218,
+            "target": 41
+        },
+        {
+            "source": 210,
+            "target": 40
+        },
+        {
+            "source": 227,
+            "target": 40
+        },
+        {
+            "source": 208,
+            "target": 40
+        },
+        {
+            "source": 226,
+            "target": 40
+        },
+        {
+            "source": 210,
+            "target": 39
+        },
+        {
+            "source": 208,
+            "target": 39
+        },
+        {
+            "source": 225,
+            "target": 39
+        },
+        {
+            "source": 224,
+            "target": 39
+        },
+        {
+            "source": 210,
+            "target": 38
+        },
+        {
+            "source": 222,
+            "target": 38
+        },
+        {
+            "source": 223,
+            "target": 38
+        },
+        {
+            "source": 208,
+            "target": 38
+        },
+        {
+            "source": 210,
+            "target": 37
+        },
+        {
+            "source": 208,
+            "target": 37
+        },
+        {
+            "source": 224,
+            "target": 37
+        },
+        {
+            "source": 210,
+            "target": 36
+        },
+        {
+            "source": 208,
+            "target": 36
+        },
+        {
+            "source": 225,
+            "target": 36
+        },
+        {
+            "source": 224,
+            "target": 36
+        },
+        {
+            "source": 210,
+            "target": 35
+        },
+        {
+            "source": 169,
+            "target": 35
+        },
+        {
+            "source": 208,
+            "target": 35
+        },
+        {
+            "source": 224,
+            "target": 35
+        },
+        {
+            "source": 223,
+            "target": 35
+        },
+        {
+            "source": 222,
+            "target": 35
+        },
+        {
+            "source": 221,
+            "target": 34
+        },
+        {
+            "source": 220,
+            "target": 34
+        },
+        {
+            "source": 219,
+            "target": 34
+        },
+        {
+            "source": 218,
+            "target": 34
+        },
+        {
+            "source": 217,
+            "target": 34
+        },
+        {
+            "source": 176,
+            "target": 33
+        },
+        {
+            "source": 174,
+            "target": 33
+        },
+        {
+            "source": 216,
+            "target": 33
+        },
+        {
+            "source": 215,
+            "target": 33
+        },
+        {
+            "source": 173,
+            "target": 33
+        },
+        {
+            "source": 135,
+            "target": 32
+        },
+        {
+            "source": 123,
+            "target": 31
+        },
+        {
+            "source": 122,
+            "target": 31
+        },
+        {
+            "source": 214,
+            "target": 31
+        },
+        {
+            "source": 213,
+            "target": 31
+        },
+        {
+            "source": 212,
+            "target": 30
+        },
+        {
+            "source": 211,
+            "target": 30
+        },
+        {
+            "source": 210,
+            "target": 29
+        },
+        {
+            "source": 209,
+            "target": 29
+        },
+        {
+            "source": 208,
+            "target": 29
+        },
+        {
+            "source": 123,
+            "target": 28
+        },
+        {
+            "source": 207,
+            "target": 28
+        },
+        {
+            "source": 206,
+            "target": 28
+        },
+        {
+            "source": 205,
+            "target": 28
+        },
+        {
+            "source": 130,
+            "target": 27
+        },
+        {
+            "source": 131,
+            "target": 27
+        },
+        {
+            "source": 132,
+            "target": 27
+        },
+        {
+            "source": 128,
+            "target": 27
+        },
+        {
+            "source": 204,
+            "target": 26
+        },
+        {
+            "source": 203,
+            "target": 26
+        },
+        {
+            "source": 202,
+            "target": 26
+        },
+        {
+            "source": 131,
+            "target": 25
+        },
+        {
+            "source": 130,
+            "target": 25
+        },
+        {
+            "source": 201,
+            "target": 25
+        },
+        {
+            "source": 129,
+            "target": 25
+        },
+        {
+            "source": 200,
+            "target": 25
+        },
+        {
+            "source": 199,
+            "target": 24
+        },
+        {
+            "source": 198,
+            "target": 24
+        },
+        {
+            "source": 199,
+            "target": 23
+        },
+        {
+            "source": 198,
+            "target": 23
+        },
+        {
+            "source": 197,
+            "target": 22
+        },
+        {
+            "source": 180,
+            "target": 22
+        },
+        {
+            "source": 196,
+            "target": 22
+        },
+        {
+            "source": 195,
+            "target": 22
+        },
+        {
+            "source": 194,
+            "target": 22
+        },
+        {
+            "source": 177,
+            "target": 22
+        },
+        {
+            "source": 193,
+            "target": 22
+        },
+        {
+            "source": 192,
+            "target": 22
+        },
+        {
+            "source": 191,
+            "target": 22
+        },
+        {
+            "source": 190,
+            "target": 22
+        },
+        {
+            "source": 189,
+            "target": 21
+        },
+        {
+            "source": 188,
+            "target": 21
+        },
+        {
+            "source": 187,
+            "target": 21
+        },
+        {
+            "source": 186,
+            "target": 21
+        },
+        {
+            "source": 185,
+            "target": 20
+        },
+        {
+            "source": 184,
+            "target": 20
+        },
+        {
+            "source": 183,
+            "target": 20
+        },
+        {
+            "source": 182,
+            "target": 20
+        },
+        {
+            "source": 181,
+            "target": 19
+        },
+        {
+            "source": 180,
+            "target": 19
+        },
+        {
+            "source": 179,
+            "target": 19
+        },
+        {
+            "source": 178,
+            "target": 19
+        },
+        {
+            "source": 177,
+            "target": 19
+        },
+        {
+            "source": 176,
+            "target": 18
+        },
+        {
+            "source": 175,
+            "target": 18
+        },
+        {
+            "source": 174,
+            "target": 18
+        },
+        {
+            "source": 173,
+            "target": 18
+        },
+        {
+            "source": 130,
+            "target": 17
+        },
+        {
+            "source": 131,
+            "target": 17
+        },
+        {
+            "source": 172,
+            "target": 17
+        },
+        {
+            "source": 171,
+            "target": 17
+        },
+        {
+            "source": 170,
+            "target": 17
+        },
+        {
+            "source": 130,
+            "target": 16
+        },
+        {
+            "source": 131,
+            "target": 16
+        },
+        {
+            "source": 169,
+            "target": 16
+        },
+        {
+            "source": 168,
+            "target": 16
+        },
+        {
+            "source": 167,
+            "target": 15
+        },
+        {
+            "source": 166,
+            "target": 15
+        },
+        {
+            "source": 165,
+            "target": 15
+        },
+        {
+            "source": 164,
+            "target": 15
+        },
+        {
+            "source": 163,
+            "target": 15
+        },
+        {
+            "source": 162,
+            "target": 15
+        },
+        {
+            "source": 161,
+            "target": 15
+        },
+        {
+            "source": 160,
+            "target": 14
+        },
+        {
+            "source": 159,
+            "target": 14
+        },
+        {
+            "source": 158,
+            "target": 14
+        },
+        {
+            "source": 157,
+            "target": 13
+        },
+        {
+            "source": 156,
+            "target": 13
+        },
+        {
+            "source": 155,
+            "target": 13
+        },
+        {
+            "source": 154,
+            "target": 12
+        },
+        {
+            "source": 153,
+            "target": 12
+        },
+        {
+            "source": 152,
+            "target": 12
+        },
+        {
+            "source": 151,
+            "target": 12
+        },
+        {
+            "source": 150,
+            "target": 12
+        },
+        {
+            "source": 149,
+            "target": 12
+        },
+        {
+            "source": 143,
+            "target": 11
+        },
+        {
+            "source": 148,
+            "target": 11
+        },
+        {
+            "source": 141,
+            "target": 11
+        },
+        {
+            "source": 147,
+            "target": 11
+        },
+        {
+            "source": 146,
+            "target": 10
+        },
+        {
+            "source": 145,
+            "target": 10
+        },
+        {
+            "source": 143,
+            "target": 9
+        },
+        {
+            "source": 141,
+            "target": 9
+        },
+        {
+            "source": 144,
+            "target": 9
+        },
+        {
+            "source": 143,
+            "target": 8
+        },
+        {
+            "source": 142,
+            "target": 8
+        },
+        {
+            "source": 141,
+            "target": 8
+        },
+        {
+            "source": 140,
+            "target": 8
+        },
+        {
+            "source": 139,
+            "target": 7
+        },
+        {
+            "source": 138,
+            "target": 7
+        },
+        {
+            "source": 137,
+            "target": 7
+        },
+        {
+            "source": 136,
+            "target": 7
+        },
+        {
+            "source": 135,
+            "target": 6
+        },
+        {
+            "source": 134,
+            "target": 5
+        },
+        {
+            "source": 133,
+            "target": 5
+        },
+        {
+            "source": 132,
+            "target": 4
+        },
+        {
+            "source": 131,
+            "target": 4
+        },
+        {
+            "source": 130,
+            "target": 4
+        },
+        {
+            "source": 129,
+            "target": 4
+        },
+        {
+            "source": 128,
+            "target": 4
+        },
+        {
+            "source": 123,
+            "target": 3
+        },
+        {
+            "source": 124,
+            "target": 2
+        },
+        {
+            "source": 122,
+            "target": 2
+        },
+        {
+            "source": 121,
+            "target": 2
+        },
+        {
+            "source": 123,
+            "target": 2
+        },
+        {
+            "source": 127,
+            "target": 1
+        },
+        {
+            "source": 126,
+            "target": 1
+        },
+        {
+            "source": 125,
+            "target": 1
+        },
+        {
+            "source": 124,
+            "target": 0
+        },
+        {
+            "source": 123,
+            "target": 0
+        },
+        {
+            "source": 122,
+            "target": 0
+        },
+        {
+            "source": 121,
+            "target": 0
+        }
+    ],
+    "tree": {
+        "name": "Inexact Computing",
+        "children": [
+            {
+                "name": "lingamneni2013designing"
+            },
+            {
+                "name": "shi2015imprecise"
+            },
+            {
+                "name": "palem2013design"
+            },
+            {
+                "name": "palem2014inexactness"
+            },
+            {
+                "name": "chippa2010scalable"
+            },
+            {
+                "name": "hegde1999energy"
+            },
+            {
+                "name": "breuer2010hardware"
+            },
+            {
+                "name": "Software",
+                "children": null
+            },
+            {
+                "name": "Architecture & System Design",
+                "children": null
+            },
+            {
+                "name": "Circuit Design",
+                "children": [
+                    {
+                        "name": "Arithmetic",
+                        "children": [
+                            {
+                                "name": "Adders",
+                                "children": [
+                                    {
+                                        "name": "naseer2015designing"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Multipliers",
+                                "children": [
+                                    {
+                                        "name": "momeni2015design"
+                                    },
+                                    {
+                                        "name": "liu2014low-power"
+                                    },
+                                    {
+                                        "name": "lin2013high"
+                                    },
+                                    {
+                                        "name": "jiang2015approximate"
+                                    },
+                                    {
+                                        "name": "mehta2015accuracy"
+                                    },
+                                    {
+                                        "name": "kulkarni2011trading"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Design Automation",
+                "children": [
+                    {
+                        "name": "miao2013approximate"
+                    },
+                    {
+                        "name": "Tools",
+                        "children": [
+                            {
+                                "name": "sampson2015accept"
+                            },
+                            {
+                                "name": "venkatesan2011macaco"
+                            },
+                            {
+                                "name": "venkataramani2012salsa"
+                            },
+                            {
+                                "name": "zhang2014approxit"
+                            },
+                            {
+                                "name": "park2014expectation"
+                            },
+                            {
+                                "name": "nepal2014abacus"
+                            },
+                            {
+                                "name": "roy2014asac"
+                            },
+                            {
+                                "name": "mahajan2015axilog"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Unsorted",
+                "children": [
+                    {
+                        "name": "shin2008re-design"
+                    },
+                    {
+                        "name": "shin2011circuit"
+                    },
+                    {
+                        "name": "gupta2011impact"
+                    },
+                    {
+                        "name": "huang2012methodology"
+                    },
+                    {
+                        "name": "chippa2013analysis"
+                    },
+                    {
+                        "name": "kedem2011approach"
+                    },
+                    {
+                        "name": "misailovic2011probabilistically"
+                    },
+                    {
+                        "name": "chong2005hardware"
+                    },
+                    {
+                        "name": "schlachter2015automatic"
+                    },
+                    {
+                        "name": "breuer2004intelligible"
+                    },
+                    {
+                        "name": "zhang2015approxeigen"
+                    },
+                    {
+                        "name": "leem2010ersa"
+                    },
+                    {
+                        "name": "hoffmann2011dynamic"
+                    },
+                    {
+                        "name": "carbin2013verified"
+                    },
+                    {
+                        "name": "carbin2013verifying"
+                    },
+                    {
+                        "name": "misailovic2010quality"
+                    },
+                    {
+                        "name": "carbin2012proving"
+                    },
+                    {
+                        "name": "zhu2012randomized"
+                    },
+                    {
+                        "name": "cho2012ersa"
+                    },
+                    {
+                        "name": "misailovic2014chisel"
+                    },
+                    {
+                        "name": "verma2008variable"
+                    },
+                    {
+                        "name": "filieri2016approximate"
+                    },
+                    {
+                        "name": "poppelbaum1967stochastic"
+                    },
+                    {
+                        "name": "baek2010green"
+                    },
+                    {
+                        "name": "jiang2015comparative"
+                    },
+                    {
+                        "name": "mani2004statistical"
+                    },
+                    {
+                        "name": "xu2016approximate"
+                    },
+                    {
+                        "name": "venkataramani2013quality"
+                    },
+                    {
+                        "name": "mahdiani2010bio-inspired"
+                    },
+                    {
+                        "name": "boston2014tuning"
+                    },
+                    {
+                        "name": "boston2015probability"
+                    },
+                    {
+                        "name": "chakradhar2010best"
+                    },
+                    {
+                        "name": "sampson2014approximate"
+                    },
+                    {
+                        "name": "sampson2014expressing"
+                    },
+                    {
+                        "name": "sampson2011enerj"
+                    },
+                    {
+                        "name": "qian2011architecture"
+                    },
+                    {
+                        "name": "park2014expax"
+                    },
+                    {
+                        "name": "tian2015approxma"
+                    },
+                    {
+                        "name": "esmaeilzadeh2012architecture"
+                    },
+                    {
+                        "name": "jain2016cpsa"
+                    },
+                    {
+                        "name": "chakrapani2006ultra"
+                    },
+                    {
+                        "name": "ingole2015does"
+                    },
+                    {
+                        "name": "zhu2016lradnn"
+                    },
+                    {
+                        "name": "jung2016efficient"
+                    },
+                    {
+                        "name": "jayakumar2016energy"
+                    },
+                    {
+                        "name": "yi2016approxmap"
+                    },
+                    {
+                        "name": "he2016enabling"
+                    },
+                    {
+                        "name": "albicocco2012imprecise"
+                    },
+                    {
+                        "name": "chakrapani2010probabilistic"
+                    },
+                    {
+                        "name": "esmaeilzadeh2012neural"
+                    },
+                    {
+                        "name": "venkataraman2015designing"
+                    },
+                    {
+                        "name": "samadi2013sage"
+                    },
+                    {
+                        "name": "palem2005energy"
+                    },
+                    {
+                        "name": "du2015leveraging"
+                    },
+                    {
+                        "name": "ye2013reconfiguration"
+                    },
+                    {
+                        "name": "park2016axgames"
+                    },
+                    {
+                        "name": "liang2013metrics"
+                    },
+                    {
+                        "name": "frustaci2016approximate"
+                    },
+                    {
+                        "name": "miao2012modeling"
+                    },
+                    {
+                        "name": "lu2004speeding"
+                    },
+                    {
+                        "name": "dvoracek2016evolutionary"
+                    },
+                    {
+                        "name": "miguel2015doppelg"
+                    },
+                    {
+                        "name": "park2015flexjava"
+                    },
+                    {
+                        "name": "kritchallo2016balancing"
+                    },
+                    {
+                        "name": "haider2016inexact"
+                    },
+                    {
+                        "name": "gupta2013low-power"
+                    },
+                    {
+                        "name": "barrois2016leveraging"
+                    },
+                    {
+                        "name": "lofti2016grater"
+                    },
+                    {
+                        "name": "yang2013approximate"
+                    },
+                    {
+                        "name": "sinha2016low-power"
+                    },
+                    {
+                        "name": "schlachter2015near"
+                    },
+                    {
+                        "name": "yang2015transmission"
+                    },
+                    {
+                        "name": "zhu2010design"
+                    },
+                    {
+                        "name": "sui2016proactive"
+                    },
+                    {
+                        "name": "sampson2015hardware"
+                    },
+                    {
+                        "name": "nawab1997approximate"
+                    },
+                    {
+                        "name": "esmaeilzadeh2013approximate"
+                    },
+                    {
+                        "name": "ludwig1996low-power"
+                    },
+                    {
+                        "name": "hegde2001soft"
+                    },
+                    {
+                        "name": "palem2013years"
+                    },
+                    {
+                        "name": "lingamneni2013synthesizing"
+                    },
+                    {
+                        "name": "yazdanbakhsh2014methodical"
+                    },
+                    {
+                        "name": "mohapatra2011design"
+                    },
+                    {
+                        "name": "shin2010approximate"
+                    },
+                    {
+                        "name": "lingamneni2011energy"
+                    },
+                    {
+                        "name": "han2013approximate"
+                    },
+                    {
+                        "name": "hu2015approximate"
+                    },
+                    {
+                        "name": "mckinley2016programming"
+                    }
+                ]
+            },
+            {
+                "name": "Applications",
+                "children": [
+                    {
+                        "name": "kadiyala2015perceptually"
+                    },
+                    {
+                        "name": "duben2014inexact"
+                    },
+                    {
+                        "name": "Big Data",
+                        "children": [
+                            {
+                                "name": "krishnan2016incapprox"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Probabilistic",
+                "children": [
+                    {
+                        "name": "palem2003energy"
+                    },
+                    {
+                        "name": "von_neumann1956probabilistic"
+                    },
+                    {
+                        "name": "cheemalavagu2005probabilistic"
+                    },
+                    {
+                        "name": "chakrapani2007probabilistic"
+                    },
+                    {
+                        "name": "kim2014inexact"
+                    },
+                    {
+                        "name": "george2006probabilistic"
+                    }
+                ]
+            },
+            {
+                "name": "Reconfigurable",
+                "children": [
+                    {
+                        "name": "kahng2012accuracy"
+                    }
+                ]
+            }
+        ]
+    }
+}
