@@ -1,5 +1,6 @@
-
 #+TITLE: Reference Graph Visualization
+
+#+OPTIONS: toc:nil
 
 * Idea
 - Goal: get overview over certain scientific field by taking advantage
@@ -21,9 +22,9 @@ necessary CSS and Javascript.
 
 It depends on d3.js for the
 visualization, and on md5.js and a modified version of jdenticon for
-identicon generation.  See [[jdenticon-custom][jdenticon]] for the modifications and their reason.
+identicon generation. 
 
-#+BEGIN_SRC html :tangle refgraph.html :noweb yes
+#+BEGIN_SRC html :tangle refgraph.html :noweb tangle
   <!DOCTYPE html>
   <meta charset="utf-8">
   <style>
@@ -370,7 +371,7 @@ Here is the force layout initialization.  It must be called after data is
 available.  See [[force-init]] for what actually happens, and [[force-tick]]
 for the tick event handler that is attached.
 
-#+NAME: make_force_layout :noweb yes
+#+NAME: make_force_layout :noweb tangle
 #+BEGIN_SRC js
   function make_force_layout() {
       var link,                   // selection of created svg elements for link representation
@@ -557,8 +558,8 @@ type, different images are loaded.
 In order to make distinguishing the papers easier, md5 and jdenticon
 are used to calculate hash values of the bibtex key.  The hash is
 stored in the DOM attribute =data-jdenticon-hash=.  This is a
-non-standard attribute so far, and is accessed by the [[jdenticon-custom][modified
-jdenticon code]].
+non-standard attribute so far, and is accessed by the modified
+jdenticon code.
 
 #+BEGIN_SRC js :tangle no
   node.filter(function(n) { return n.type == "paper"})
@@ -722,7 +723,7 @@ are adjusted according to the mode, and the force layout is restarted
 with the changed parameters.
 
 #+NAME: change_mode
-#+BEGIN_SRC js :noweb yes
+#+BEGIN_SRC js :noweb tangle
   function change_mode(mode) {
       var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
     
@@ -871,7 +872,7 @@ values.  [[make_layout]] is responsible for actually creating all layouts.
 This file is used to generate code and documentation.  It requires
 org-mode which is supplied by emacs.  To (re-)generate the code file,
 open this document and evaluate =org-babel-tangle=.
-* Plan
+* Plan :noexport:
 ** TODO get rid of the author's background rect instead of hiding it
 ** TODO rename [[collab_charge]]
 ** TODO see if replacing svg filter with something static improves performance
