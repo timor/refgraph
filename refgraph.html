@@ -1,12 +1,3 @@
-<!-- Application -->
-<!-- The application basically consists of one html file that includes the -->
-<!-- necessary CSS and Javascript. -->
-
-<!-- It depends on d3.js for the -->
-<!-- visualization, and on md5.js and a modified version of jdenticon for -->
-<!-- identicon generation.  -->
-
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -392,8 +383,10 @@
         }
     }
     function set_category_paper_targets(node) {
-        node.x_target = node.pack_node.x;
-        node.y_target = node.pack_node.y;
+        if (node.pack_node) {
+            node.x_target = node.pack_node.x;
+            node.y_target = node.pack_node.y;
+        }
     }
     function connect_node(pnode) {
         if (pnode.children) pnode.children.forEach(connect_node);

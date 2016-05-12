@@ -820,8 +820,10 @@ The attractor positions are simply the centers of the calculated classification 
 #+NAME: set_category_paper_targets
 #+BEGIN_SRC js
   function set_category_paper_targets(node) {
-      node.x_target = node.pack_node.x;
-      node.y_target = node.pack_node.y;
+      if (node.pack_node) {
+          node.x_target = node.pack_node.x;
+          node.y_target = node.pack_node.y;
+      }
   }
 #+END_SRC
 
