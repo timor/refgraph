@@ -31,7 +31,7 @@ library, enter the following: =jdenticon.update(".jdenticon")=
 *classification view*: enter =change_mode('category')=.  To switch
 back to the collaboration graph: =change_mode('collaboration')=
 
-* Application
+* Implementation
 The application basically consists of one html file that includes the
 necessary CSS and Javascript.
 
