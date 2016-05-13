@@ -17,28 +17,34 @@
       user-select: none;          /* Likely future */
   }
   
-  .node_bg.paper {
+  .node_bg {
+      fill: white;
+      /* stroke-width: 1px; */
+      /* stroke: black; */
+  }
+
+  .node_bg_glow.paper {
       opacity: 0.2;
       filter: url(#glow);
   }
   
-  .node_bg.paper.read {
+  .node_bg_glow.paper.read {
       fill:green;
   }
   
-  .node_bg.paper.unread {
+  .node_bg_glow.paper.unread {
       fill:red;
   }
   
-  .node_bg.paper.started {
+  .node_bg_glow.paper.started {
       fill:orange;
   }
   
-  .node_bg.paper.overview {
+  .node_bg_glow.paper.overview {
       fill:yellow;
   }
   
-  .node_bg.author {
+  .node_bg_glow.author {
       visibility: hidden;
   }
   
@@ -86,7 +92,7 @@
     
         icon_size = 16,             // base size of icons for nodes
     
-        jdenticon_size = 40        // base size of the identicons, note
+        jdenticon_size = 50        // base size of the identicons, note
                                     // that jdenticon does not allow
                                     // images smaller than 30, and padding
                                     // is added to that, so 40 should be a
@@ -160,8 +166,6 @@
     
         make_force_layout();
     
-        change_mode('collaboration');
-    
     }
     var kx_mul = 0.15,              // multiplier for attractor force in x direction
     
@@ -171,7 +175,7 @@
     var force = d3.layout.force()
         .gravity(0)
         .distance(50)
-        .chargeDistance(800)
+        .chargeDistance(700)
         .friction(0.7)
         .size([width, height]);
     function make_force_layout() {
@@ -201,25 +205,42 @@
             .attr("width", node_image_size)        
             .attr("height", node_image_size)
             .attr("class", function(d) {
-                var s= "node_bg " + d.type;
+                var s= "node_bg_glow " + d.type;
                 if (d.type == "paper") s = s + " " + d.state;
                 return s;
             });
-        node.append("image")
-            .attr("xlink:href", function(d) { if (d.type == "author")
-                                              { return "graph-assets/user.png"}
-                                              else
-                                              { return "graph-assets/book.png"}})
+        node.filter(function(n) {return n.type == "author"})
+            .append("image")
+            .attr("xlink:href", "graph-assets/user.png")
             .attr("x", node_image_offset)
             .attr("y", node_image_offset)
             .attr("width", node_image_size)        
             .attr("height", node_image_size);
         node.filter(function(n) { return n.type == "paper"})
+            .append("circle")
+            // .attr("x", node_image_offset)
+            // .attr("y", node_image_offset)
+            // .attr("width", node_image_size)
+            // .attr("height", node_image_size)
+            .attr("r", function(d) {return node_image_size(d) / 2.2})
+            .attr("class", "node_bg");
+        
+        node.filter(function(n) { return n.type == "paper"})
             .append("g")
             .attr("class", "jdenticon")
             .attr("data-width", jdenticon_size)
             .attr("data-height", jdenticon_size)
-            .attr("data-jdenticon-hash", function(d) { return md5(d.name)});
+            .attr("data-jdenticon-hash", function(d) { return md5(d.name)})
+            .attr("transform", function(d) { return "scale(" + node_significance(d) * (icon_size / jdenticon_size)  + ")"; });
+        
+        
+        node.filter(function(n) { return n.type == "paper"})
+            .append("image")
+            .attr("xlink:href", "graph-assets/note.svg")
+            .attr("x", node_image_offset)
+            .attr("y", node_image_offset)
+            .attr("width", function(d) {return node_image_size(d) / 2.5})
+            .attr("height", function(d) {return node_image_size(d) / 2.5});
         node.append("g")
             .append("a")
             .attr("xlink:href",function(d) {
@@ -278,7 +299,7 @@
         return - (node_image_size(d) / 2);
     }
     function collab_charge(d) {
-        return (node_significance(d) * -250);
+        return (node_significance(d) * -300);
     }
     var drag = d3.behavior.drag()
         .origin(function(d) { return d; })
@@ -409,6 +430,11 @@
         connect_node(tree);
     
         make_layout();
+    
+        jdenticon.update(".jdenticon");
+    
+        change_mode('collaboration');
+    
     });
 
   </script>

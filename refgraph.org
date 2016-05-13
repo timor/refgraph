@@ -80,7 +80,9 @@ General page layout:
 CSS Classes used:
 
 - =.node= :: elements representing nodes (papers and authors)
-- =.node_bg= :: the background of nodes (used for visualizing state
+- =.node_bg= :: the background of the node images (to allow image
+     containing transparency to be more visible)
+- =.node_bg_glow= :: the glowing background of nodes (used for visualizing state
      information)
 - =.link= :: the lines representing the links between nodes
 - =.<state-class>= :: contains the actual specification for each state
@@ -104,28 +106,34 @@ colors are chosen.  The background of author nodes is hidden
       user-select: none;          /* Likely future */
   }
 
-  .node_bg.paper {
+  .node_bg {
+      fill: white;
+      /* stroke-width: 1px; */
+      /* stroke: black; */
+  }
+
+  .node_bg_glow.paper {
       opacity: 0.2;
       filter: url(#glow);
   }
 
-  .node_bg.paper.read {
+  .node_bg_glow.paper.read {
       fill:green;
   }
 
-  .node_bg.paper.unread {
+  .node_bg_glow.paper.unread {
       fill:red;
   }
 
-  .node_bg.paper.started {
+  .node_bg_glow.paper.started {
       fill:orange;
   }
 
-  .node_bg.paper.overview {
+  .node_bg_glow.paper.overview {
       fill:yellow;
   }
 
-  .node_bg.author {
+  .node_bg_glow.author {
       visibility: hidden;
   }
 
@@ -200,7 +208,7 @@ defined in global variables:
 
       icon_size = 16,             // base size of icons for nodes
 
-      jdenticon_size = 40        // base size of the identicons, note
+      jdenticon_size = 50        // base size of the identicons, note
                                   // that jdenticon does not allow
                                   // images smaller than 30, and padding
                                   // is added to that, so 40 should be a
@@ -346,8 +354,6 @@ layout.
 
       make_force_layout();
 
-      change_mode('collaboration');
-
   }
 #+END_SRC
 **** Force Layout
@@ -378,7 +384,7 @@ performance.  It seems because charges are quite high, friction was
   var force = d3.layout.force()
       .gravity(0)
       .distance(50)
-      .chargeDistance(800)
+      .chargeDistance(700)
       .friction(0.7)
       .size([width, height]);
 #+END_SRC
@@ -429,6 +435,8 @@ is weighted logarithmically for similar reasons.
 #+END_SRC
 
 ****** Node Image Positioning
+The node image size depends on the significance.
+
 #+NAME: node_image_size
 #+BEGIN_SRC javascript
   function node_image_size(d) {
@@ -452,7 +460,7 @@ nodes around the more central nodes.
 #+NAME: collab_charge
 #+BEGIN_SRC javascript
   function collab_charge(d) {
-      return (node_significance(d) * -250);
+      return (node_significance(d) * -300);
   }
 #+END_SRC
 
@@ -536,6 +544,7 @@ svg DOM nodes for the links (lines) and the nodes (groups).
       .on("mouseout", hide_tooltip)
       .call(drag);
 #+END_SRC
+
 ****** Node Background
 
 The background rectangles are attached.  These are connected to the
@@ -549,7 +558,7 @@ personal reading state indicated in the data.
       .attr("width", node_image_size)        
       .attr("height", node_image_size)
       .attr("class", function(d) {
-          var s= "node_bg " + d.type;
+          var s= "node_bg_glow " + d.type;
           if (d.type == "paper") s = s + " " + d.state;
           return s;
       });
@@ -558,33 +567,63 @@ personal reading state indicated in the data.
 
 The nodes themselves are represented by images.  Depending on the node
 type, different images are loaded.
+******* Author Nodes
 
 #+BEGIN_SRC js
-  node.append("image")
-      .attr("xlink:href", function(d) { if (d.type == "author")
-                                        { return "graph-assets/user.png"}
-                                        else
-                                        { return "graph-assets/book.png"}})
+  node.filter(function(n) {return n.type == "author"})
+      .append("image")
+      .attr("xlink:href", "graph-assets/user.png")
       .attr("x", node_image_offset)
       .attr("y", node_image_offset)
       .attr("width", node_image_size)        
       .attr("height", node_image_size);
 #+END_SRC
-****** Identicons :noexport:
+
+
+******* Paper Nodes
+
+The papers are represented by their identicons, with a small symbol
+representing the bibtex type.  For now, only one symbol is used, though.
+
+******** Identicons
 In order to make distinguishing the papers easier, md5 and jdenticon
 are used to calculate hash values of the bibtex key.  The hash is
 stored in the DOM attribute =data-jdenticon-hash=.  This is a
 non-standard attribute so far, and is accessed by the modified
 jdenticon code.
 
-#+BEGIN_SRC js :tangle no
+The identicon gets a white background, to make it easier to
+distinguish visually.
+
+#+BEGIN_SRC js
+  node.filter(function(n) { return n.type == "paper"})
+      .append("circle")
+      // .attr("x", node_image_offset)
+      // .attr("y", node_image_offset)
+      // .attr("width", node_image_size)
+      // .attr("height", node_image_size)
+      .attr("r", function(d) {return node_image_size(d) / 2.2})
+      .attr("class", "node_bg");
+
   node.filter(function(n) { return n.type == "paper"})
       .append("g")
       .attr("class", "jdenticon")
       .attr("data-width", jdenticon_size)
       .attr("data-height", jdenticon_size)
-      .attr("data-jdenticon-hash", function(d) { return md5(d.name)});
+      .attr("data-jdenticon-hash", function(d) { return md5(d.name)})
+      .attr("transform", function(d) { return "scale(" + node_significance(d) * (icon_size / jdenticon_size)  + ")"; });
+
+
+  node.filter(function(n) { return n.type == "paper"})
+      .append("image")
+      .attr("xlink:href", "graph-assets/note.svg")
+      .attr("x", node_image_offset)
+      .attr("y", node_image_offset)
+      .attr("width", function(d) {return node_image_size(d) / 2.5})
+      .attr("height", function(d) {return node_image_size(d) / 2.5});
 #+END_SRC
+
+******** Symbol
 ****** Author Hyperlinks
 The Author nodes are clickable, and link to a scholar search with the
 author's name.
@@ -869,13 +908,15 @@ and creates links to the flat listed nodes.
 #+END_SRC
 
 After loading, the [[data-globals][data globals]] are actually assigned the correct
-values.  [[make_layout]] is responsible for actually creating all layouts.
+values.  [[make_layout]] is responsible for actually creating all
+layouts.  Change the initial mode to collaboration, which starts the
+actual layout.  Trigger generating all jdenticon icons.
 
 #+NAME: json_loader
 #+BEGIN_SRC js
   d3.json("graph.json", function(error, json) {
       if (error) throw error;
-  
+
       nodes = json.nodes;
       links = json.links;
       tree = json.tree;
@@ -883,6 +924,11 @@ values.  [[make_layout]] is responsible for actually creating all layouts.
       connect_node(tree);
 
       make_layout();
+
+      jdenticon.update(".jdenticon");
+
+      change_mode('collaboration');
+
   });
 #+END_SRC
 
@@ -906,4 +952,4 @@ switching modes
 ** TODO fix svg background rect width
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
-** TODO maybe move mode initialization to better place than layout initialization
+** TODO rename icon_size -> node_size
