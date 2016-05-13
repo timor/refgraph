@@ -339,7 +339,6 @@ layout.
 #+NAME: make_layout
 #+BEGIN_SRC js
   function make_layout() {
-      connect_node(tree);
   
       make_pack_layout();
 
