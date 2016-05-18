@@ -368,7 +368,7 @@ layout.
 #+END_SRC
 **** Force Layout
 
-The force layout is used to duisplay the collaboration graph.
+The force layout is used to display the collaboration graph.
 All the global properties are set when creating the initial =force=
 object.  Interactive aspects of the layout are handled in
 [[change_mode][=change_mode=]].
