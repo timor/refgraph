@@ -1056,10 +1056,6 @@ position instead.  This way, no actual simulation has to be done when
 switching modes
 ** TODO rename category -> classification
 ** TODO remove hardcoding 2016, substitute for current year
-** TODO fix svg background rect width
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
 ** TODO rename icon_size -> node_size
-** TODO make type symbols an option
-crowds the layout, is useful information for spotting types, but maybe
-not necessary for everyday work
