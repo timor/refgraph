@@ -19,6 +19,11 @@ Load the page with the relevant data in =graph.json=.  The layout is
 responsive, and nodes can be dragged with the mouse.  Dragging the
 background will pan the view, and mouse wheel can be used to zoom.
 
+Clicking a paper will try to open a pdf file with the same name in the
+current directory.
+
+Clicking an author will redirect to a Google Scholar search with that author.
+
 Only tested on Firefox.
 
 ** Advanced
