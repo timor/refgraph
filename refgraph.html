@@ -22,9 +22,9 @@
       /* stroke-width: 1px; */
       /* stroke: black; */
   }
-
+  
   .node_bg_glow.paper {
-      opacity: 0.2;
+      opacity: 0.3;
       filter: url(#glow);
   }
   
@@ -225,7 +225,7 @@
             .attr("r", function(d) {return node_image_size(d) / 2.2})
             .attr("class", "node_bg");
         
-        node.filter(function(n) { return n.type == "paper"})
+        node.filter(function(n) { return (n.type == "paper" && n.state != "unread")})
             .append("g")
             .attr("class", "jdenticon")
             .attr("data-width", jdenticon_size)
