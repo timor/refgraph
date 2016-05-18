@@ -25,9 +25,6 @@ Only tested on Firefox.
 Using the browser's JS console, advanced functionality can be
 accessed:
 
-*identicons*:  To tryout the identicons provided by the jdenticon
-library, enter the following: =jdenticon.update(".jdenticon")=
-
 *classification view*: enter =change_mode('category')=.  To switch
 back to the collaboration graph: =change_mode('collaboration')=
 
