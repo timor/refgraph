@@ -593,12 +593,12 @@ Otherwise, an empty placeholder.  This should make it easier to
 recognize papers by their identicon over time, also visualizing where
 there are still "gaps" in the research.
 
-A small symbol represents the publication type, e.g. conference
-paper, journal paper, PhD Thesis, etc.  For now, only one symbol is used,
+A small symbol represents the publication type, e.g. conference paper,
+journal paper, PhD Thesis, etc.  For now, only one symbol is used,
 though.  This symbol shall eventually be made optional, since it
-crowds the whole layout quite a bit.
+crowds the whole layout quite a bit.  Also, this symbol is hidden by
+default. See [[Controls]].
 
-******** Identicons
 In order to make distinguishing the papers easier, md5 and jdenticon
 are used to calculate hash values of the bibtex key.  The hash is
 stored in the DOM attribute =data-jdenticon-hash=.  This is a
@@ -630,13 +630,14 @@ distinguish visually.
   node.filter(function(n) { return n.type == "paper"})
       .append("image")
       .attr("xlink:href", "graph-assets/note.svg")
+      .attr("class", "pub_type")
       .attr("x", node_image_offset)
       .attr("y", node_image_offset)
       .attr("width", function(d) {return node_image_size(d) / 2.5})
-      .attr("height", function(d) {return node_image_size(d) / 2.5});
+      .attr("height", function(d) {return node_image_size(d) / 2.5})
+      .attr("visibility", "hidden");
 #+END_SRC
 
-******** Symbol
 ****** Author Hyperlinks
 The Author nodes are clickable, and link to a scholar search with the
 author's name.
@@ -896,6 +897,38 @@ The attractor positions are simply the centers of the calculated classification 
       }
   }
 #+END_SRC
+
+*** Controls
+At the bottom of the screen, there is space for some user interface
+controls.  This allows live customization of the layout.
+
+The controls are created using d3.js.
+
+**** Display of Publication Type Symbols
+The symbols used to display the type of publication tend to crowd the
+layout, that is why they can be switched on/off.
+
+#+BEGIN_SRC js
+  controls = d3.select("body")
+      .append("div")
+      .style({position: "fixed", top: "90%"});
+
+  controls.append("label")
+      .text("Display Type of Publication");
+
+  controls.append("input")
+      .attr("type", "checkbox")
+      // .attr("name", "show_symbols")
+      .on("click", toggle_symbols);
+
+  function toggle_symbols() {
+      if (this.checked)
+          d3.selectAll(".pub_type").attr("visibility", "visible");
+      else
+          d3.selectAll(".pub_type").attr("visibility", "hidden");
+  }
+#+END_SRC
+
 
 *** Application Initialization/Data Loading
 Since we are using d3.js's json load function, everything that needs

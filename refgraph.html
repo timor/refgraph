@@ -4,10 +4,16 @@
 
   html, body { overflow: hidden }
   svg { position: fixed;
+        display: block;
         top: 0;
         left: 0;
         width: 100%;
-        height: 90%}
+        height: 90%;
+      }
+  
+  * {
+      font-family: sans-serif;
+  }
   .node text {
       // pointer-events: none;
       font: 10px sans-serif;
@@ -237,10 +243,12 @@
         node.filter(function(n) { return n.type == "paper"})
             .append("image")
             .attr("xlink:href", "graph-assets/note.svg")
+            .attr("class", "pub_type")
             .attr("x", node_image_offset)
             .attr("y", node_image_offset)
             .attr("width", function(d) {return node_image_size(d) / 2.5})
-            .attr("height", function(d) {return node_image_size(d) / 2.5});
+            .attr("height", function(d) {return node_image_size(d) / 2.5})
+            .attr("visibility", "hidden");
         node.append("g")
             .append("a")
             .attr("xlink:href",function(d) {
@@ -408,6 +416,24 @@
             node.y_target = node.pack_node.y;
         }
     }
+    controls = d3.select("body")
+        .append("div")
+        .style({position: "fixed", top: "90%"});
+    
+    controls.append("label")
+        .text("Display Type of Publication");
+    
+    controls.append("input")
+        .attr("type", "checkbox")
+        // .attr("name", "show_symbols")
+        .on("click", toggle_symbols);
+    
+    function toggle_symbols() {
+        if (this.checked)
+            d3.selectAll(".pub_type").attr("visibility", "visible");
+        else
+            d3.selectAll(".pub_type").attr("visibility", "hidden");
+    }
     function connect_node(pnode) {
         if (pnode.children) pnode.children.forEach(connect_node);
         else {
@@ -438,4 +464,5 @@
     });
 
   </script>
+
 </body>
