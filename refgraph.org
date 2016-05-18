@@ -110,7 +110,7 @@ colors are chosen.  The background of author nodes is hidden
   }
 
   .node_bg_glow.paper {
-      opacity: 0.2;
+      opacity: 0.3;
       filter: url(#glow);
   }
 
@@ -576,11 +576,17 @@ type, different images are loaded.
       .attr("height", node_image_size);
 #+END_SRC
 
-
 ******* Paper Nodes
 
-The papers are represented by their identicons, with a small symbol
-representing the bibtex type.  For now, only one symbol is used, though.
+For papers that have already been started reading, show an identicon.
+Otherwise, an empty placeholder.  This should make it easier to
+recognize papers by their identicon over time, also visualizing where
+there are still "gaps" in the research.
+
+A small symbol represents the publication type, e.g. conference
+paper, journal paper, PhD Thesis, etc.  For now, only one symbol is used,
+though.  This symbol shall eventually be made optional, since it
+crowds the whole layout quite a bit.
 
 ******** Identicons
 In order to make distinguishing the papers easier, md5 and jdenticon
@@ -602,7 +608,7 @@ distinguish visually.
       .attr("r", function(d) {return node_image_size(d) / 2.2})
       .attr("class", "node_bg");
 
-  node.filter(function(n) { return n.type == "paper"})
+  node.filter(function(n) { return (n.type == "paper" && n.state != "unread")})
       .append("g")
       .attr("class", "jdenticon")
       .attr("data-width", jdenticon_size)
@@ -950,3 +956,6 @@ switching modes
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
 ** TODO rename icon_size -> node_size
+** TODO make type symbols an option
+crowds the layout, is useful information for spotting types, but maybe
+not necessary for everyday work
