@@ -375,9 +375,7 @@ global variables:
 #+BEGIN_SRC js
   var kx_mul = 0.15,              // multiplier for attractor force in x direction
 
-      ky_mul = 0.4,               // multiplier for attractor force in y direction
-    
-      node_charge_mul = 1;        // multiplier for node charge
+      ky_mul = 0.4                // multiplier for attractor force in y direction
 #+END_SRC
 
 Gravity is turned off because all paper nodes have an attractor, so
@@ -988,7 +986,6 @@ open this document and evaluate =org-babel-tangle=.
 ** TODO see if replacing svg filter with something static improves performance
 ** TODO directly extract the data from bibtex files
 that would also make all the id stuff in the json data superfluous
-** TODO remove node_charge_mul as a global variable, as it is used only locally
 ** TODO re-implement classification graph without actually using the targets as attractors
 blend the current attractor position with the classification target
 position instead.  This way, no actual simulation has to be done when
