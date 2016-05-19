@@ -930,7 +930,7 @@ layout, that is why they can be switched on/off.
   }
 #+END_SRC
 
-**** BibTex File Loading
+*** BibTex File Loading
 A Drag handler on the SVG element reacts to dropping a file onto the
 canvas.  This causes the file to be parsed as BibTex File (see
 [[BibTex Parser]]).  Nodes are compared to the existing ones.  If any
