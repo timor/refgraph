@@ -1089,7 +1089,7 @@ generate the parser:
 
   normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
     { fields.push(last_field);
-      var ret = {type: type, key: key};
+      var ret = {bibtype: type, key: key};
       fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
     return ret; }
 

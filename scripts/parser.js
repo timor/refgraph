@@ -92,7 +92,7 @@ bibtex_parser = (function() {
         peg$c53 = "@",
         peg$c54 = { type: "literal", value: "@", description: "\"@\"" },
         peg$c55 = function(type, key, fields, last_field) { fields.push(last_field);
-            var ret = {type: type, key: key};
+            var ret = {bibtype: type, key: key};
             fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
           return ret; },
         peg$c56 = "@string",
