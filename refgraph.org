@@ -939,7 +939,8 @@ canvas.  This causes the file to be parsed as BibTex File (see
 change happened, the layout is updated.
 
 [[https://github.com/d3/d3/wiki/Selections#on][API reference for ".on()"]]
-[[ https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/][Information about FileReader with Drag'n'Drop]]
+[[https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/][Information about FileReader with Drag'n'Drop]]
+[[https://www.nczonline.net/blog/2012/05/15/working-with-files-in-javascript-part-2/][Information about reading file contents]]
 
 The drop handler starts the FileReader.
 #+BEGIN_SRC js
@@ -960,19 +961,43 @@ The drop handler starts the FileReader.
 #+END_SRC
 
 A =FileReader= is instantiated to asynchronously load the data.
-Further processing ([[parse_bibtex_file]]) is initiated from its =onload= handler.
+Further processing (see also [[parse_bibtex_file]]) is initiated from its =onload= handler.
 
 #+BEGIN_SRC js
   var reader = new FileReader();
   reader.onload = function(event) {
-      var contents = event.target.results;
+      var contents = event.target.result;
       console.log("File loaded");
-      parse_bibtex_file(contents);
+      var entries = parse_bibtex_file(contents);
+      var result = analyze_bibtex_entries(entries);
+      nodes = result.nodes;
+      links = result.links;
   };
 
   reader.onerror = function(event) {
       console.error("Unable to read file (Code: " + event.target.error.code + ")");
   };
+#+END_SRC
+
+The main information extraction happens here.  From each entry, the
+following information is used:
+- BibTex key
+- title
+- author list
+- year of publication
+
+Iterating through all the nodes, link and node information is built,
+and returned in a result object.
+
+#+NAME: analyze_bibtex_file
+#+BEGIN_SRC js
+  function analyze_bibtex_file(entries) {
+      var authors = {};
+      var papers = {};
+      entries.forEach(function(e) {
+      });
+      return {nodes: null, links: null};
+  }
 #+END_SRC
 
 *** Application Initialization/Data Loading
@@ -1024,79 +1049,86 @@ actual layout.  Trigger generating all jdenticon icons.
 #+END_SRC
 
 *** BibTex Parser
- BibTex files are parsed using [[https://github.com/pegjs/pegjs][PEG.js]].
+BibTex files are parsed using [[https://github.com/pegjs/pegjs][PEG.js]].
 
- Limitations:
+Limitations:
  - no support for "@string" (if someone tells me how to handle state
    during parser execution, that would be quite easy to add)
  - when encountering variables, they are not substituted
 
- This should not really matter, since the information in such fields is
- not displayed anyways (yet).
+This should not really matter, since the information in such fields is
+not displayed anyways (yet).
 
- [[http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html][This page]] has very nice information about the BibTex Syntax.
+[[http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html][This page]] has very nice information about the BibTex Syntax.
 
- This expression is used to
- generate the parser:
+This expression is used to
+generate the parser:
 
- #+BEGIN_SRC text :noweb-ref nil
-   start = bibtex
+#+BEGIN_EXAMPLE text
+  start = bibtex
 
-   _ "whitespace" = [ \t\n\r]*
+  _ "whitespace" = [ \t\n\r]*
 
-   name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
-   number = value:[0-9]+ { return parseInt(value.join(""),10) }
-   month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
+  name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
+  number = value:[0-9]+ { return parseInt(value.join(""),10) }
+  month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
 
-   non_brace = value: [^{}]+ { return value.join("") }
-   non_quote_non_brace = value: [^{}"]+ { return value.join("") }
+  non_brace = value: [^{}]+ { return value.join("") }
+  non_quote_non_brace = value: [^{}"]+ { return value.join("") }
 
-   braced_value = '{' values: (non_brace / braced_value)* '}' { return values.join("") }
-   quoted_value = '"' values: (non_quote_non_brace / braced_value)* '"' { return values.join("") }
+  braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
+  quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
 
-   //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
-   value = braced_value / quoted_value / number / month_const / name
+  //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
+  value = braced_value / quoted_value / number / month_const / name
 
-   key = value:[^,]+ { return value.join("") }
+  key = value:[^,]+ { return value.join("") }
 
-   field = name:name _ '=' _ value:value { return { name:name, value:value}}
-   field_with_separator = _ field:field _ "," { return field }
+  field = name:name _ "=" _ value:value { return { name:name, value:value}}
+  field_with_separator = _ field:field _ "," { return field }
 
-   normal_entry = "@" type:name _ '{' _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
-     { fields.push(last_field);
-       var field_obj = {};
-       fields.forEach(function(f) { if (!field_obj[f.name]) field_obj[f.name] = f.value});
-     return {type: type, key: key, fields: field_obj} }
+  normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
+    { fields.push(last_field);
+      var field_obj = {};
+      fields.forEach(function(f) { if (!field_obj[f.name]) field_obj[f.name] = f.value});
+    return {type: type, key: key, fields: field_obj} }
 
-   string = "@STRING"i _ '{' _ f:field _ '}' {error("@string directive not supported")}
+  string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
 
-   preamble = "@PREAMBLE"i _ '{' value '}'
+  preamble = "@PREAMBLE"i _ "{" value "}"
 
-   comment_body = value:[^@]+ {return value.join("")}
+  comment_body = value:[^@]+ {return value.join("")}
 
-   comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
+  comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
 
-   comment = comment_entry / comment_body
+  comment = comment_entry / comment_body
 
-   entry = string / preamble / comment / normal_entry
+  entry = string / preamble / comment / normal_entry
 
-   bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
- #+END_SRC
+  bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
+#+END_EXAMPLE
 
- The generated parser lives in [[file:scripts/parser.js][scripts/parser.js]] as =bibtex_parser=.  The main parser
- entry function is =bibtex_parser.parse=.
+# The parser itself is generated by passing the grammar description to
+# the library:
 
- Now we need to generate the necessary node and link data from the
- parsed BibTex.  For debugging purposes, the parse tree is stored
- globally.
- #+NAME: parse_bibtex_file
+# #+BEGIN_SRC js :noweb yes
+#   var bibtex_parser = PEG.buildParser(`
+#     <<bibtex-peg-parser>>
+#   `);
+# #+END_SRC
+
+
+Now we need to generate the necessary node and link data from the
+parsed BibTex.  For debugging purposes, the parse tree is stored
+globally.
+#+NAME: parse_bibtex_file
  #+BEGIN_SRC js
-   var parse_tree;
+  var parse_tree;
 
-   function parse_bibtex_file(content) {
-       parse_tree = bibtex_parser.parse(content);
-   }
- #+END_SRC
+  function parse_bibtex_file(content) {
+      parse_tree = bibtex_parser.parse(content);
+  }
+#+END_SRC
 
 * Hacking
 This file is used to generate code and documentation.  It requires
