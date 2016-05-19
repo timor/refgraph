@@ -940,63 +940,244 @@ change happened, the layout is updated.
 [[https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/][Information about FileReader with Drag'n'Drop]]
 [[https://www.nczonline.net/blog/2012/05/15/working-with-files-in-javascript-part-2/][Information about reading file contents]]
 
-The drop handler starts the FileReader.
-#+BEGIN_SRC js
-  d3.select("svg")
-      .on("dragover", function() {
-          d3.event.preventDefault(); })
-      .on("drop", function() {
-          d3.event.preventDefault();
-          var files=d3.event.dataTransfer.files;
-          if (files.length == 1) {
-              var f = files[0];
-              console.log("Filename: " + f.name);
-              console.log("Type: " + f.type);
-              console.log("Size: " + f.size + " bytes");
-              reader.readAsText(f);
-          }
-      });
-#+END_SRC
+**** Read Files on Drag'n'Drop
 
-A =FileReader= is instantiated to asynchronously load the data.
-Further processing (see also [[parse_bibtex_file]]) is initiated from its =onload= handler.
+ The drop handler starts the FileReader.
+ #+BEGIN_SRC js
+   d3.select("svg")
+       .on("dragover", function() {
+           d3.event.preventDefault(); })
+       .on("drop", function() {
+           d3.event.preventDefault();
+           var files=d3.event.dataTransfer.files;
+           if (files.length == 1) {
+               var f = files[0];
+               console.log("Filename: " + f.name);
+               console.log("Type: " + f.type);
+               console.log("Size: " + f.size + " bytes");
+               reader.readAsText(f);
+           }
+       });
+ #+END_SRC
 
-#+BEGIN_SRC js
-  var reader = new FileReader();
-  reader.onload = function(event) {
-      var contents = event.target.result;
-      console.log("File loaded");
-      var entries = parse_bibtex_file(contents);
-      var result = analyze_bibtex_entries(entries);
-      nodes = result.nodes;
-      links = result.links;
-  };
+ A =FileReader= is instantiated to asynchronously load the data.
+ Further processing (see also [[parse_bibtex_file]]) is initiated from its
+ =onload= handler.  This includes analyzing the bibtex data and
+ (re-)creating the layout.
 
-  reader.onerror = function(event) {
-      console.error("Unable to read file (Code: " + event.target.error.code + ")");
-  };
-#+END_SRC
+ #+BEGIN_SRC js
+   var reader = new FileReader();
+   reader.onload = function(event) {
+       var contents = event.target.result;
+       console.log("File loaded");
+       var entries = parse_bibtex_file(contents);
+       var result = analyze_bibtex_entries(entries);
+       nodes = result.nodes;
+       links = result.links;
 
-The main information extraction happens here.  From each entry, the
-following information is used:
-- BibTex key
-- title
-- author list
-- year of publication
+       //make_layout();
+   };
 
-Iterating through all the nodes, link and node information is built,
-and returned in a result object.
+   reader.onerror = function(event) {
+       console.error("Unable to read file (Code: " + event.target.error.code + ")");
+   };
+ #+END_SRC
 
-#+NAME: analyze_bibtex_file
-#+BEGIN_SRC js
-  function analyze_bibtex_file(entries) {
-      var authors = {};
-      var papers = {};
-      entries.forEach(function(e) {
-      });
-      return {nodes: null, links: null};
-  }
-#+END_SRC
+**** Analyze BibTex file
+ The main information extraction happens here.  From each entry, the
+ following information is used:
+ - BibTex key
+ - title
+ - author list
+ - year of publication
+
+ Iterating through all the nodes, link and node information is built,
+ and returned in a result object.  =authors= and =papers= are global
+ for debugging purposes.
+
+
+ The entries that the parser returned are reused as paper
+ objects, later becoming the paper nodes of the layout.
+
+ #+NAME: analyze_bibtex_entries
+ #+BEGIN_SRC js
+   var authors, papers;
+
+   function analyze_bibtex_entries(entries) {
+       authors = [];
+       papers = [];
+       var links = [];
+       entries.forEach(function(e) {
+           if (!e.author) {
+               console.error(`BibTex entry ${e} has no author!`);
+               return;}
+           as = e.author.split(" and ").map(normalize_author).map(find_author);
+           e.author = as; //replace author list with a list of author objects
+
+           e.type = "paper";
+           e.author.forEach(function(author) {
+               author.papers.push(e);
+               links.push({source: author, target: e});
+               // this one is deprecated once the old json import is phased out:
+               author.balls = (author.balls || 0) + 1;
+           });
+           papers.push(e);
+       });
+       return {nodes: papers.concat(authors), links: links};
+   }
+ #+END_SRC
+
+ Several helpers are used in above code.
+
+ To see if a paper is attributed to a certain author, first the full
+ author names are compared.  If that does not match, only the first
+ letter of the first name is taken into account for the comparison.
+ This caters to the fact that authors are sometimes given by full name,
+ sometimes only by short name.  Note that this possibly in
+ mis-attributions in the graph, when authors with the same last name
+ and the same first letter of the given name exist.
+
+ In this case it would be advisable to change the BibTex source to
+ include the author's full name(s).
+
+ Note that when adding an author to the list of known authors, the
+ object previously returned by =normalize_author= is re-used and
+ initialized with more properties.  This is currently only the list of
+ attributed papers, though.
+
+
+ #+NAME: find_author
+ #+BEGIN_SRC js
+   function find_author(a) {
+       var found = authors.find(function(item) {
+           return item.last == a.last && item.given == a.given }) ||
+           authors.find(function(item) {
+               return item.last == a.last && item.given[0] == a.given[0]});
+       if (found)
+           return found;
+       else {
+           // initialize author fields here
+           a.papers = [];
+           a.type = "author";
+           a.name = a.last + ", " + a.given; // display name
+           authors.push(a);
+           return a;
+       }
+   }
+ #+END_SRC
+
+ This one is responsible for normalizing an author name of an
+ entry.  Note that this does not follow BibTex guidelines completely,
+ but is able to extract the most common cases.  When in doubt,
+ specifying the names using "Last, First" is always the most
+ unambiguous way.
+
+ #+NAME: normalize_author
+ #+BEGIN_SRC js
+   function normalize_author(s) {
+       var c = s.split(", ");
+       if (c.length == 1) {
+           c = c[0].split(" ");
+           return {last: c[0], given: c.slice(1).join(" ")};
+       } else
+           return {last: c[c.length-1], given: c[0]};
+   }
+
+   // function normalize_author(s) {
+   //     if s.match(/,/) {
+   //         // assume Last, First Second form
+   //         var split = s.split(", ");
+   //         return {last: split[0], first: split[split.length-1]};
+   //     } else {
+   //         // assume First Second Last form
+   //         var split = s.split(" ");
+   //         return {last: split[split.length-1], first: split[0]};
+   //     }
+   // }
+ #+END_SRC
+
+**** BibTex Parser
+ BibTex files are parsed using [[https://github.com/pegjs/pegjs][PEG.js]].
+
+ Limitations:
+  - no support for "@string" (if someone tells me how to handle state
+    during parser execution, that would be quite easy to add)
+  - when encountering variables, they are not substituted
+
+ This should not really matter, since the information in such fields is
+ not displayed anyways (yet).
+
+ [[http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html][This page]] has very nice information about the BibTex Syntax.
+
+ This expression is used to
+ generate the parser:
+
+ #+BEGIN_EXAMPLE text
+   start = bibtex
+
+   _ "whitespace" = [ \t\n\r]*
+
+   name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
+   number = value:[0-9]+ { return parseInt(value.join(""),10) }
+   month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
+
+   non_brace = value: [^{}]+ { return value.join("") }
+   non_quote_non_brace = value: [^{}"]+ { return value.join("") }
+
+   braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
+   quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
+
+   //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
+   value = braced_value / quoted_value / number / month_const / name
+
+   key = value:[^,]+ { return value.join("") }
+
+   field = name:name _ "=" _ value:value { return { name:name, value:value}}
+   field_with_separator = _ field:field _ "," { return field }
+
+   normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
+     { fields.push(last_field);
+       var ret = {bibtype: type, key: key};
+       fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
+     return ret; }
+
+   string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
+
+   preamble = "@PREAMBLE"i _ "{" value "}"
+
+   comment_body = value:[^@]+ {return value.join("")}
+
+   comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
+
+   comment = comment_entry / comment_body
+
+   entry = string / preamble / comment / normal_entry
+
+   bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
+ #+END_EXAMPLE
+
+ # The parser itself is generated by passing the grammar description to
+ # the library:
+
+ # #+BEGIN_SRC js :noweb yes
+ #   var bibtex_parser = PEG.buildParser(`
+ #     <<bibtex-peg-parser>>
+ #   `);
+ # #+END_SRC
+
+
+ Now we need to generate the necessary node and link data from the
+ parsed BibTex.  For debugging purposes, the parse tree is stored
+ globally.
+ #+NAME: parse_bibtex_file
+ #+BEGIN_SRC js
+   var parse_tree;
+
+   function parse_bibtex_file(content) {
+       parse_tree = bibtex_parser.parse(content);
+       return parse_tree;
+   }
+ #+END_SRC
 
 *** Application Initialization/Data Loading
 Since we are using d3.js's json load function, everything that needs
@@ -1046,102 +1227,20 @@ actual layout.  Trigger generating all jdenticon icons.
   });
 #+END_SRC
 
-*** BibTex Parser
-BibTex files are parsed using [[https://github.com/pegjs/pegjs][PEG.js]].
-
-Limitations:
- - no support for "@string" (if someone tells me how to handle state
-   during parser execution, that would be quite easy to add)
- - when encountering variables, they are not substituted
-
-This should not really matter, since the information in such fields is
-not displayed anyways (yet).
-
-[[http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html][This page]] has very nice information about the BibTex Syntax.
-
-This expression is used to
-generate the parser:
-
-#+BEGIN_EXAMPLE text
-  start = bibtex
-
-  _ "whitespace" = [ \t\n\r]*
-
-  name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
-  number = value:[0-9]+ { return parseInt(value.join(""),10) }
-  month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
-
-  non_brace = value: [^{}]+ { return value.join("") }
-  non_quote_non_brace = value: [^{}"]+ { return value.join("") }
-
-  braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
-  quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
-
-  //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
-  value = braced_value / quoted_value / number / month_const / name
-
-  key = value:[^,]+ { return value.join("") }
-
-  field = name:name _ "=" _ value:value { return { name:name, value:value}}
-  field_with_separator = _ field:field _ "," { return field }
-
-  normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
-    { fields.push(last_field);
-      var ret = {bibtype: type, key: key};
-      fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
-    return ret; }
-
-  string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
-
-  preamble = "@PREAMBLE"i _ "{" value "}"
-
-  comment_body = value:[^@]+ {return value.join("")}
-
-  comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
-
-  comment = comment_entry / comment_body
-
-  entry = string / preamble / comment / normal_entry
-
-  bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
-#+END_EXAMPLE
-
-# The parser itself is generated by passing the grammar description to
-# the library:
-
-# #+BEGIN_SRC js :noweb yes
-#   var bibtex_parser = PEG.buildParser(`
-#     <<bibtex-peg-parser>>
-#   `);
-# #+END_SRC
-
-
-Now we need to generate the necessary node and link data from the
-parsed BibTex.  For debugging purposes, the parse tree is stored
-globally.
-#+NAME: parse_bibtex_file
- #+BEGIN_SRC js
-  var parse_tree;
-
-  function parse_bibtex_file(content) {
-      parse_tree = bibtex_parser.parse(content);
-  }
-#+END_SRC
-
 * Hacking
 This file is used to generate code and documentation.  It requires
 org-mode which is supplied by emacs.  To (re-)generate the code file,
 open this document and evaluate =org-babel-tangle=.
 * Plan :noexport:
+
+** TODO correctly implement data update mechanism
+see
+- https://bl.ocks.org/mbostock/3808218
+- https://bost.ocks.org/mike/join/
+- https://bost.ocks.org/mike/constancy/
 ** TODO get rid of the author's background rect instead of hiding it
 ** TODO rename [[collab_charge]]
 ** TODO see if replacing svg filter with something static improves performance
-** TODO directly extract the data from bibtex files
-that would also make all the id stuff in the json data superfluous
-- parser seems to work, now it needs to be incorportated:
-- need file reader
-- need the traversal that generates the links and nodes
-
 ** TODO re-implement classification layout without actually using the targets as attractors
 blend the current attractor position with the classification target
 position instead.  This way, no actual simulation has to be done when
