@@ -1151,3 +1151,4 @@ switching modes
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
 ** TODO rename icon_size -> node_size
+** TODO make glow radial
