@@ -1089,9 +1089,9 @@ generate the parser:
 
   normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
     { fields.push(last_field);
-      var field_obj = {};
-      fields.forEach(function(f) { if (!field_obj[f.name]) field_obj[f.name] = f.value});
-    return {type: type, key: key, fields: field_obj} }
+      var ret = {type: type, key: key};
+      fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
+    return ret; }
 
   string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
 
