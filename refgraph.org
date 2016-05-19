@@ -1141,8 +1141,8 @@ that would also make all the id stuff in the json data superfluous
 - parser seems to work, now it needs to be incorportated:
 - need file reader
 - need the traversal that generates the links and nodes
-- should probably also parse the author names with PEG
-** TODO re-implement classification graph without actually using the targets as attractors
+
+** TODO re-implement classification layout without actually using the targets as attractors
 blend the current attractor position with the classification target
 position instead.  This way, no actual simulation has to be done when
 switching modes
