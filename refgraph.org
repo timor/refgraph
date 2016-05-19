@@ -416,7 +416,6 @@ for the tick event handler that is attached.
   }
 #+END_SRC
 
-
 ***** Node Property Helper functions
 Several node properties are data-dependent.  The following definitions
 are used to calculate the relevant values for the layout.
@@ -786,7 +785,6 @@ long.
       .text(function(d) { return d.name.substring(0, d.r / 3); });
 #+END_SRC
 
- 
 *** View Modes
 The different layout modes are switched using =change_mode=, which
 takes a mode string as a single argument.  Depending on the mode,
