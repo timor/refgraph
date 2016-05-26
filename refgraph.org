@@ -233,7 +233,7 @@ elements of that data (TODO link to json data layout)
 
 #+NAME: data-globals
 #+BEGIN_SRC js
-  var nodes, links, tree;
+  var nodes=[], links=[], tree;
 #+END_SRC
 
 Other globals are defined before their respective usage.
