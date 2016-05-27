@@ -129,22 +129,23 @@ colors are chosen.  The background of author nodes is hidden
       filter: url(#glow);
   }
 
-  .node_bg_glow.paper.read {
+  circle.paper.read {
       fill:green;
   }
 
-  .node_bg_glow.paper.unread {
+  circle.paper.unread {
       fill:red;
   }
 
-  .node_bg_glow.paper.started {
+  circle.paper.started {
       fill:orange;
   }
 
-  .node_bg_glow.paper.overview {
+  circle.paper.overview {
       fill:yellow;
   }
 
+  /* TBR */
   .node_bg_glow.author {
       visibility: hidden;
   }
@@ -278,7 +279,18 @@ There is a container group for all interactive content.  This is also
 the one that the zoom and pan transformations are performed upon:
 
 #+BEGIN_SRC js
-  var container = svg.append("g").attr("id","nodecontainer");
+  var container = svg.append("g").attr("id","interactivecontainer");
+#+END_SRC
+
+When updating the layout later (e.g. by loading new data), new nodes
+and links will be created.  If they are simply appended, links will
+end up on top of nodes.  This clutters the view.  To prevent that,
+links and nodes get their own respective sub-groups that they are
+created in:
+
+#+BEGIN_SRC js
+  var link_container = container.append("g");
+  var node_container = container.append("g");
 #+END_SRC
 
 **** Tooltips
@@ -287,6 +299,9 @@ Tooltips appear when hovering over papers, showing the full title.
 
 There is only one tooltip consisting of a rect and text which live in the top group,
 and are placed as needed.
+
+The content of the tool tip is dependent on wether it is a paper or
+author node.
 
 #+BEGIN_SRC js
   var tooltip = svg.append("rect")
@@ -307,7 +322,7 @@ and are placed as needed.
           x = d3.event.clientX;
           y = d3.event.clientY;
           tooltip_text
-              .text(d.labeltooltip)
+              .text(`${d.title}(${d.year})`)
               .attr("visibility","visible")
               .attr("x", x + 11)
               .attr("y", y + 27);
@@ -352,19 +367,115 @@ being the zoom event handler.
       // svg.attr("transform", "translate(" + d3.event.translate + ")");
   };
 #+END_SRC
+
+*** View Modes
+(This section will change soon, since layout modes will be implemented
+differently)
+- phase out change_mode
+
+The different layout modes are switched using =change_mode=, which
+takes a mode string as a single argument.  Depending on the mode,
+different parameters are used for the layouts.  In the end, opacities
+are adjusted according to the mode, and the force layout is restarted
+with the changed parameters.
+
+#+NAME: change_mode
+#+BEGIN_SRC js :noweb tangle
+  function change_mode(mode) {
+      var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
+
+      switch(mode) {
+      case 'collaboration':
+              <<collaboration-mode-parameters>>
+              break;
+      case 'category':
+              <<classification-mode-parameters>>
+              break;
+      }
+      d3.select("#pack_svg").attr("opacity", pack_opacity);
+      link_container.selectAll(".link").attr("opacity", collab_opacity);
+      node_container.selectAll(".node").filter(function(d) {return d.type == "author"}).attr("opacity", collab_opacity);
+      /*force.charge(function(d) { return ((1-i) * node_charge(d))})*/
+
+      force.charge(function(d) { return collab_charge(d) * node_charge_mul })
+          .linkStrength(link_strength)
+          .start()
+          .alpha(new_alpha);
+  }
+#+END_SRC
+
+**** Collaboration Graph
+For the Collaboration Graph
+- all paper nodes are attracted towards an individual point determined
+  by [[set_collab_paper_targets]]
+- the horizontal force towards this target is lower then the vertical
+  force
+- the classification layout is hidden
+- link strength is reduced to allow better clustering with papers as
+  centers
+
+
+#+BEGIN_SRC js :noweb-ref collaboration-mode-parameters
+  kx = 0.15;
+  ky = 0.4;
+  node_charge_mul = 1;
+  new_alpha = 1;
+  pack_opacity = 0;
+  collab_opacity = 1;
+  link_strength = 0.5;
+ #+END_SRC
+
+
+**** Classification Layout
+For the classification layout
+- attractor force is the same for x and y
+- node charge and link strength are zeroed to allow exact paper
+  positioning
+- the authors and links are made invisible, because they just flood
+  the layout
+- the attraction point for the paper nodes are set to the circle
+  packing layout positions using [[set_category_paper_targets]]
+
+#+BEGIN_SRC js :noweb-ref classification-mode-parameters
+  kx = 1;
+  ky = 1;
+  node_charge_mul = 0;
+  new_alpha = 0.1;
+  pack_opacity = 1;
+  collab_opacity = 0;
+  link_strength = 0;
+  /* set the target coordinates for the papers*/
+  // nodes.forEach(function(node) {
+  //     set_category_paper_targets(node);
+  // });
+#+END_SRC
+
+The attractor positions are simply the centers of the calculated classification layout:
+
+#+NAME: set_category_paper_targets
+#+BEGIN_SRC js
+  function set_category_paper_targets(node) {
+      if (node.pack_node) {
+          node.x_target = node.pack_node.x;
+          node.y_target = node.pack_node.y;
+      }
+  }
+#+END_SRC
 *** Used Layouts
-Several different d3.js layouts are used.  All of them are initialized
-here.  For some reason it is important that the force layout is
+Several different d3.js layouts are used.  All of them are defined
+here.  This follows the general update pattern suggested [[https://bl.ocks.org/mbostock/3808218][here]].
+
+For some reason it is important that the force layout is
 created last.  Also, the initial mode is set to the collaboration
 layout.
 
-#+NAME: make_layout
+#+NAME: update_layout
 #+BEGIN_SRC js
-  function make_layout() {
-  
-      make_pack_layout();
+  function update_layout() {
 
-      make_force_layout();
+      // make_pack_layout();
+
+      update_force_layout();
 
   }
 #+END_SRC
@@ -375,6 +486,14 @@ All the global properties are set when creating the initial =force=
 object.  Interactive aspects of the layout are handled in
 [[change_mode][=change_mode=]].
 
+The d3 selections representing the nodes and links of the layout (NOT
+the globals holding the actual data)
+#+BEGIN_SRC js
+  var force_link,                   // selection of created svg elements for link representation
+
+      force_node                    // selection of created svg elements for node representation
+#+END_SRC
+
 For different modes, different settings are used for the following
 global variables:
 #+BEGIN_SRC js
@@ -382,6 +501,8 @@ global variables:
 
       ky_mul = 0.4                // multiplier for attractor force in y direction
 #+END_SRC
+
+*The actual layout object*
 
 Gravity is turned off because all paper nodes have an attractor, so
 the layout does face the danger of expanding indefinitely.  Charge
@@ -392,28 +513,15 @@ performance.  It seems because charges are quite high, friction was
 #+NAME: force
 #+BEGIN_SRC javascript
   var force = d3.layout.force()
+      .nodes(nodes)
+      .links(links)
+      .linkStrength(0.5)
       .gravity(0)
       .distance(50)
       .chargeDistance(700)
       .friction(0.7)
-      .size([width, height]);
-#+END_SRC
-
-Here is the force layout initialization.  It must be called after data is
-available.  See [[force-init]] for what actually happens, and [[force-tick]]
-for the tick event handler that is attached.
-
-#+NAME: make_force_layout :noweb tangle
-#+BEGIN_SRC js
-  function make_force_layout() {
-      var link,                   // selection of created svg elements for link representation
-
-          node                    // selection of created svg elements for node representation
-
-      <<force-layout-initialization>>
-
-      <<force-tick-handler>>
-  }
+      .size([width, height])
+      .on("tick",force_tick);
 #+END_SRC
 
 ***** Node Property Helper functions
@@ -439,7 +547,7 @@ is weighted logarithmically for similar reasons.
           // return icon_size * (1 + (d.balls/20);
           return (1 + (Math.pow((d.balls-1), 0.8) * 0.5));
       else
-          return (1 + Math.log10(1 + d.citations));
+          return (1 + Math.log10(1 + (d.citations || 0)));
   }
 #+END_SRC
 
@@ -473,6 +581,26 @@ nodes around the more central nodes.
   }
 #+END_SRC
 
+****** Node Attractor Targets
+The attractor positions of the papers are a virtual grid, where the
+papers are ordered in x-direction by the first letter of the bibtex
+key, and in y-direction by the year of publication.  The y positions
+are compressed in a way that recent publications are spaced wider than
+older publications.
+
+#+NAME: set_collab_paper_targets
+#+BEGIN_SRC js
+  function set_collab_paper_targets(node) {
+      if (node.type == "paper") {
+          // node.y_target = (((2016 - node.year))*20) + 200;
+          node.y_target = (Math.sqrt(2016 - node.year) * 100) + 200;
+          xmin = "A".charCodeAt(0);
+          xmax = "Z".charCodeAt(0);
+          xnode = node.name.toUpperCase().charCodeAt(0);
+          node.x_target = Math.max(((xnode - xmin) / (xmax - xmin)) * width, 1);
+      }
+  }
+#+END_SRC
 ***** Node Dragging Behaviour
 Dragging is provided by a d3.js behavior, but the default event
 handlers are not used.
@@ -518,78 +646,102 @@ on undocumented internals (the meaning of the individual bits of the
   }
 #+END_SRC
 
-***** Force Layout Initialization <<force-init>>
-:PROPERTIES:
-:noweb-ref: force-layout-initialization
-:END:
+***** Force Layout Creation <<force-init>>
+Here is the force layout initialization.  It must be called after data is
+available.  See [[force-init]] for what actually happens, and [[force-tick]]
+for the tick event handler that is attached.
 
-****** Connecting Layout to Data
-Feed the force layout with the actual data.  d3.js expects a certain
-data layout, from which it initializes connectivity and node
-properties (TODO: link)
-#+BEGIN_SRC js
-  force
-      .nodes(nodes)
-      .links(links)
-  ;
-#+END_SRC
-
-****** Creating the SVG elements
+It follows the examples [[http://bl.ocks.org/mbostock/1095795][here]], and [[http://stackoverflow.com/questions/9539294/adding-new-nodes-to-force-directed-layout][here]].
 
 d3.js's enter selection mechanism is used to get the actually created
-svg DOM nodes for the links (lines) and the nodes (groups).
+svg DOM nodes for the links (lines) and the nodes (groups).  The
+creation is handled functions for the specific node types.  Labels are
+created in the same way all node types, but link to scholar searches
+for authors, and pdf files for papers.
 
+Also cause computation of the attractor targets.
+
+To help converging, the layout is initialized by setting all the nodes
+with attractor targets to their calculated target positions.
+
+#+NAME: update_force_layout
 #+BEGIN_SRC js
-  link = container.selectAll(".link")
-      .data(links)
-      .enter().append("line")
-      .attr("class", "link");
+  function update_force_layout() {
+      force.stop();
 
-  node = container.selectAll(".node")
-      .data(nodes)
-      .enter().append("g")
-      .attr("class", "node")
-      .on("mouseover", show_tooltip)
-      .on("mouseout", hide_tooltip)
-      .call(drag);
+      force.links(links)
+          .nodes(nodes);
+
+      force_link = link_container.selectAll(".link")
+      // .data(force.links(), function(d) {return d.source.name + "-" + d.target.name});
+          .data(force.links());
+
+      force_link
+          .enter().append("line")
+          .attr("class", "link");
+
+      force_link.exit().remove();
+
+      force_node = node_container.selectAll(".node")
+          .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.note});
+      // .data(force.nodes());
+      force_node
+          .enter().append("g")
+          .attr("class", "node")
+          .on("mouseover", show_tooltip)
+          .on("mouseout", hide_tooltip)
+          .call(draw_node)
+          .call(drag)
+      ;
+
+      force_node.exit().remove();
+
+      force.start();
+  }
 #+END_SRC
 
-****** Node Background
+The creation of all the objects and setting the attributes beneath the
+node element itself is delegated into =draw_node=
 
-The background rectangles are attached.  These are connected to the
-[[glow-filter]] using [[Styling][CSS]].  A class is added with the same name as the
-personal reading state indicated in the data.
-
+#+NAME: draw_node
 #+BEGIN_SRC js
-  node.append("rect")
-      .attr("x", node_image_offset)
-      .attr("y", node_image_offset)
-      .attr("width", node_image_size)        
-      .attr("height", node_image_size)
-      .attr("class", function(d) {
-          var s= "node_bg_glow " + d.type;
-          if (d.type == "paper") s = s + " " + d.state;
-          return s;
-      });
+  function draw_node(node) {
+      node.filter(function(n) {return n.type == "author"})
+          .call(draw_author_node);
+
+      node.filter(function(n) {return n.type == "paper"})
+          .call(draw_paper_node);
+
+      node.append("g")
+          .append("a")
+          .attr("xlink:href",function(d) {
+              if (d.type == "author")
+                  return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name)
+              else
+                  return d.key+".pdf"})
+          .append("text")
+          .attr("dx", 12)
+          .attr("dy", 16)
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.name });
+  }
 #+END_SRC
-****** Node Images
+****** Author Nodes
 
-The nodes themselves are represented by images.  Depending on the node
-type, different images are loaded.
-******* Author Nodes
+Author nodes are represented by a generic image.
 
+#+NAME: draw_author_node
 #+BEGIN_SRC js
-  node.filter(function(n) {return n.type == "author"})
-      .append("image")
-      .attr("xlink:href", "graph-assets/user.png")
-      .attr("x", node_image_offset)
-      .attr("y", node_image_offset)
-      .attr("width", node_image_size)        
-      .attr("height", node_image_size);
+  function draw_author_node(node) {
+      node.append("image")
+          .attr("xlink:href", "graph-assets/user.png")
+          .attr("x", node_image_offset)
+          .attr("y", node_image_offset)
+          .attr("width", node_image_size)
+          .attr("height", node_image_size);
+  }
 #+END_SRC
-
-******* Paper Nodes
-
+****** Paper Nodes
 For papers that have already been started reading, show an identicon.
 Otherwise, an empty placeholder.  This should make it easier to
 recognize papers by their identicon over time, also visualizing where
@@ -610,72 +762,72 @@ jdenticon code.
 The identicon gets a white background, to make it easier to
 distinguish visually.
 
+A small circle should surround the icon which represents the personal
+reading state.
+
+Clicking the label will open a pdf.
+
+#+NAME: draw_paper_node
 #+BEGIN_SRC js
-  node.filter(function(n) { return n.type == "paper"})
-      .append("circle")
-      // .attr("x", node_image_offset)
-      // .attr("y", node_image_offset)
-      // .attr("width", node_image_size)
-      // .attr("height", node_image_size)
-      .attr("r", function(d) {return node_image_size(d) / 2.2})
-      .attr("class", "node_bg");
+  function draw_paper_node(node) {
+      // glow
+      // node.append("rect")
+      //     .attr("x", node_image_offset)
+      //     .attr("y", node_image_offset)
+      //     .attr("width", node_image_size)
+      //     .attr("height", node_image_size)
+      //     .attr("class", function(d) {
+      //         var s= "node_bg_glow " + d.type;
+      //         if (d.type == "paper" && d.state) s = s + " " + d.state;
+      //         return s;
+      //     });
 
-  node.filter(function(n) { return (n.type == "paper" && n.state != "unread")})
-      .append("g")
-      .attr("class", "jdenticon")
-      .attr("data-width", jdenticon_size)
-      .attr("data-height", jdenticon_size)
-      .attr("data-jdenticon-hash", function(d) { return md5(d.name)})
-      .attr("transform", function(d) { return "scale(" + node_significance(d) * (icon_size / jdenticon_size)  + ")"; });
+      // status circle
+      node.append("circle")
+          .attr("r", function(d) {return node_image_size(d) / 2})
+          .attr("class", function(d) {
+              var s = d.type;
+              if (d.type == "paper" && d.state) s = s + " " + d.state;
+              return s;
+          });
 
 
-  node.filter(function(n) { return n.type == "paper"})
-      .append("image")
-      .attr("xlink:href", "graph-assets/note.svg")
-      .attr("class", "pub_type")
-      .attr("x", node_image_offset)
-      .attr("y", node_image_offset)
-      .attr("width", function(d) {return node_image_size(d) / 2.5})
-      .attr("height", function(d) {return node_image_size(d) / 2.5})
-      .attr("visibility", "hidden");
+      // white background circle
+      node.append("circle")
+          .attr("r", function(d) {return node_image_size(d) / 2.2})
+          .attr("class", "node_bg");
+
+      //jdenticon for partially read papers
+      node.filter(function(n) { return (n.state && n.state != "unread")})
+          .append("g")
+          .attr("class", "jdenticon")
+          .attr("data-width", jdenticon_size)
+          .attr("data-height", jdenticon_size)
+          .attr("data-jdenticon-hash", function(d) { return md5(d.name)})
+          .attr("transform", function(d) { return "scale(" + node_significance(d) * (icon_size / jdenticon_size)  + ")"; });
+
+      //type symbols
+      node.append("image")
+          .attr("xlink:href", "graph-assets/note.svg")
+          .attr("class", "pub_type")
+          .attr("x", node_image_offset)
+          .attr("y", node_image_offset)
+          .attr("width", function(d) {return node_image_size(d) / 2.5})
+          .attr("height", function(d) {return node_image_size(d) / 2.5})
+          .attr("visibility", "hidden");
+
+  }
 #+END_SRC
 
-****** Author Hyperlinks
-The Author nodes are clickable, and link to a scholar search with the
-author's name.
-
-#+BEGIN_SRC js
-  node.append("g")
-      .append("a")
-      .attr("xlink:href",function(d) {
-          if (d.type == "author")
-              return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name)
-          else
-              return d.name+".pdf"})
-      .append("text")
-      .attr("dx", 12)
-      .attr("dy", 16)
-      .attr("text-anchor", "middle")
-      .text(function(d) { return d.name });
-#+END_SRC
-****** Initial Node Positions
-To help converging, the layout is initialized by setting all the nodes
-with attractor targets to their calculated target positions.
-
-#+BEGIN_SRC js
-  nodes.forEach(function(node) {
-      if (node.x_target) node.x = node.x_target;
-      if (node.y_target) node.y = node.y_target;
-  });
-#+END_SRC
-****** Initial Author Positions
+****** Initial Node Positions :noexport:
+Initial Author Positions
 The initial positions of the author nodes are set to the positions of
 the paper nodes.  This is intended to allow the layout to converge
 faster, but does not work well.  When the layout starts, the first few
 cycles exhibit very high fluctuation amplitudes. (TODO: check if this
 is better after reordering)
 
-#+BEGIN_SRC js
+#+BEGIN_EXAMPLE js
   // source: author, target: paper
   links.forEach(function(link) {
       var a_index = link.source;
@@ -683,19 +835,16 @@ is better after reordering)
       nodes[a_index].x = nodes[p_index].x;
       nodes[a_index].y = nodes[p_index].y;
   });
-
-#+END_SRC
-***** Force Layout Tick Handler<<force-tick>>
-:PROPERTIES:
-:noweb-ref: force-tick-handler
-:END:
+#+END_EXAMPLE
+***** Force Layout Tick Handler
 This is the "hot loop" that actually updates all the svg elements
 according to the internal simulation.  It implements the attraction
 forces and updates the position of the svg nodes as well as their
 links.
 
+#+NAME: force_tick
 #+BEGIN_SRC js
-  force.on("tick", function(e) {
+  function force_tick(e) {
       var kx = e.alpha * kx_mul;
       var ky = e.alpha * ky_mul;
 
@@ -706,13 +855,13 @@ links.
               node.y += (node.y_target - node.y) * ky;
       });
 
-      link.attr("x1", function(d) { return d.source.x; })
+      force_link.attr("x1", function(d) { return d.source.x; })
           .attr("y1", function(d) { return d.source.y; })
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; });
 
-      node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  });
+      force_node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  }
 #+END_SRC
 **** Circle Packing Layout
 The circle packing layout is currently used for the classification
@@ -783,120 +932,6 @@ long.
       .attr("class", "pack")
       .style("text-anchor", "middle")
       .text(function(d) { return d.name.substring(0, d.r / 3); });
-#+END_SRC
-
-*** View Modes
-The different layout modes are switched using =change_mode=, which
-takes a mode string as a single argument.  Depending on the mode,
-different parameters are used for the layouts.  In the end, opacities
-are adjusted according to the mode, and the force layout is restarted
-with the changed parameters.
-
-#+NAME: change_mode
-#+BEGIN_SRC js :noweb tangle
-  function change_mode(mode) {
-      var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
-    
-      switch(mode) {
-      case 'collaboration':
-          <<collaboration-mode-parameters>>
-          break;
-      case 'category':
-          <<classification-mode-parameters>>
-          break;
-      }
-      d3.select("#pack_svg").attr("opacity", pack_opacity);
-      container.selectAll(".link").attr("opacity", collab_opacity);
-      container.selectAll(".node").filter(function(d) {return d.type == "author"}).attr("opacity", collab_opacity);
-      /*force.charge(function(d) { return ((1-i) * node_charge(d))})*/
-
-      force.charge(function(d) { return collab_charge(d) * node_charge_mul })
-          .linkStrength(link_strength)
-          .start()
-          .alpha(new_alpha);
-  }
-#+END_SRC
-
-**** Collaboration Graph
-For the Collaboration Graph
-- all paper nodes are attracted towards an individual point determined
-  by [[set_collab_paper_targets]]
-- the horizontal force towards this target is lower then the vertical
-  force
-- the classification layout is hidden
-- link strength is reduced to allow better clustering with papers as
-  centers
-
-
-#+BEGIN_SRC js :noweb-ref collaboration-mode-parameters
-  kx = 0.15;
-  ky = 0.4;
-  node_charge_mul = 1;
-  new_alpha = 1;
-  pack_opacity = 0;
-  collab_opacity = 1;
-  link_strength = 0.5;
-  /* set the target coordinates for the papers*/
-  nodes.forEach(function(node) {
-      set_collab_paper_targets(node);
-  });
-
-#+END_SRC
-
-The attractor positions of the papers are a virtual grid, where the
-papers are ordered in x-direction by the first letter of the bibtex
-key, and in y-direction by the year of publication.  The y positions
-are compressed in a way that recent publications are spaced wider than
-older publications.
-
-#+NAME: set_collab_paper_targets
-#+BEGIN_SRC js
-  function set_collab_paper_targets(node) {
-      if (node.type == "paper") {
-          // node.y_target = (((2016 - node.year))*20) + 200;
-          node.y_target = (Math.sqrt(2016 - node.year) * 100) + 200;
-          xmin = "A".charCodeAt(0);
-          xmax = "Z".charCodeAt(0);
-          xnode = node.name.toUpperCase().charCodeAt(0);
-          node.x_target = Math.max(((xnode - xmin) / (xmax - xmin)) * width, 1);
-      }
-  }
-#+END_SRC
-
-**** Classification Layout
-For the classification layout
-- attractor force is the same for x and y
-- node charge and link strength are zeroed to allow exact paper
-  positioning
-- the authors and links are made invisible, because they just flood
-  the layout
-- the attraction point for the paper nodes are set to the circle
-  packing layout positions using [[set_category_paper_targets]]
-
-#+BEGIN_SRC js :noweb-ref classification-mode-parameters
-  kx = 1;
-  ky = 1;
-  node_charge_mul = 0;
-  new_alpha = 0.1;
-  pack_opacity = 1;
-  collab_opacity = 0;
-  link_strength = 0;
-  /* set the target coordinates for the papers*/
-  nodes.forEach(function(node) {
-      set_category_paper_targets(node);
-  });
-#+END_SRC
-
-The attractor positions are simply the centers of the calculated classification layout:
-
-#+NAME: set_category_paper_targets
-#+BEGIN_SRC js
-  function set_category_paper_targets(node) {
-      if (node.pack_node) {
-          node.x_target = node.pack_node.x;
-          node.y_target = node.pack_node.y;
-      }
-  }
 #+END_SRC
 
 *** Controls
@@ -975,7 +1010,13 @@ change happened, the layout is updated.
        nodes = result.nodes;
        links = result.links;
 
-       //make_layout();
+       nodes.forEach(function(node) {
+           set_collab_paper_targets(node)  /* set the target coordinates for the papers */
+           if (node.x_target) node.x = node.x_target;
+           if (node.y_target) node.y = node.y_target;
+       });
+
+       update_layout();
    };
 
    reader.onerror = function(event) {
@@ -1013,8 +1054,8 @@ change happened, the layout is updated.
                return;}
            as = e.author.split(" and ").map(normalize_author).map(find_author);
            e.author = as; //replace author list with a list of author objects
-
            e.type = "paper";
+           e.name = e.key;
            e.author.forEach(function(author) {
                author.papers.push(e);
                links.push({source: author, target: e});
@@ -1076,11 +1117,11 @@ change happened, the layout is updated.
  #+BEGIN_SRC js
    function normalize_author(s) {
        var c = s.split(", ");
-       if (c.length == 1) {
-           c = c[0].split(" ");
-           return {last: c[0], given: c.slice(1).join(" ")};
+       if (c.length == 1) {        // no commas?
+           c = c[0].split(" ");    // split by spaces
+           return {given: c[0], last: c.slice(1).join(" ")};
        } else
-           return {last: c[c.length-1], given: c[0]};
+           return {given: c[c.length-1].split(" ")[0], last: c[0]};
    }
 
    // function normalize_author(s) {
@@ -1180,6 +1221,9 @@ change happened, the layout is updated.
  #+END_SRC
 
 *** Application Initialization/Data Loading
+(connect_node is deprecated, since loading JSON will be phased out in
+favor of loading BibTeX directly)
+
 Since we are using d3.js's json load function, everything that needs
 to happen after loading must be clumsily put into the event handler to
 that function.
@@ -1216,9 +1260,16 @@ actual layout.  Trigger generating all jdenticon icons.
       links = json.links;
       tree = json.tree;
 
+      nodes.forEach(function(node) {
+          set_collab_paper_targets(node)  /* set the target coordinates for the papers */
+          if (node.x_target) node.x = node.x_target;
+          if (node.y_target) node.y = node.y_target;
+      });
+
+
       connect_node(tree);
 
-      make_layout();
+      update_layout();
 
       jdenticon.update(".jdenticon");
 
@@ -1238,9 +1289,7 @@ see
 - https://bl.ocks.org/mbostock/3808218
 - https://bost.ocks.org/mike/join/
 - https://bost.ocks.org/mike/constancy/
-** TODO get rid of the author's background rect instead of hiding it
 ** TODO rename [[collab_charge]]
-** TODO see if replacing svg filter with something static improves performance
 ** TODO re-implement classification layout without actually using the targets as attractors
 blend the current attractor position with the classification target
 position instead.  This way, no actual simulation has to be done when
@@ -1250,4 +1299,4 @@ switching modes
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
 ** TODO rename icon_size -> node_size
-** TODO make glow radial
+** TODO open pdf based on file property, not on inferred key value
