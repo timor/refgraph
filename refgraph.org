@@ -15,24 +15,20 @@
   2. Classification
 
 * Usage
-Load the page with the relevant data by dragging a BibTex file onto
-the canvas.  The layout is responsive, and nodes can be dragged with
-the mouse.  Dragging the background will pan the view, and mouse wheel
-can be used to zoom.
+When the page loads, an example graph is displayed.  To display your
+own data, drag a file onto the canvas graph and drop it.
+
+The layout is responsive, and nodes can be dragged with the mouse.
+Dragging the background will pan the view, and mouse wheel can be used
+to zoom.
 
 Clicking a paper will try to open a pdf file with the same name in the
-current directory.
+current directory. (Note: this will be changed to use the file name
+property in the BibTex file.
 
 Clicking an author will redirect to a Google Scholar search with that author.
 
 Only tested on Firefox.
-
-** Advanced
-Using the browser's JS console, advanced functionality can be
-accessed:
-
-*classification view*: enter =change_mode('category')=.  To switch
-back to the collaboration graph: =change_mode('collaboration')=
 
 * Implementation
 The application basically consists of one html file that includes the
@@ -208,7 +204,6 @@ The tooltip is styled here.
 :PROPERTIES:
 :noweb-ref: javascript-graph-functionality
 :END:
-
 *** Global Variables
 For lack of better programming style, the following information is
 defined in global variables:
@@ -464,6 +459,8 @@ The attractor positions are simply the centers of the calculated classification 
 *** Used Layouts
 Several different d3.js layouts are used.  All of them are defined
 here.  This follows the general update pattern suggested [[https://bl.ocks.org/mbostock/3808218][here]].
+
+Currently, only the force layout is supported and generated.
 
 For some reason it is important that the force layout is
 created last.  Also, the initial mode is set to the collaboration
@@ -943,6 +940,9 @@ The controls are created using d3.js.
 **** Display of Publication Type Symbols
 The symbols used to display the type of publication tend to crowd the
 layout, that is why they can be switched on/off.
+
+(Currently only one is used, and that one does not distinguish between
+types yet)
 
 #+BEGIN_SRC js
   controls = d3.select("body")
