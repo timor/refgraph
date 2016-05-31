@@ -12,7 +12,7 @@
   - personal classification on papers
 - several visualization modes
   1. Collaboration Graph
-  2. Classification
+  2. Classification (WIP)
 
 * Usage
 When the page loads, an example graph is displayed.  To display your
@@ -1284,5 +1284,12 @@ switching modes
 ** TODO remove hardcoding 2016, substitute for current year
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
+Problem: initial positioning causes very unstable initial layouting.
+
+Idea: place papers first, then add authors one after each other (at
+one of their papers) to allow for settling a bit before adding
+another.
+
+Can that be done still using the entry selection?
 ** TODO rename icon_size -> node_size
 ** TODO open pdf based on file property, not on inferred key value
