@@ -15,6 +15,8 @@
   2. Classification (WIP)
 
 * Usage
+Open =refgraph.html= (with Firefox).
+
 When the page loads, an example graph is displayed.  To display your
 own data, drag a file onto the canvas graph and drop it.
 
@@ -24,7 +26,7 @@ to zoom.
 
 Clicking a paper will try to open a pdf file with the same name in the
 current directory. (Note: this will be changed to use the file name
-property in the BibTex file.
+property in the BibTex file.)
 
 Clicking an author will redirect to a Google Scholar search with that author.
 
