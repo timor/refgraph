@@ -91,9 +91,9 @@ bibtex_parser = (function() {
         peg$c52 = function(field) { return field },
         peg$c53 = "@",
         peg$c54 = { type: "literal", value: "@", description: "\"@\"" },
-        peg$c55 = function(type, key, fields, last_field) { fields.push(last_field);
-            var ret = {bibtype: type, key: key};
-            fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
+        peg$c55 = function(type, key, fields, last_field) { if (last_field) fields.push(last_field);
+            var ret = {bibtype: type, key: key, bibtex: {}};
+            fields.forEach(function(f) { if (!ret.bibtex[f.name]) ret.bibtex[f.name] = f.value});
           return ret; },
         peg$c56 = "@string",
         peg$c57 = { type: "literal", value: "@STRING", description: "\"@STRING\"" },

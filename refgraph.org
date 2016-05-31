@@ -316,7 +316,7 @@ author node.
           x = d3.event.clientX;
           y = d3.event.clientY;
           tooltip_text
-              .text(`${d.title}(${d.year})`)
+              .text(`${d.display_title}(${d.bibtex.year})`)
               .attr("visibility","visible")
               .attr("x", x + 11)
               .attr("y", y + 27);
@@ -1030,23 +1030,32 @@ change happened, the layout is updated.
  #+END_SRC
 
 **** Analyze BibTex file
- The main information extraction happens here.  From each entry, the
- following information is used:
- - BibTex key
- - title
- - author list
- - year of publication
 
- Iterating through all the nodes, link and node information is built,
- and returned in a result object.  =authors= and =papers= are global
- for debugging purposes.
+The main information extraction happens here.  Each entry corresponds
+to a paper.  The original bibtex fields are in the `bibtex` member of
+the parsed entry.  Some additional properties are computed and added
+to the entry itself for later use:
+
+- =authors= :: list of parsed author objects for the paper
+- =type= :: node type to distinguish during rendering.  Right now,
+     `paper` and `author` are supported, and all these entries are set
+     to `paper`
+- =name= :: display name of the paper
+- =significance= :: determines the size of the node.  Right now,
+     hardcoded to use the value of the field "note", because that is
+     where the zotero scholar citations plugin stores the information.
+- =display_title= :: de-BibTex'd title
+
+Iterating through all the nodes, link and node information is built,
+and returned in a result object.  =authors= and =papers= are global
+for debugging purposes.
 
 
- The entries that the parser returned are reused as paper
- objects, later becoming the paper nodes of the layout.
+The entries that the parser returned are reused as paper
+objects, later becoming the paper nodes of the layout.
 
- #+NAME: analyze_bibtex_entries
- #+BEGIN_SRC js
+#+NAME: analyze_bibtex_entries
+#+BEGIN_SRC js
    var authors, papers;
 
    function analyze_bibtex_entries(entries) {
@@ -1054,14 +1063,16 @@ change happened, the layout is updated.
        papers = [];
        var links = [];
        entries.forEach(function(e) {
-           if (!e.author) {
+           if (!e.bibtex.author) {
                console.error(`BibTex entry ${e} has no author!`);
                return;}
-           as = e.author.split(" and ").map(normalize_author).map(find_author);
-           e.author = as; //replace author list with a list of author objects
+           as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
+           e.authors = as; //replace author list with a list of author objects
            e.type = "paper";
            e.name = e.key;
-           e.author.forEach(function(author) {
+           e.significance = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
+           e.display_title = e.bibtex.title.replace(/[{}]/, "");
+           e.authors.forEach(function(author) {
                author.papers.push(e);
                links.push({source: author, target: e});
                // this one is deprecated once the old json import is phased out:
@@ -1158,49 +1169,49 @@ change happened, the layout is updated.
  This expression is used to
  generate the parser:
 
- #+BEGIN_EXAMPLE text
-   start = bibtex
+#+BEGIN_EXAMPLE text
+  start = bibtex
 
-   _ "whitespace" = [ \t\n\r]*
+  _ "whitespace" = [ \t\n\r]*
 
-   name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
-   number = value:[0-9]+ { return parseInt(value.join(""),10) }
-   month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
+  name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
+  number = value:[0-9]+ { return parseInt(value.join(""),10) }
+  month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
 
-   non_brace = value: [^{}]+ { return value.join("") }
-   non_quote_non_brace = value: [^{}"]+ { return value.join("") }
+  non_brace = value: [^{}]+ { return value.join("") }
+  non_quote_non_brace = value: [^{}"]+ { return value.join("") }
 
-   braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
-   quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
+  braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
+  quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
 
-   //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
-   value = braced_value / quoted_value / number / month_const / name
+  //fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
+  value = braced_value / quoted_value / number / month_const / name
 
-   key = value:[^,]+ { return value.join("") }
+  key = value:[^,]+ { return value.join("") }
 
-   field = name:name _ "=" _ value:value { return { name:name, value:value}}
-   field_with_separator = _ field:field _ "," { return field }
+  field = name:name _ "=" _ value:value { return { name:name, value:value}}
+  field_with_separator = _ field:field _ "," { return field }
 
-   normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
-     { fields.push(last_field);
-       var ret = {bibtype: type, key: key};
-       fields.forEach(function(f) { if (!ret[f.name]) ret[f.name] = f.value});
-     return ret; }
+  normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
+    { if (last_field) fields.push(last_field);
+      var ret = {bibtype: type, key: key, bibtex: {}};
+      fields.forEach(function(f) { if (!ret.bibtex[f.name]) ret.bibtex[f.name] = f.value});
+    return ret; }
 
-   string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
+  string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
 
-   preamble = "@PREAMBLE"i _ "{" value "}"
+  preamble = "@PREAMBLE"i _ "{" value "}"
 
-   comment_body = value:[^@]+ {return value.join("")}
+  comment_body = value:[^@]+ {return value.join("")}
 
-   comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
+  comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
 
-   comment = comment_entry / comment_body
+  comment = comment_entry / comment_body
 
-   entry = string / preamble / comment / normal_entry
+  entry = string / preamble / comment / normal_entry
 
-   bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
- #+END_EXAMPLE
+  bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
+#+END_EXAMPLE
 
  # The parser itself is generated by passing the grammar description to
  # the library:

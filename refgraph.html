@@ -142,7 +142,7 @@
             x = d3.event.clientX;
             y = d3.event.clientY;
             tooltip_text
-                .text(`${d.title}(${d.year})`)
+                .text(`${d.display_title}(${d.bibtex.year})`)
                 .attr("visibility","visible")
                 .attr("x", x + 11)
                 .attr("y", y + 27);
@@ -501,14 +501,16 @@
         papers = [];
         var links = [];
         entries.forEach(function(e) {
-            if (!e.author) {
+            if (!e.bibtex.author) {
                 console.error(`BibTex entry ${e} has no author!`);
                 return;}
-            as = e.author.split(" and ").map(normalize_author).map(find_author);
-            e.author = as; //replace author list with a list of author objects
+            as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
+            e.authors = as; //replace author list with a list of author objects
             e.type = "paper";
             e.name = e.key;
-            e.author.forEach(function(author) {
+            e.significance = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
+            e.display_title = e.bibtex.title.replace(/[{}]/, "");
+            e.authors.forEach(function(author) {
                 author.papers.push(e);
                 links.push({source: author, target: e});
                 // this one is deprecated once the old json import is phased out:
