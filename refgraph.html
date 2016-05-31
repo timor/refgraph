@@ -355,17 +355,6 @@
         //         return s;
         //     });
     
-        // status circle
-        // node.append("circle")
-        //     .attr("r", function(d) {return node_image_size(d) / 2})
-        //     .attr("class", function(d) {
-        //         var s = d.type;
-        //         if (d.type == "paper" && d.state) s = s + " " + d.state;
-        //         return s;
-        //     })
-        //     .attr("vector-effect", "non-scaling-stroke");
-    
-    
         // white background circle with colored stroke
         node.append("circle")
             .attr("r", function(d) {return node_image_size(d) / 2.2})
@@ -544,18 +533,6 @@
         } else
             return {given: c[c.length-1].split(" ")[0], last: c[0]};
     }
-    
-    // function normalize_author(s) {
-    //     if s.match(/,/) {
-    //         // assume Last, First Second form
-    //         var split = s.split(", ");
-    //         return {last: split[0], first: split[split.length-1]};
-    //     } else {
-    //         // assume First Second Last form
-    //         var split = s.split(" ");
-    //         return {last: split[split.length-1], first: split[0]};
-    //     }
-    // }
     var parse_tree;
     
     function parse_bibtex_file(content) {
