@@ -682,7 +682,7 @@ with attractor targets to their calculated target positions.
       force_link.exit().remove();
 
       force_node = node_container.selectAll(".node")
-          .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.citations});
+          .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.citations+d.balls});
       // .data(force.nodes());
       force_node
           .enter().append("g")
