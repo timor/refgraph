@@ -1303,3 +1303,6 @@ another.
 Can that be done still using the entry selection?
 ** TODO rename icon_size -> node_size
 ** TODO open pdf based on file property, not on inferred key value
+** TODO interpret bibtex types, assign icons, warn when required fields not present
+The idea is to catch probably unintended mistakes, but be robust for
+other kinds of non-well-defined fields
