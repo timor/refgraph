@@ -24,8 +24,7 @@
   
   .node_bg {
       fill: white;
-      /* stroke-width: 1px; */
-      /* stroke: black; */
+      stroke-width: 3px;
   }
   
   .node_bg_glow.paper {
@@ -33,20 +32,20 @@
       filter: url(#glow);
   }
   
-  circle.paper.read {
-      fill:green;
+  .node_bg.paper.read {
+      stroke:green;
   }
   
-  circle.paper.unread {
-      fill:red;
+  .node_bg.paper.unread {
+      stroke:red;
   }
   
-  circle.paper.started {
-      fill:orange;
+  .node_bg.paper.started {
+      stroke:orange;
   }
   
-  circle.paper.overview {
-      fill:yellow;
+  .node_bg.paper.overview {
+      stroke:yellow;
   }
   
   /* TBR */
@@ -357,19 +356,25 @@
         //     });
     
         // status circle
-        node.append("circle")
-            .attr("r", function(d) {return node_image_size(d) / 2})
-            .attr("class", function(d) {
-                var s = d.type;
-                if (d.type == "paper" && d.state) s = s + " " + d.state;
-                return s;
-            });
+        // node.append("circle")
+        //     .attr("r", function(d) {return node_image_size(d) / 2})
+        //     .attr("class", function(d) {
+        //         var s = d.type;
+        //         if (d.type == "paper" && d.state) s = s + " " + d.state;
+        //         return s;
+        //     })
+        //     .attr("vector-effect", "non-scaling-stroke");
     
     
-        // white background circle
+        // white background circle with colored stroke
         node.append("circle")
             .attr("r", function(d) {return node_image_size(d) / 2.2})
-            .attr("class", "node_bg");
+            .attr("class", function(d) {
+                var s = `node_bg ${d.type}`;
+                if (d.state) s = s + " " + d.state;
+                return s;
+            })
+        ;
     
         //jdenticon for partially read papers
         node.filter(function(n) { return (n.state && n.state != "unread")})
