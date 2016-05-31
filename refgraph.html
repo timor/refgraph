@@ -143,7 +143,7 @@
             x = d3.event.clientX;
             y = d3.event.clientY;
             tooltip_text
-                .text(`${d.display_title}(${d.bibtex.year})`)
+                .text(`${d.display_title}(${d.year})`)
                 .attr("visibility","visible")
                 .attr("x", x + 11)
                 .attr("y", y + 27);
@@ -300,7 +300,7 @@
         force_link.exit().remove();
     
         force_node = node_container.selectAll(".node")
-            .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.note});
+            .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.citations});
         // .data(force.nodes());
         force_node
             .enter().append("g")
@@ -498,8 +498,9 @@
             e.authors = as; //replace author list with a list of author objects
             e.type = "paper";
             e.name = e.key;
-            e.significance = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
+            e.citations = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
             e.display_title = e.bibtex.title.replace(/[{}]/, "");
+            e.year = parseInt(e.bibtex.year);
             e.authors.forEach(function(author) {
                 author.papers.push(e);
                 links.push({source: author, target: e});

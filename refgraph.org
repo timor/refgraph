@@ -317,7 +317,7 @@ author node.
           x = d3.event.clientX;
           y = d3.event.clientY;
           tooltip_text
-              .text(`${d.display_title}(${d.bibtex.year})`)
+              .text(`${d.display_title}(${d.year})`)
               .attr("visibility","visible")
               .attr("x", x + 11)
               .attr("y", y + 27);
@@ -680,7 +680,7 @@ with attractor targets to their calculated target positions.
       force_link.exit().remove();
 
       force_node = node_container.selectAll(".node")
-          .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.note});
+          .data(force.nodes(), function(d) {return d.name+d.state+d.bibtype+d.citations});
       // .data(force.nodes());
       force_node
           .enter().append("g")
@@ -1031,10 +1031,12 @@ to the entry itself for later use:
      `paper` and `author` are supported, and all these entries are set
      to `paper`
 - =name= :: display name of the paper
-- =significance= :: determines the size of the node.  Right now,
-     hardcoded to use the value of the field "note", because that is
-     where the zotero scholar citations plugin stores the information.
+- =citationse= :: number of times the paper has been cited.
+     Determines the size of the node.  Right now, hardcoded to use the
+     value of the field "note", because that is where the zotero
+     scholar citations plugin stores the information.
 - =display_title= :: de-BibTex'd title
+- =year= :: publication year, just interpret bibtex field as integer
 
 Iterating through all the nodes, link and node information is built,
 and returned in a result object.  =authors= and =papers= are global
@@ -1046,32 +1048,33 @@ objects, later becoming the paper nodes of the layout.
 
 #+NAME: analyze_bibtex_entries
 #+BEGIN_SRC js
-   var authors, papers;
+  var authors, papers;
 
-   function analyze_bibtex_entries(entries) {
-       authors = [];
-       papers = [];
-       var links = [];
-       entries.forEach(function(e) {
-           if (!e.bibtex.author) {
-               console.error(`BibTex entry ${e} has no author!`);
-               return;}
-           as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
-           e.authors = as; //replace author list with a list of author objects
-           e.type = "paper";
-           e.name = e.key;
-           e.significance = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
-           e.display_title = e.bibtex.title.replace(/[{}]/, "");
-           e.authors.forEach(function(author) {
-               author.papers.push(e);
-               links.push({source: author, target: e});
-               // this one is deprecated once the old json import is phased out:
-               author.balls = (author.balls || 0) + 1;
-           });
-           papers.push(e);
-       });
-       return {nodes: papers.concat(authors), links: links};
-   }
+  function analyze_bibtex_entries(entries) {
+      authors = [];
+      papers = [];
+      var links = [];
+      entries.forEach(function(e) {
+          if (!e.bibtex.author) {
+              console.error(`BibTex entry ${e} has no author!`);
+              return;}
+          as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
+          e.authors = as; //replace author list with a list of author objects
+          e.type = "paper";
+          e.name = e.key;
+          e.citations = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
+          e.display_title = e.bibtex.title.replace(/[{}]/, "");
+          e.year = parseInt(e.bibtex.year);
+          e.authors.forEach(function(author) {
+              author.papers.push(e);
+              links.push({source: author, target: e});
+              // this one is deprecated once the old json import is phased out:
+              author.balls = (author.balls || 0) + 1;
+          });
+          papers.push(e);
+      });
+      return {nodes: papers.concat(authors), links: links};
+  }
 #+END_SRC
 Several helpers are used in above code.
 
