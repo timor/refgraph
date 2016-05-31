@@ -170,7 +170,7 @@
     };
     function change_mode(mode) {
         var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
-      
+    
         switch(mode) {
         case 'collaboration':
             kx = 0.15;
@@ -339,7 +339,7 @@
             .attr("xlink:href", "graph-assets/user.png")
             .attr("x", node_image_offset)
             .attr("y", node_image_offset)
-            .attr("width", node_image_size)        
+            .attr("width", node_image_size)
             .attr("height", node_image_size);
     }
     function draw_paper_node(node) {
@@ -347,7 +347,7 @@
         // node.append("rect")
         //     .attr("x", node_image_offset)
         //     .attr("y", node_image_offset)
-        //     .attr("width", node_image_size)        
+        //     .attr("width", node_image_size)
         //     .attr("height", node_image_size)
         //     .attr("class", function(d) {
         //         var s= "node_bg_glow " + d.type;
@@ -385,7 +385,7 @@
             .attr("data-jdenticon-hash", function(d) { return md5(d.name)})
             .attr("transform", function(d) { return "scale(" + node_significance(d) * (icon_size / jdenticon_size)  + ")"; });
     
-        //type symbols 
+        //type symbols
         node.append("image")
             .attr("xlink:href", "graph-assets/note.svg")
             .attr("class", "pub_type")
