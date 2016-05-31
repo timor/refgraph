@@ -1198,13 +1198,21 @@ generate the parser:
 Now we need to generate the necessary node and link data from the
 parsed BibTex.  For debugging purposes, the parse tree is stored
 globally.
+
+If an exception is encountered during parsing, the parser error message is
+displayed in a message box.
 #+NAME: parse_bibtex_file
 #+BEGIN_SRC js
   var parse_tree;
 
   function parse_bibtex_file(content) {
-      parse_tree = bibtex_parser.parse(content);
-      return parse_tree;
+      try {
+          parse_tree = bibtex_parser.parse(content);
+          return parse_tree;
+      } catch (e) {
+          alert(`Line ${e.location.start.line}, Column ${e.location.start.column}: ${e.message}`);
+          throw(e);
+      }
   }
 #+END_SRC
 
