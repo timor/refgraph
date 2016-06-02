@@ -313,7 +313,7 @@
     
         force_node.exit().remove();
     
-        force.start();
+        force.start().alpha(1);
     }
     function draw_node(node) {
         node.filter(function(n) {return n.type == "author"})

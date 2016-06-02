@@ -698,7 +698,7 @@ with attractor targets to their calculated target positions.
 
       force_node.exit().remove();
 
-      force.start();
+      force.start().alpha(1);
   }
 #+END_SRC
 
