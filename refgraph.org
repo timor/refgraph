@@ -15,7 +15,7 @@
   2. Classification (WIP)
 
 * Usage
-Open =refgraph.html= (with Firefox).
+Open =index.html= (with Firefox).
 
 When the page loads, an example graph is displayed.  To display your
 own data, drag a file onto the canvas graph and drop it.
@@ -46,7 +46,7 @@ identicon generation.
 The [[Parser]] responsible for extracting the information from the BibTex
 files is generated using PEG.js.
 
-#+BEGIN_SRC html :tangle refgraph.html :noweb tangle
+#+BEGIN_SRC html :tangle index.html :noweb tangle
   <!DOCTYPE html>
   <meta charset="utf-8">
   <style>
