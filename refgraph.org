@@ -939,7 +939,8 @@ The controls are created using d3.js.
 
 **** Display of Publication Type Symbols
 The symbols used to display the type of publication tend to crowd the
-layout, that is why they can be switched on/off.
+layout, that is why they can be switched on/off. (functionality
+deactivated, useless right now)
 
 (Currently only one is used, and that one does not distinguish between
 types yet)
@@ -952,13 +953,13 @@ types yet)
   controls.append("div")
       .text("Drag'n'Drop your BibTeX file onto the graph to open.")
 
-  controls.append("label")
-      .text("Display Type of Publication");
+  // controls.append("label")
+  //     .text("Display Type of Publication");
 
-  controls.append("input")
-      .attr("type", "checkbox")
-      // .attr("name", "show_symbols")
-      .on("click", toggle_symbols);
+  // controls.append("input")
+  //     .attr("type", "checkbox")
+  //     // .attr("name", "show_symbols")
+  //     .on("click", toggle_symbols);
 
   function toggle_symbols() {
       if (this.checked)
