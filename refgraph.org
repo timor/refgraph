@@ -301,7 +301,7 @@ There is only one tooltip consisting of a rect and text which live in the top gr
 and are placed as needed.
 
 The content of the tool tip is dependent on whether it is a paper or
-author node.
+author node.  Currently, only author nodes have tooltips.
 
 #+BEGIN_SRC js
   var tooltip = svg.append("rect")
@@ -1046,7 +1046,6 @@ to the entry itself for later use:
 Iterating through all the nodes, link and node information is built,
 and returned in a result object.  =authors= and =papers= are global
 for debugging purposes.
-
 
 The entries that the parser returned are reused as paper
 objects, later becoming the paper nodes of the layout.
