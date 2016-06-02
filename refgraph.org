@@ -1177,7 +1177,7 @@ generate the parser:
 
   _ "whitespace" = [ \t\n\r]*
 
-  name = value:[a-zA-Z0-9_]+ { return value.join("").toLowerCase() }
+  name = value:[a-zA-Z0-9_-]+ { return value.join("").toLowerCase() }
   number = value:[0-9]+ { return parseInt(value.join(""),10) }
   month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
 
