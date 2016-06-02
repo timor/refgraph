@@ -32,6 +32,9 @@ Clicking an author will redirect to a Google Scholar search with that author.
 
 Only tested on Firefox.
 
+** Advanced
+If something unexpected happened during BibTeX file loading, a warning
+or error message is printed to the browser's console.
 * Implementation
 The application basically consists of one html file that includes the
 necessary CSS and Javascript.
@@ -1057,15 +1060,17 @@ objects, later becoming the paper nodes of the layout.
       papers = [];
       var links = [];
       entries.forEach(function(e) {
-          if (!e.bibtex.author) {
-              console.error(`BibTex entry ${e} has no author!`);
-              return;}
-          as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
+          if (!e.bibtex.author) { console.error(`BibTeX entry ${e.key} has no author!`); return;}
+          as = author_ws_cleanup(e.bibtex.author).split(" and ").map(normalize_author).map(find_author);
           e.authors = as; //replace author list with a list of author objects
           e.type = "paper";
           e.name = e.key;
           e.citations = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
-          e.display_title = e.bibtex.title.replace(/[{}]/, "");
+          if (!e.bibtex.title) {
+              console.warn(`BibTeX entry ${e.key} has no title, using key instead!`)
+              e.display_title = e.key;
+          } else
+              e.display_title = e.bibtex.title;
           e.year = parseInt(e.bibtex.year);
           e.authors.forEach(function(author) {
               author.papers.push(e);
@@ -1080,15 +1085,26 @@ objects, later becoming the paper nodes of the layout.
 #+END_SRC
 Several helpers are used in above code.
 
+=author_ws_cleanup= gets rid of leading and trailing white space of an
+author string, and replaces all sequences of tabs, spaces and newlines
+with just a single space.
+
+#+NAME: author_ws_cleanup
+#+BEGIN_SRC js
+  function author_ws_cleanup(a) {
+      return a.trim().replace(/\s+/g," ");
+  }
+#+END_SRC
+
 To see if a paper is attributed to a certain author, first the full
 author names are compared.  If that does not match, only the first
 letter of the first name is taken into account for the comparison.
-This caters to the fact that authors are sometimes given by full
-name, sometimes only by short name.  Note that this possibly in
+This caters to the fact that authors are sometimes given by full name,
+sometimes only by short name.  Note that this possibly results in
 mis-attributions in the graph, when authors with the same last name
 and the same first letter of the given name exist.
 
-In this case it would be advisable to change the BibTex source to
+In this case it would be advisable to change the BibTeX source to
 include the author's full name(s).
 
 Note that when adding an author to the list of known authors, the
@@ -1110,7 +1126,8 @@ attributed papers, though.
           // initialize author fields here
           a.papers = [];
           a.type = "author";
-          a.name = a.last + ", " + a.given; // display name
+          a.name = a.last;        // display name
+          if (a.given) a.name = a.name + ", " + a.given;
           authors.push(a);
           return a;
       }
@@ -1129,7 +1146,8 @@ unambiguous way.
       var c = s.split(", ");
       if (c.length == 1) {        // no commas?
           c = c[0].split(" ");    // split by spaces
-          return {given: c[0], last: c.slice(1).join(" ")};
+          var last = c.pop();
+          return {given: c.join(" "), last: last};
       } else
           return {given: c[c.length-1].split(" ")[0], last: c[0]};
   }

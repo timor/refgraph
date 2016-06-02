@@ -491,15 +491,17 @@
         papers = [];
         var links = [];
         entries.forEach(function(e) {
-            if (!e.bibtex.author) {
-                console.error(`BibTex entry ${e} has no author!`);
-                return;}
-            as = e.bibtex.author.split(" and ").map(normalize_author).map(find_author);
+            if (!e.bibtex.author) { console.error(`BibTeX entry ${e.key} has no author!`); return;}
+            as = author_ws_cleanup(e.bibtex.author).split(" and ").map(normalize_author).map(find_author);
             e.authors = as; //replace author list with a list of author objects
             e.type = "paper";
             e.name = e.key;
             e.citations = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
-            e.display_title = e.bibtex.title.replace(/[{}]/, "");
+            if (!e.bibtex.title) {
+                console.warn(`BibTeX entry ${e.key} has no title, using key instead!`)
+                e.display_title = e.key;
+            } else
+                e.display_title = e.bibtex.title;
             e.year = parseInt(e.bibtex.year);
             e.authors.forEach(function(author) {
                 author.papers.push(e);
@@ -510,6 +512,9 @@
             papers.push(e);
         });
         return {nodes: papers.concat(authors), links: links};
+    }
+    function author_ws_cleanup(a) {
+        return a.trim().replace(/\s+/g," ");
     }
     function find_author(a) {
         var found = authors.find(function(item) {
@@ -522,7 +527,8 @@
             // initialize author fields here
             a.papers = [];
             a.type = "author";
-            a.name = a.last + ", " + a.given; // display name
+            a.name = a.last;        // display name
+            if (a.given) a.name = a.name + ", " + a.given;
             authors.push(a);
             return a;
         }
@@ -531,7 +537,8 @@
         var c = s.split(", ");
         if (c.length == 1) {        // no commas?
             c = c[0].split(" ");    // split by spaces
-            return {given: c[0], last: c.slice(1).join(" ")};
+            var last = c.pop();
+            return {given: c.join(" "), last: last};
         } else
             return {given: c[c.length-1].split(" ")[0], last: c[0]};
     }
