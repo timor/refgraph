@@ -48,7 +48,10 @@ files is generated using PEG.js.
 
 #+BEGIN_SRC html :tangle index.html :noweb tangle
   <!DOCTYPE html>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <title>BibTeX Graph Visualization (with d3.js)</title>
+  </head>
   <style>
 
     <<css-definitions>>
