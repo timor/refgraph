@@ -502,6 +502,7 @@
             e.authors = as; //replace author list with a list of author objects
             e.type = "paper";
             e.name = e.key;
+            if (e.bibtex.state) e.state = e.bibtex.state.toLowerCase();
             e.citations = parseInt(e.bibtex.note) // this is hardcoded right now according to zotero citations plugin
             if (!e.bibtex.title) {
                 console.warn(`BibTeX entry ${e.key} has no title, using key instead!`)
