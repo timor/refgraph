@@ -1166,6 +1166,7 @@ Limitations:
  - no support for "@string" (if someone tells me how to handle state
    during parser execution, that would be quite easy to add)
  - when encountering variables, they are not substituted
+- only basic handling of umlauts and accents etc.
 
 This should not really matter, since the information in such fields is
 not displayed anyways (yet).
@@ -1176,15 +1177,30 @@ This expression is used to
 generate the parser:
 
 #+BEGIN_EXAMPLE text
+  {
+    var mod_name = {};
+    mod_name["'"] = "acute";
+    mod_name["\""] = "uml";
+    mod_name["`"] = "grave";
+    mod_name["^"] = "circ";
+    mod_name["~"] = "tilde";
+ 
+   function special2html(mod, char) {
+    return "&" + char + mod_name[mod] + ";";
+   }
+  }
+
   start = bibtex
 
   _ "whitespace" = [ \t\n\r]*
 
-  name = value:[a-zA-Z0-9_-]+ { return value.join("").toLowerCase() }
+  special_char = "\\" mod:("'" / "\"" / "`" / "^" / "~") char:("a"i / "e"i / "i"i / "o"i / "u"i) { return special2html(mod, char)}
+
+  name = value:(special_char / [a-zA-Z0-9_-])+ { return value.join("").toLowerCase() }
   number = value:[0-9]+ { return parseInt(value.join(""),10) }
   month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
 
-  non_brace = value: [^{}]+ { return value.join("") }
+  non_brace = value: (special_char / [^{}])+ { return value.join("") }
   non_quote_non_brace = value: [^{}"]+ { return value.join("") }
 
   braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
