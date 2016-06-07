@@ -85,12 +85,19 @@
       font: 12px sans-serif;
   }
   
-  .tooltip_bg{
+  .tooltip_bg {
       fill: white;
       stroke: black;
       stroke-width: 1;
       opacity: 0.85;
   }
+  .info_overlay {
+      background-color: white;
+      border: 1px solid black;
+      max-width: 400px;
+  }
+  
+  
 
 </style>
 <body>
@@ -132,50 +139,12 @@
     var container = svg.append("g").attr("id","interactivecontainer");
     var link_container = container.append("g");
     var node_container = container.append("g");
-    var tooltip = svg.append("rect")
-        .attr("class","tooltip_bg")
-        .attr("id","tooltip_bg")
-        .attr("visibility", "hidden")
-        .attr("rx", 4)
-        .attr("ry", 4)
-        .attr("height",16)
-        .attr("width",52);
-    
-    var tooltip_text = svg.append("text")
-        .attr("class","tooltip_text")
-        .attr("visibility", "hidden");
-    
-    function show_tooltip(d) {
-        if (d.type == "paper") {
-            x = d3.event.clientX;
-            y = d3.event.clientY;
-            tooltip_text
-                .text(`${d.display_title}(${d.year})`)
-                .attr("visibility","visible")
-                .attr("x", x + 11)
-                .attr("y", y + 27);
-            tooltip
-                .attr("visibility","visible")
-                .attr("x", x + 8)
-                .attr("y", y + 14)
-                .attr("width", tooltip_text.node().getComputedTextLength()+8);
-        }
-    }
-    
-    function hide_tooltip(d) {
-        tooltip.attr("visibility", "hidden")
-        tooltip_text.attr("visibility", "hidden")
-    }
     var defs = d3.select("svg").append("defs");
     var filter = defs.append("filter")
         .attr("id", "glow");
     filter.append("feGaussianBlur")
         .attr("stdDeviation", "3.5")
         .attr("result", "coloredBlur");
-    function redraw() {
-        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale +")");
-        // svg.attr("transform", "translate(" + d3.event.translate + ")");
-    };
     function change_mode(mode) {
         var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
     
@@ -312,8 +281,6 @@
         force_node
             .enter().append("g")
             .attr("class", "node")
-            .on("mouseover", show_tooltip)
-            .on("mouseout", hide_tooltip)
             .call(draw_node)
             .call(drag)
         ;
@@ -329,18 +296,6 @@
         node.filter(function(n) {return n.type == "paper"})
             .call(draw_paper_node);
     
-        node.append("g")
-            .append("a")
-            .attr("xlink:href",function(d) {
-                if (d.type == "author")
-                    return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name)
-                else
-                    return d.key+".pdf"})
-            .append("text")
-            .attr("dx", 12)
-            .attr("dy", 16)
-            .attr("text-anchor", "middle")
-            .text(function(d) { return d.name });
     }
     function draw_author_node(node) {
         node.append("image")
@@ -349,6 +304,16 @@
             .attr("y", node_image_offset)
             .attr("width", node_image_size)
             .attr("height", node_image_size);
+    
+            node.append("g")
+            .append("a")
+            .attr("xlink:href",function(d) {
+                return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name);})
+            .append("text")
+            .attr("dx", 12)
+            .attr("dy", 16)
+            .attr("text-anchor", "middle")
+            .text(function(d) { return d.name });
     }
     function draw_paper_node(node) {
         // glow
@@ -392,6 +357,22 @@
             .attr("height", function(d) {return node_image_size(d) / 2.5})
             .attr("visibility", "hidden");
     
+        node.append("g")
+            .on("dragstart", function(d) {
+                d3.event.sourceEvent.stopPropagation();
+                d3.event.sourceEvent.stopImmediatePropagation();
+                return false; })
+            .append("text")
+            .attr("dx", 12)
+            .attr("dy", 16)
+            .attr("text-anchor", "middle")
+            .text(function(d) { return d.name })
+            .on("click",show_info)
+        ;
+    
+    
+        node.on("mouseover", show_tooltip)
+            .on("mouseout", hide_tooltip);
     }
     function force_tick(e) {
         var kx = e.alpha * kx_mul;
@@ -437,6 +418,88 @@
             .attr("class", "pack")
             .style("text-anchor", "middle")
             .text(function(d) { return d.name.substring(0, d.r / 3); });
+    }
+    function redraw() {
+        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale +")");
+        // svg.attr("transform", "translate(" + d3.event.translate + ")");
+    };
+    var tooltip = svg.append("rect")
+        .attr("class","tooltip_bg")
+        .attr("id","tooltip_bg")
+        .attr("visibility", "hidden")
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("height",16)
+        .attr("width",52);
+    
+    var tooltip_text = svg.append("text")
+        .attr("class","tooltip_text")
+        .attr("visibility", "hidden");
+    
+    function show_tooltip(d) {
+        if (d.type == "paper") {
+            x = d3.event.clientX;
+            y = d3.event.clientY;
+            tooltip_text
+                .text(`${d.display_title}(${d.year})`)
+                .attr("visibility","visible")
+                .attr("x", x + 11)
+                .attr("y", y + 27);
+            tooltip
+                .attr("visibility","visible")
+                .attr("x", x + 8)
+                .attr("y", y + 14)
+                .attr("width", tooltip_text.node().getComputedTextLength()+8);
+        }
+    }
+    
+    function hide_tooltip(d) {
+        tooltip.attr("visibility", "hidden")
+        tooltip_text.attr("visibility", "hidden")
+    }
+    var info;
+    function remove_info() {
+        if (info) {
+            info.remove();
+            info = null;
+        }
+    }
+    function show_info(d) {
+        // in case info is still visible, remove
+        remove_info();
+      
+        info = d3.select("body")
+            .append("div")
+            .attr("class", "info_overlay")
+            .style("position", "absolute")
+            .style("left", `${d3.event.clientX}px`)
+            .style("top", `${d3.event.clientY}px`)
+        ;
+    
+        var render_field = {};
+    
+        // just render field content into simple span
+        function simple_span(content) {
+            return function(elt) { elt.append("span").text(`${content}`)}};
+    
+        var entries = [ {name: "Title", render: simple_span(d.bibtex.title)},
+                        {name: "Abstract", render: function(elt) {elt.append("p").text(d.bibtex.abstract); }},
+                        {name: "Year", render: simple_span(d.year)}];
+        entries.forEach(function(e) {
+            var line = info.append("div")
+                .text(e.name+": ");
+            e.render(line);});
+    
+        info.append("div").append("a")
+            .attr("class", "link_close")
+            .attr("href","javascript:remove_info()")
+            .text("close");
+    
+    }
+    var prepare_info = false;
+    
+    function prepare_show_info() {
+        prepare_info = true;
     }
     var controls = d3.select("#footer")
         .append("div");

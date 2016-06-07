@@ -213,6 +213,8 @@ are not shown.
 
 *** Tooltip
 The tooltip is styled here.
+
+(old)
 - =.tooltip_text= :: text of tooltips
 - =.tooltip_bg= :: background (svg rect) of tooltips
 
@@ -221,12 +223,24 @@ The tooltip is styled here.
       font: 12px sans-serif;
   }
 
-  .tooltip_bg{
+  .tooltip_bg {
       fill: white;
       stroke: black;
       stroke-width: 1;
       opacity: 0.85;
   }
+#+END_SRC
+
+(new)
+
+#+BEGIN_SRC css
+  .info_overlay {
+      background-color: white;
+      border: 1px solid black;
+      max-width: 400px;
+  }
+
+
 #+END_SRC
 ** Code
 :PROPERTIES:
@@ -310,58 +324,7 @@ created in:
   var node_container = container.append("g");
 #+END_SRC
 
-**** Tooltips
-
-Tooltips appear when hovering over papers, showing the full title.
-
-There is only one tooltip consisting of a rect and text which live in the top group,
-and are placed as needed.
-
-The content of the tool tip is dependent on whether it is a paper or
-author node.  Currently, only author nodes have tooltips.
-
-#+BEGIN_SRC js
-  var tooltip = svg.append("rect")
-      .attr("class","tooltip_bg")
-      .attr("id","tooltip_bg")
-      .attr("visibility", "hidden")
-      .attr("rx", 4)
-      .attr("ry", 4)
-      .attr("height",16)
-      .attr("width",52);
-
-  var tooltip_text = svg.append("text")
-      .attr("class","tooltip_text")
-      .attr("visibility", "hidden");
-
-  function show_tooltip(d) {
-      if (d.type == "paper") {
-          x = d3.event.clientX;
-          y = d3.event.clientY;
-          tooltip_text
-              .text(`${d.display_title}(${d.year})`)
-              .attr("visibility","visible")
-              .attr("x", x + 11)
-              .attr("y", y + 27);
-          tooltip
-              .attr("visibility","visible")
-              .attr("x", x + 8)
-              .attr("y", y + 14)
-              .attr("width", tooltip_text.node().getComputedTextLength()+8);
-      }
-  }
-
-  function hide_tooltip(d) {
-      tooltip.attr("visibility", "hidden")
-      tooltip_text.attr("visibility", "hidden")
-  }
-#+END_SRC
-
-The =show_tooltip= and =hide_tooltip= functions are later used as
-onMouseover and onMouseout handlers when the actual nodes are created
-(TODO: link)
-
-**** Filter for Node Background<<glow-filter>>
+**** Filter for Node Background (unused) <<glow-filter>>
 The blur effect of the node background is created here.  The defs node
 is attached directly to the =svg= DOM node.
 
@@ -373,18 +336,6 @@ is attached directly to the =svg= DOM node.
       .attr("stdDeviation", "3.5")
       .attr("result", "coloredBlur");
 #+END_SRC
-*** Zooming
-Zooming is provided as d3.js-provided behavior, with the following
-being the zoom event handler.
-
-#+NAME: redraw
-#+BEGIN_SRC js
-  function redraw() {
-      container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale +")");
-      // svg.attr("transform", "translate(" + d3.event.translate + ")");
-  };
-#+END_SRC
-
 *** View Modes
 (This section will change soon, since layout modes will be implemented
 differently)
@@ -707,8 +658,6 @@ with attractor targets to their calculated target positions.
       force_node
           .enter().append("g")
           .attr("class", "node")
-          .on("mouseover", show_tooltip)
-          .on("mouseout", hide_tooltip)
           .call(draw_node)
           .call(drag)
       ;
@@ -731,18 +680,6 @@ node element itself is delegated into =draw_node=
       node.filter(function(n) {return n.type == "paper"})
           .call(draw_paper_node);
 
-      node.append("g")
-          .append("a")
-          .attr("xlink:href",function(d) {
-              if (d.type == "author")
-                  return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name)
-              else
-                  return d.key+".pdf"})
-          .append("text")
-          .attr("dx", 12)
-          .attr("dy", 16)
-          .attr("text-anchor", "middle")
-          .text(function(d) { return d.name });
   }
 #+END_SRC
 ****** Author Nodes
@@ -758,6 +695,16 @@ Author nodes are represented by a generic image.
           .attr("y", node_image_offset)
           .attr("width", node_image_size)
           .attr("height", node_image_size);
+
+          node.append("g")
+          .append("a")
+          .attr("xlink:href",function(d) {
+              return "http://scholar.google.com/scholar?q=" + encodeURIComponent(d.name);})
+          .append("text")
+          .attr("dx", 12)
+          .attr("dy", 16)
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.name });
   }
 #+END_SRC
 ****** Paper Nodes
@@ -784,7 +731,8 @@ distinguish visually.
 A small circle should surround the icon which represents the personal
 reading state.
 
-Clicking the label will open a pdf.
+Hovering over the node will show a small [[tooltip][tooltip]].
+Clicking the node will open an [[info_popup][information popup]].
 
 #+NAME: draw_paper_node
 #+BEGIN_SRC js
@@ -830,6 +778,18 @@ Clicking the label will open a pdf.
           .attr("height", function(d) {return node_image_size(d) / 2.5})
           .attr("visibility", "hidden");
 
+      node.append("g")
+          .append("text")
+          .attr("dx", 12)
+          .attr("dy", 16)
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.name })
+          .on("click",show_info)
+      ;
+
+
+      node.on("mouseover", show_tooltip)
+          .on("mouseout", hide_tooltip);
   }
 #+END_SRC
 
@@ -948,13 +908,168 @@ long.
       .text(function(d) { return d.name.substring(0, d.r / 3); });
 #+END_SRC
 
-*** Controls
+*** UI
+**** Zooming
+Zooming is provided as d3.js-provided behavior, with the following
+being the zoom event handler.
+
+#+NAME: redraw
+#+BEGIN_SRC js
+  function redraw() {
+      container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale +")");
+      // svg.attr("transform", "translate(" + d3.event.translate + ")");
+  };
+#+END_SRC
+
+
+**** Tooltips(old)<<tooltip>>
+
+Tooltips appear when hovering over papers, showing the full title.
+
+There is only one tooltip consisting of a rect and text which live in the top group,
+and are placed as needed.
+
+The content of the tool tip is dependent on whether it is a paper or
+author node.  Currently, only author nodes have tooltips.
+
+#+BEGIN_SRC js
+  var tooltip = svg.append("rect")
+      .attr("class","tooltip_bg")
+      .attr("id","tooltip_bg")
+      .attr("visibility", "hidden")
+      .attr("rx", 4)
+      .attr("ry", 4)
+      .attr("height",16)
+      .attr("width",52);
+
+  var tooltip_text = svg.append("text")
+      .attr("class","tooltip_text")
+      .attr("visibility", "hidden");
+
+  function show_tooltip(d) {
+      if (d.type == "paper") {
+          x = d3.event.clientX;
+          y = d3.event.clientY;
+          tooltip_text
+              .text(`${d.display_title}(${d.year})`)
+              .attr("visibility","visible")
+              .attr("x", x + 11)
+              .attr("y", y + 27);
+          tooltip
+              .attr("visibility","visible")
+              .attr("x", x + 8)
+              .attr("y", y + 14)
+              .attr("width", tooltip_text.node().getComputedTextLength()+8);
+      }
+  }
+
+  function hide_tooltip(d) {
+      tooltip.attr("visibility", "hidden")
+      tooltip_text.attr("visibility", "hidden")
+  }
+#+END_SRC
+
+The =show_tooltip= and =hide_tooltip= functions are later used as
+onMouseover and onMouseout handlers when the actual nodes are created
+(TODO: link)
+
+**** Info Popup<<info_popup>>
+Tooltips should appear when node is clicked, and display an
+informational panel with a predefined set of "interpretable" fields.
+This way, additional information about a publication is shown, like
+comments, reviews, abstracts or relevant local file links and DOI's,
+for example.
+
+#+BEGIN_SRC js
+  var info;
+#+END_SRC
+
+Idea: populate a div with the relevant information, and attach it to
+the DOM at the absolute position of the node when clicked.  When
+another node is clicked, the old display should be closed (maybe it
+makes actually sense to leave it open, but at the moment there is no
+way to position the divs in a clever way)
+
+#+NAME: remove_info
+#+BEGIN_SRC js
+  function remove_info() {
+      if (info) {
+          info.remove();
+          info = null;
+      }
+  }
+#+END_SRC
+
+The div is created for a specific data element (paper object).  All
+fields that are supported are tested(TOD) and then rendered into a
+div, which is displayed at the mouse coordinates.  This assumes
+=show_info= being called as/from a d3.js event handler.
+
+#+NAME: show_info
+#+BEGIN_SRC js
+  function show_info(d) {
+      // in case info is still visible, remove
+      remove_info();
+    
+      info = d3.select("body")
+          .append("div")
+          .attr("class", "info_overlay")
+          .style("position", "absolute")
+          .style("left", `${d3.event.clientX}px`)
+          .style("top", `${d3.event.clientY}px`)
+      ;
+
+      var render_field = {};
+
+      // just render field content into simple span
+      function simple_span(content) {
+          return function(elt) { elt.append("span").text(`${content}`)}};
+
+      var entries = [ {name: "Title", render: simple_span(d.bibtex.title)},
+                      {name: "Abstract", render: function(elt) {elt.append("p").text(d.bibtex.abstract); }},
+                      {name: "Year", render: simple_span(d.year)}];
+      entries.forEach(function(e) {
+          var line = info.append("div")
+              .text(e.name+": ");
+          e.render(line);});
+
+      info.append("div").append("a")
+          .attr("class", "link_close")
+          .attr("href","javascript:remove_info()")
+          .text("close");
+
+  }
+#+END_SRC
+
+There is one problem with simply assigning this to the onclick event
+handler of a node.  Since d3.js drag behaviour is used, the browser
+will record a drag as a click, since both the initial mouse-down and
+the final mouse-up events originate from within the node.  To
+circumvent that, mouse-down sets a "preparatory" state, while dragging
+cancels that.  Only if that state persists without having been
+"dragged" away, a mouse-out will trigger opening the popup.
+
+Maybe it would be better to provide a special field (like the label)
+to trigger the informational display instead?
+
+#+NAME: prepare_show_info
+#+BEGIN_SRC js
+  var prepare_info = false;
+
+  function prepare_show_info() {
+      prepare_info = true;
+  }
+#+END_SRC
+
+j
+
+**** Controls
 At the bottom of the screen, there is space for some user interface
 controls.  This allows live customization of the layout.
 
 The controls are created using d3.js.
 
-**** Display of Publication Type Symbols
+***** Display of Publication Type Symbols
 The symbols used to display the type of publication tend to crowd the
 layout, that is why they can be switched on/off. (functionality
 deactivated, useless right now)
@@ -1127,8 +1242,8 @@ include the author's full name(s).
 
 Note that when adding an author to the list of known authors, the
 object previously returned by =normalize_author= is re-used and
-initialized with more properties.  This is currently only the list of
-attributed papers, though.
+initialized with more properties.  This is currently the list of
+attributed papers and a =name= field for display.
 
 
 #+NAME: find_author
@@ -1328,6 +1443,7 @@ position instead.  This way, no actual simulation has to be done when
 switching modes
 ** TODO rename category -> classification
 ** TODO remove hardcoding 2016, substitute for current year
+or bettery yet: scan for the latest publication and use that as a reference
 ** TODO switch to radial cluster for classification layout
 ** TODO fix initial positioning in [[force-init]]
 Problem: initial positioning causes very unstable initial layouting.
@@ -1338,7 +1454,9 @@ another.
 
 Can that be done still using the entry selection?
 ** TODO rename icon_size -> node_size
-** TODO open pdf based on file property, not on inferred key value
+** TODO display bibtex-information on mouse-click
+*** TODO open pdf based on file property, not on inferred key value
+** TODO fade out non-direct neighbors on mouse-over
 ** TODO interpret bibtex types, assign icons, warn when required fields not present
 The idea is to catch probably unintended mistakes, but be robust for
 other kinds of non-well-defined fields
