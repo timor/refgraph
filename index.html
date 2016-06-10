@@ -65,6 +65,13 @@
       stroke: #ccc;
   }
   
+  .faded {
+      opacity: 0.5;
+  }
+  
+  .node {
+      transition: opacity 0.2s;
+  }
   circle.pack {
       fill: rgb(31,119,180);
       fill-opacity: .25;
@@ -290,6 +297,19 @@
         // force.d3_layout_forceDragend(d);
         d.fixed &= ~6; // unset bits 2 and 3
     }
+    function highlight_nodes(highlight_p) {
+        return function(d0) {
+            force_node
+                .filter(function(d) {
+                    var match =
+                        ( d == d0) ||
+                        ((d0.type == "paper") && d0.authors.includes(d)) ||
+                        ((d0.type == "author") && d0.papers.includes(d));
+                    return !match;
+                })
+                .classed("faded", highlight_p);
+        }
+    }
     function update_force_layout() {
         force.stop();
     
@@ -312,8 +332,10 @@
         force_node
             .enter().append("g")
             .attr("class", "node")
-            .on("mouseover", show_tooltip)
-            .on("mouseout", hide_tooltip)
+            .on("mouseover.tool_tip", show_tooltip)
+            .on("mouseout.tool_tip", hide_tooltip)
+            .on("mouseover.highlight", highlight_nodes(true))
+            .on("mouseout.hightlight", highlight_nodes(false))
             .call(draw_node)
             .call(drag)
         ;

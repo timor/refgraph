@@ -180,6 +180,19 @@ colors are chosen.  The background of author nodes is hidden
 
 #+END_SRC
 
+Elements that are faded out in [[id:3bfce9ed-52e5-4fb7-8b8c-7cf798dbef31][Highlight on Hover]].  To make it a bit
+smoother, add a transition effect for all nodes when changing opacity.
+
+#+BEGIN_SRC css
+  .faded {
+      opacity: 0.5;
+  }
+
+  .node {
+      transition: opacity 0.2s;
+  }
+#+END_SRC
+
 *** Circle-Packing CSS Classes
 
 Specifically for the circle packing layout, which is currently used
@@ -664,6 +677,36 @@ on undocumented internals (the meaning of the individual bits of the
       d.fixed &= ~6; // unset bits 2 and 3
   }
 #+END_SRC
+***** Highlight on Hover
+:PROPERTIES:
+:ID:       3bfce9ed-52e5-4fb7-8b8c-7cf798dbef31
+:END:
+When hovering over a node, all non-connected nodes should be faded out
+to better highlight the currently selected node.
+
+The following function is for =mouseover= and =mouseout= handlers,
+respectively, and change the class of the non-highlighted mode to be
+faded out.
+
+The argument determines wether to return a fade-in or a fade-out handler.
+
+#+NAME: highlight_nodes
+#+BEGIN_SRC js
+  function highlight_nodes(highlight_p) {
+      return function(d0) {
+          force_node
+              .filter(function(d) {
+                  var match =
+                      ( d == d0) ||
+                      ((d0.type == "paper") && d0.authors.includes(d)) ||
+                      ((d0.type == "author") && d0.papers.includes(d));
+                  return !match;
+              })
+              .classed("faded", highlight_p);
+      }
+  }
+#+END_SRC
+
 
 ***** Force Layout Creation <<force-init>>
 Here is the force layout initialization.  It must be called after data is
@@ -707,8 +750,10 @@ with attractor targets to their calculated target positions.
       force_node
           .enter().append("g")
           .attr("class", "node")
-          .on("mouseover", show_tooltip)
-          .on("mouseout", hide_tooltip)
+          .on("mouseover.tool_tip", show_tooltip)
+          .on("mouseout.tool_tip", hide_tooltip)
+          .on("mouseover.highlight", highlight_nodes(true))
+          .on("mouseout.hightlight", highlight_nodes(false))
           .call(draw_node)
           .call(drag)
       ;
