@@ -1,7 +1,7 @@
 #+TITLE: Reference Graph Visualization
 #+AUTHOR: timor
 
-#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:nil arch:headline
+#+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil ^:nil arch:headline
 #+OPTIONS: author:t c:nil creator:nil d:(not "LOGBOOK") date:t e:t
 #+OPTIONS: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t
 #+OPTIONS: tags:t tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
@@ -190,6 +190,7 @@ nodes are chosen.
 
 Elements that are faded out in [[id:3bfce9ed-52e5-4fb7-8b8c-7cf798dbef31][Highlight on Hover]].  To make it a bit
 smoother, add a transition effect for all nodes when changing opacity.
+Note that this does not seem to work in Chrome.
 
 #+BEGIN_SRC css
   .faded {
@@ -252,14 +253,15 @@ For the actual data imported from BibTeX files:
 Other globals are defined before their respective usage.
 
 *** SVG DOM Structure
-generally, d3.js functionality is used to generate the DOM structure.
+In general, d3.js functionality is used to generate the DOM elements.
 
 The svg element should fill the whole width of the browser page, but
 leave some space below for controls.  Also, pointer events have to be
-caught explicitly.  These are actually later caught by the big background
-rectangle (and I suppose bubbled to the svg element) to implement zooming and panning.
+caught explicitly.  These are actually later caught by the big
+background rectangle (and I suppose bubbled to the svg element) to
+implement zooming and panning.
 
-Note that the variable =svg= actually contains a =g= (group).
+Note that the variable =svg= actually contains a =g= element (group).
 
 #+BEGIN_SRC js
   var svg = d3.select("svg")
@@ -292,7 +294,8 @@ When updating the layout later (e.g. by loading new data), new nodes
 and links will be created.  If they are simply appended, links will
 end up on top of nodes.  This clutters the view.  To prevent that,
 links and nodes get their own respective sub-groups that they are
-created in:
+created in.  The order is important: the container for the nodes ends
+up on top.
 
 #+BEGIN_SRC js
   var link_container = container.append("g");
@@ -309,8 +312,6 @@ Tooltips appear when hovering over papers, showing the full title.
 There is only one tooltip consisting of a rect and text which live in the top group,
 and are placed as needed.
 
-The content of the tool tip is dependent on whether it is a paper or
-author node.  Currently, only author nodes have tooltips.
 
 #+BEGIN_SRC js
   var tooltip = svg.append("rect")
@@ -845,7 +846,9 @@ canvas.  This causes the file to be parsed as BibTex File (see
 change happened, the layout is updated.
 
 [[https://github.com/d3/d3/wiki/Selections#on][API reference for ".on()"]]
+
 [[https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/][Information about FileReader with Drag'n'Drop]]
+
 [[https://www.nczonline.net/blog/2012/05/15/working-with-files-in-javascript-part-2/][Information about reading file contents]]
 
 **** Read Files on Drag'n'Drop

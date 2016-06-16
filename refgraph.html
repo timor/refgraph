@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-06-16 Do 15:54 -->
+<!-- 2016-06-16 Do 15:56 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Reference Graph Visualization</title>
@@ -171,11 +171,30 @@ for the JavaScript code in this tag.
 <li><a href="#orgheadline32">3.2. Code</a>
 <ul>
 <li><a href="#orgheadline10">3.2.1. Global Variables</a></li>
-<li><a href="#orgheadline12">3.2.2. SVG DOM Structure</a></li>
+<li><a href="#orgheadline12">3.2.2. SVG DOM Structure</a>
+<ul>
+<li><a href="#orgheadline7">3.2.2.1. Tooltips</a></li>
+<li><a href="#orgheadline11">3.2.2.2. Filter for Node Background</a></li>
+</ul>
+</li>
 <li><a href="#orgheadline13">3.2.3. Zooming</a></li>
-<li><a href="#orgheadline26">3.2.4. Used Layouts</a></li>
-<li><a href="#orgheadline22">3.2.5. Controls</a></li>
-<li><a href="#orgheadline30">3.2.6. BibTex File Loading</a></li>
+<li><a href="#orgheadline26">3.2.4. Used Layouts</a>
+<ul>
+<li><a href="#orgheadline25">3.2.4.1. Force Layout</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline22">3.2.5. Controls</a>
+<ul>
+<li><a href="#orgheadline27">3.2.5.1. Display of Publication Type Symbols</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline30">3.2.6. BibTex File Loading</a>
+<ul>
+<li><a href="#orgheadline28">3.2.6.1. Read Files on Drag'n'Drop</a></li>
+<li><a href="#orgheadline29">3.2.6.2. Analyze BibTex file</a></li>
+<li><a href="#orgheadline4">3.2.6.3. BibTex Parser</a></li>
+</ul>
+</li>
 <li><a href="#orgheadline31">3.2.7. Application Initialization/Data Loading</a></li>
 </ul>
 </li>
@@ -438,6 +457,7 @@ nodes are chosen.
 <p>
 Elements that are faded out in <a href="#orgheadline5">Highlight on Hover</a>.  To make it a bit
 smoother, add a transition effect for all nodes when changing opacity.
+Note that this does not seem to work in Chrome.
 </p>
 
 <div class="org-src-container">
@@ -530,18 +550,19 @@ Other globals are defined before their respective usage.
 <h4 id="orgheadline12"><span class="section-number-4">3.2.2</span> SVG DOM Structure</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
-generally, d3.js functionality is used to generate the DOM structure.
+In general, d3.js functionality is used to generate the DOM elements.
 </p>
 
 <p>
 The svg element should fill the whole width of the browser page, but
 leave some space below for controls.  Also, pointer events have to be
-caught explicitly.  These are actually later caught by the big background
-rectangle (and I suppose bubbled to the svg element) to implement zooming and panning.
+caught explicitly.  These are actually later caught by the big
+background rectangle (and I suppose bubbled to the svg element) to
+implement zooming and panning.
 </p>
 
 <p>
-Note that the variable <code>svg</code> actually contains a <code>g</code> (group).
+Note that the variable <code>svg</code> actually contains a <code>g</code> element (group).
 </p>
 
 <div class="org-src-container">
@@ -586,7 +607,8 @@ When updating the layout later (e.g. by loading new data), new nodes
 and links will be created.  If they are simply appended, links will
 end up on top of nodes.  This clutters the view.  To prevent that,
 links and nodes get their own respective sub-groups that they are
-created in:
+created in.  The order is important: the container for the nodes ends
+up on top.
 </p>
 
 <div class="org-src-container">
@@ -597,7 +619,9 @@ created in:
 </div>
 </div>
 
-<ol class="org-ol"><li><a id="orgheadline7"></a><a id="ID-0ef15554-812c-48c8-924b-87567792a082"></a>Tooltips<br  /><div class="outline-text-5" id="text-3-2-2-1">
+<div id="outline-container-orgheadline7" class="outline-5">
+<h5 id="orgheadline7"><a id="ID-0ef15554-812c-48c8-924b-87567792a082"></a><span class="section-number-5">3.2.2.1</span> Tooltips</h5>
+<div class="outline-text-5" id="text-3-2-2-1">
 <p>
 Tooltips appear when hovering over papers, showing the full title.
 </p>
@@ -607,10 +631,6 @@ There is only one tooltip consisting of a rect and text which live in the top gr
 and are placed as needed.
 </p>
 
-<p>
-The content of the tool tip is dependent on whether it is a paper or
-author node.  Currently, only author nodes have tooltips.
-</p>
 
 <div class="org-src-container">
 
@@ -656,9 +676,12 @@ The <code>show_tooltip</code> and <code>hide_tooltip</code> functions are later 
 onMouseover and onMouseout handlers when the actual nodes are created
 (TODO: link)
 </p>
-</div></li>
+</div>
+</div>
 
-<li><a id="orgheadline11"></a>Filter for Node Background<a id="orgtarget1"></a><br  /><div class="outline-text-5" id="text-3-2-2-2">
+<div id="outline-container-orgheadline11" class="outline-5">
+<h5 id="orgheadline11"><span class="section-number-5">3.2.2.2</span> Filter for Node Background<a id="orgtarget1"></a></h5>
+<div class="outline-text-5" id="text-3-2-2-2">
 <p>
 The blur effect of the node background is created here.  The defs node
 is attached directly to the <code>svg</code> DOM node.
@@ -674,7 +697,8 @@ filter.append(<span style="color: #8b2252;">"feGaussianBlur"</span>)
     .attr(<span style="color: #8b2252;">"result"</span>, <span style="color: #8b2252;">"coloredBlur"</span>);
 </pre>
 </div>
-</div></li></ol>
+</div>
+</div>
 </div>
 <div id="outline-container-orgheadline13" class="outline-4">
 <h4 id="orgheadline13"><span class="section-number-4">3.2.3</span> Zooming</h4>
@@ -714,7 +738,9 @@ the general update pattern suggested <a href="https://bl.ocks.org/mbostock/38082
 </pre>
 </div>
 </div>
-<ol class="org-ol"><li><a id="orgheadline25"></a>Force Layout<br  /><div class="outline-text-5" id="text-3-2-4-1">
+<div id="outline-container-orgheadline25" class="outline-5">
+<h5 id="orgheadline25"><span class="section-number-5">3.2.4.1</span> Force Layout</h5>
+<div class="outline-text-5" id="text-3-2-4-1">
 <p>
 The force layout is used to display the collaboration graph.
 All the global properties are set when creating the initial <code>force</code>
@@ -1197,7 +1223,8 @@ links.
 }
 </pre>
 </div>
-</div></li></ol></li></ol>
+</div></li></ol>
+</div>
 </div>
 <div id="outline-container-orgheadline22" class="outline-4">
 <h4 id="orgheadline22"><span class="section-number-4">3.2.5</span> Controls</h4>
@@ -1212,7 +1239,9 @@ The controls are created using d3.js.
 </p>
 </div>
 
-<ol class="org-ol"><li><a id="orgheadline27"></a>Display of Publication Type Symbols<br  /><div class="outline-text-5" id="text-3-2-5-1">
+<div id="outline-container-orgheadline27" class="outline-5">
+<h5 id="orgheadline27"><span class="section-number-5">3.2.5.1</span> Display of Publication Type Symbols</h5>
+<div class="outline-text-5" id="text-3-2-5-1">
 <p>
 The symbols used to display the type of publication tend to crowd the
 layout, that is why they can be switched on/off. (functionality
@@ -1245,7 +1274,8 @@ types yet)
 }
 </pre>
 </div>
-</div></li></ol>
+</div>
+</div>
 </div>
 
 <div id="outline-container-orgheadline30" class="outline-4">
@@ -1260,12 +1290,20 @@ change happened, the layout is updated.
 
 <p>
 <a href="https://github.com/d3/d3/wiki/Selections#on">API reference for ".on()"</a>
+</p>
+
+<p>
 <a href="https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/">Information about FileReader with Drag'n'Drop</a>
+</p>
+
+<p>
 <a href="https://www.nczonline.net/blog/2012/05/15/working-with-files-in-javascript-part-2/">Information about reading file contents</a>
 </p>
 </div>
 
-<ol class="org-ol"><li><a id="orgheadline28"></a>Read Files on Drag'n'Drop<br  /><div class="outline-text-5" id="text-3-2-6-1">
+<div id="outline-container-orgheadline28" class="outline-5">
+<h5 id="orgheadline28"><span class="section-number-5">3.2.6.1</span> Read Files on Drag'n'Drop</h5>
+<div class="outline-text-5" id="text-3-2-6-1">
 <p>
 The drop handler triggers reading the supplied file.  This (not
 visible here) in turn triggers processing the file, as described in
@@ -1336,9 +1374,12 @@ trigger update of the graph.  It is taking the bibtex file as text as input.
 }
 </pre>
 </div>
-</div></li>
+</div>
+</div>
 
-<li><a id="orgheadline29"></a>Analyze BibTex file<br  /><div class="outline-text-5" id="text-3-2-6-2">
+<div id="outline-container-orgheadline29" class="outline-5">
+<h5 id="orgheadline29"><span class="section-number-5">3.2.6.2</span> Analyze BibTex file</h5>
+<div class="outline-text-5" id="text-3-2-6-2">
 <p>
 The main information extraction happens here.  Each entry corresponds
 to a paper.  The original bibtex fields are in the `bibtex` member of
@@ -1490,9 +1531,12 @@ unambiguous way.
 }
 </pre>
 </div>
-</div></li>
+</div>
+</div>
 
-<li><a id="orgheadline4"></a><a id="ID-034811f6-5a5d-4c94-9bd2-7afa932aafe0"></a>BibTex Parser<br  /><div class="outline-text-5" id="text-3-2-6-3">
+<div id="outline-container-orgheadline4" class="outline-5">
+<h5 id="orgheadline4"><a id="ID-034811f6-5a5d-4c94-9bd2-7afa932aafe0"></a><span class="section-number-5">3.2.6.3</span> BibTex Parser</h5>
+<div class="outline-text-5" id="text-3-2-6-3">
 <p>
 BibTex files are parsed using <a href="https://github.com/pegjs/pegjs">PEG.js</a>.
 </p>
@@ -1589,7 +1633,8 @@ displayed in a message box.
 }
 </pre>
 </div>
-</div></li></ol>
+</div>
+</div>
 </div>
 
 <div id="outline-container-orgheadline31" class="outline-4">
@@ -1697,7 +1742,7 @@ other kinds of non-well-defined fields
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: timor</p>
-<p class="date">Created: 2016-06-16 Do 15:54</p>
+<p class="date">Created: 2016-06-16 Do 15:56</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
