@@ -56,11 +56,6 @@
       stroke:yellow;
   }
   
-  /* TBR */
-  .node_bg_glow.author {
-      visibility: hidden;
-  }
-  
   .link {
       stroke: #ccc;
   }
@@ -72,22 +67,6 @@
   .node {
       transition: opacity 0.2s;
   }
-  circle.pack {
-      fill: rgb(31,119,180);
-      fill-opacity: .25;
-      stroke-width: 1px;
-  }
-  
-  .leaf {
-      visibility: hidden;
-  }
-  
-  text.pack {
-      font: 12px sans-serif;
-      stroke: #fcc;
-      fill: #fcc;
-  }
-  
   .tooltip_text {
       font: 12px sans-serif;
   }
@@ -183,52 +162,7 @@
         container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale +")");
         // svg.attr("transform", "translate(" + d3.event.translate + ")");
     };
-    function change_mode(mode) {
-        var pack_opacity, new_alpha, collab_opacity, link_strength, node_charge_mul;
-    
-        switch(mode) {
-        case 'collaboration':
-            kx = 0.15;
-            ky = 0.4;
-            node_charge_mul = 1;
-            new_alpha = 1;
-            pack_opacity = 0;
-            collab_opacity = 1;
-            link_strength = 0.5;
-            break;
-        case 'category':
-            kx = 1;
-            ky = 1;
-            node_charge_mul = 0;
-            new_alpha = 0.1;
-            pack_opacity = 1;
-            collab_opacity = 0;
-            link_strength = 0;
-            /* set the target coordinates for the papers*/
-            // nodes.forEach(function(node) {
-            //     set_category_paper_targets(node);
-            // });
-            break;
-        }
-        d3.select("#pack_svg").attr("opacity", pack_opacity);
-        link_container.selectAll(".link").attr("opacity", collab_opacity);
-        node_container.selectAll(".node").filter(function(d) {return d.type == "author"}).attr("opacity", collab_opacity);
-        /*force.charge(function(d) { return ((1-i) * node_charge(d))})*/
-    
-        force.charge(function(d) { return collab_charge(d) * node_charge_mul })
-            .linkStrength(link_strength)
-            .start()
-            .alpha(new_alpha);
-    }
-    function set_category_paper_targets(node) {
-        if (node.pack_node) {
-            node.x_target = node.pack_node.x;
-            node.y_target = node.pack_node.y;
-        }
-    }
     function update_layout() {
-    
-        // make_pack_layout();
     
         update_force_layout();
     
@@ -434,33 +368,6 @@
     
         force_node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
-    var pack = d3.layout.pack()
-        .size([width , width])
-        .value(function(d) { return 50; });
-    function make_pack_layout() {
-        pack_svg = container.append("g")
-            .attr("id", "pack_svg")
-            .attr("opacity",0);
-        var tnode = pack_svg.datum(tree).selectAll(".tnode")
-            .data(pack.nodes)
-            .enter().append("g")
-            .attr("class", function(d) { return d.children ? "tnode" : "leaf tnode"; })
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        
-        tnode.append("title")
-            .attr("class", "pack")
-            .text(function(d) {return d.name});
-        
-        tnode.append("circle")
-            .attr("class", "pack")
-            .attr("r", function(d) {return d.r});
-        tnode.filter(function(d) { return d.children; }).append("g")
-            .attr("transform", function(d) { return "translate(0," + (-d.r/10) + ")scale(" + Math.sqrt(d.r/50) + ")";})
-            .append("text")
-            .attr("class", "pack")
-            .style("text-anchor", "middle")
-            .text(function(d) { return d.name.substring(0, d.r / 3); });
-    }
     var controls = d3.select("#footer")
         .append("div");
     
@@ -590,18 +497,6 @@
         if (error) throw(error);
         load_bibtex(content);
     });
-    function connect_node(pnode) {
-        if (pnode.children) pnode.children.forEach(connect_node);
-        else {
-            var fnode = nodes.find(function(d) {
-                return d.name == pnode.name
-            });
-            if (fnode) {
-                pnode.force_node = fnode;
-                fnode.pack_node = pnode;
-            }
-        }
-    }
 
   </script>
 </body>
