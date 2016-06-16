@@ -246,6 +246,7 @@
         .gravity(0)
         .distance(50)
         .chargeDistance(700)
+        .charge(collab_charge)
         .friction(0.7)
         .size([width, height])
         .on("tick",force_tick);
@@ -493,9 +494,16 @@
         });
     var reader = new FileReader();
     reader.onload = function(event) {
-        var contents = event.target.result;
+        var content = event.target.result;
         console.log("File loaded");
-        var entries = parse_bibtex_file(contents);
+        load_bibtex(content);
+    };
+    
+    reader.onerror = function(event) {
+        console.error("Unable to read file (Code: " + event.target.error.code + ")");
+    };
+    function load_bibtex(content) {
+        var entries = parse_bibtex_file(content);
         var result = analyze_bibtex_entries(entries);
         nodes = result.nodes;
         links = result.links;
@@ -507,11 +515,7 @@
         });
     
         update_layout();
-    };
-    
-    reader.onerror = function(event) {
-        console.error("Unable to read file (Code: " + event.target.error.code + ")");
-    };
+    }
     var authors, papers;
     
     function analyze_bibtex_entries(entries) {
@@ -582,6 +586,10 @@
             throw(e);
         }
     }
+    d3.text("example.bib", function(error, content) {
+        if (error) throw(error);
+        load_bibtex(content);
+    });
     function connect_node(pnode) {
         if (pnode.children) pnode.children.forEach(connect_node);
         else {
@@ -594,29 +602,6 @@
             }
         }
     }
-    d3.json("graph.json", function(error, json) {
-        if (error) throw error;
-    
-        nodes = json.nodes;
-        links = json.links;
-        tree = json.tree;
-    
-        nodes.forEach(function(node) {
-            set_collab_paper_targets(node)  /* set the target coordinates for the papers */
-            if (node.x_target) node.x = node.x_target;
-            if (node.y_target) node.y = node.y_target;
-        });
-    
-    
-        connect_node(tree);
-    
-        update_layout();
-    
-        jdenticon.update(".jdenticon");
-    
-        change_mode('collaboration');
-    
-    });
 
   </script>
 </body>

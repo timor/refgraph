@@ -53,7 +53,7 @@ It depends on d3.js for the
 visualization, and on md5.js and a modified version of jdenticon for
 identicon generation.
 
-The [[Parser]] responsible for extracting the information from the BibTex
+The [[id:034811f6-5a5d-4c94-9bd2-7afa932aafe0][Parser]] responsible for extracting the information from the BibTex
 files is generated using PEG.js.
 
 #+BEGIN_SRC html :tangle index.html :noweb tangle
@@ -551,6 +551,7 @@ performance.  It seems because charges are quite high, friction was
       .gravity(0)
       .distance(50)
       .chargeDistance(700)
+      .charge(collab_charge)
       .friction(0.7)
       .size([width, height])
       .on("tick",force_tick);
@@ -710,7 +711,7 @@ The argument determines wether to return a fade-in or a fade-out handler.
 
 ***** Force Layout Creation <<force-init>>
 Here is the force layout initialization.  It must be called after data is
-available.  See [[force-init]] for what actually happens, and [[force-tick]]
+available.  See [[force-init]] for what actually happens, and [[id:7f4afd30-c9b3-431e-9b0c-b1f1faa074de][Force Layout Tick Handler]]
 for the tick event handler that is attached.
 
 It follows the examples [[http://bl.ocks.org/mbostock/1095795][here]], and [[http://stackoverflow.com/questions/9539294/adding-new-nodes-to-force-directed-layout][here]].
@@ -896,6 +897,9 @@ is better after reordering)
   });
 #+END_EXAMPLE
 ***** Force Layout Tick Handler
+:PROPERTIES:
+:ID:       7f4afd30-c9b3-431e-9b0c-b1f1faa074de
+:END:
 This is the "hot loop" that actually updates all the svg elements
 according to the internal simulation.  It implements the attraction
 forces and updates the position of the svg nodes as well as their
@@ -1039,7 +1043,10 @@ change happened, the layout is updated.
 
 **** Read Files on Drag'n'Drop
 
- The drop handler starts the FileReader.
+ The drop handler triggers reading the supplied file.  This (not
+ visible here) in turn triggers processing the file, as described in
+ the rest of the section.
+
  #+BEGIN_SRC js
    d3.select("svg")
        .on("dragover", function() {
@@ -1065,26 +1072,36 @@ change happened, the layout is updated.
  #+BEGIN_SRC js
    var reader = new FileReader();
    reader.onload = function(event) {
-       var contents = event.target.result;
+       var content = event.target.result;
        console.log("File loaded");
-       var entries = parse_bibtex_file(contents);
-       var result = analyze_bibtex_entries(entries);
-       nodes = result.nodes;
-       links = result.links;
-
-       nodes.forEach(function(node) {
-           set_collab_paper_targets(node)  /* set the target coordinates for the papers */
-           if (node.x_target) node.x = node.x_target;
-           if (node.y_target) node.y = node.y_target;
-       });
-
-       update_layout();
+       load_bibtex(content);
    };
 
    reader.onerror = function(event) {
        console.error("Unable to read file (Code: " + event.target.error.code + ")");
    };
  #+END_SRC
+
+ =load_bibtex_file= is used to actually perform the reading and
+ trigger update of the graph.  It is taking the bibtex file as text as input.
+
+#+NAME: load_bibtex
+#+BEGIN_SRC js
+  function load_bibtex(content) {
+      var entries = parse_bibtex_file(content);
+      var result = analyze_bibtex_entries(entries);
+      nodes = result.nodes;
+      links = result.links;
+
+      nodes.forEach(function(node) {
+          set_collab_paper_targets(node)  /* set the target coordinates for the papers */
+          if (node.x_target) node.x = node.x_target;
+          if (node.y_target) node.y = node.y_target;
+      });
+
+      update_layout();
+  }
+#+END_SRC
 
 **** Analyze BibTex file
 
@@ -1217,6 +1234,9 @@ unambiguous way.
 #+END_SRC
 
 **** BibTex Parser
+:PROPERTIES:
+:ID:       034811f6-5a5d-4c94-9bd2-7afa932aafe0
+:END:
 BibTex files are parsed using [[https://github.com/pegjs/pegjs][PEG.js]].
 
 Limitations:
@@ -1298,6 +1318,19 @@ displayed in a message box.
 #+END_SRC
 
 *** Application Initialization/Data Loading
+
+When the Application is loaded, a local file "example.bib" is opened.
+
+#+BEGIN_SRC js
+  d3.text("example.bib", function(error, content) {
+      if (error) throw(error);
+      load_bibtex(content);
+  });
+#+END_SRC
+
+
+*Old JSON loading code below:*
+
 (connect_node is deprecated, since loading JSON will be phased out in
 favor of loading BibTeX directly)
 
@@ -1324,12 +1357,12 @@ and creates links to the flat listed nodes.
 #+END_SRC
 
 After loading, the [[data-globals][data globals]] are actually assigned the correct
-values.  [[make_layout]] is responsible for actually creating all
+values.  [[update_layout]] is responsible for actually creating all
 layouts.  Change the initial mode to collaboration, which starts the
 actual layout.  Trigger generating all jdenticon icons.
 
 #+NAME: json_loader
-#+BEGIN_SRC js
+#+BEGIN_EXAMPLE js
   d3.json("graph.json", function(error, json) {
       if (error) throw error;
 
@@ -1353,7 +1386,7 @@ actual layout.  Trigger generating all jdenticon icons.
       change_mode('collaboration');
 
   });
-#+END_SRC
+#+END_EXAMPLE
 
 * Hacking
 This file is used to generate code and documentation.  It requires
