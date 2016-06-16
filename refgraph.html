@@ -1,0 +1,2045 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-06-16 Do 11:13 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reference Graph Visualization</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="timor" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Reference Graph Visualization</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. Idea</a></li>
+<li><a href="#orgheadline3">2. Usage</a>
+<ul>
+<li><a href="#orgheadline2">2.1. Advanced</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline39">3. Implementation</a>
+<ul>
+<li><a href="#orgheadline9">3.1. Styling</a>
+<ul>
+<li><a href="#orgheadline6">3.1.1. General CSS Classes</a></li>
+<li><a href="#orgheadline7">3.1.2. Circle-Packing CSS Classes</a></li>
+<li><a href="#orgheadline8">3.1.3. Tooltip</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline38">3.2. Code</a>
+<ul>
+<li><a href="#orgheadline10">3.2.1. Global Variables</a></li>
+<li><a href="#orgheadline13">3.2.2. SVG DOM Structure</a></li>
+<li><a href="#orgheadline14">3.2.3. Zooming</a></li>
+<li><a href="#orgheadline17">3.2.4. View Modes</a></li>
+<li><a href="#orgheadline32">3.2.5. Used Layouts</a></li>
+<li><a href="#orgheadline26">3.2.6. Controls</a></li>
+<li><a href="#orgheadline36">3.2.7. BibTex File Loading</a></li>
+<li><a href="#orgheadline37">3.2.8. Application Initialization/Data Loading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline40">4. Hacking</a></li>
+<li><a href="#orgheadline51">5. Plan</a>
+<ul>
+<li><a href="#orgheadline41">5.1. <span class="todo TODO">TODO</span> correctly implement data update mechanism</a></li>
+<li><a href="#orgheadline42">5.2. <span class="todo TODO">TODO</span> rename </a></li>
+<li><a href="#orgheadline43">5.3. <span class="todo TODO">TODO</span> re-implement classification layout without actually using the targets as attractors</a></li>
+<li><a href="#orgheadline44">5.4. <span class="todo TODO">TODO</span> rename category -&gt; classification</a></li>
+<li><a href="#orgheadline45">5.5. <span class="todo TODO">TODO</span> remove hardcoding 2016, substitute for current year</a></li>
+<li><a href="#orgheadline46">5.6. <span class="todo TODO">TODO</span> switch to radial cluster for classification layout</a></li>
+<li><a href="#orgheadline47">5.7. <span class="todo TODO">TODO</span> fix initial positioning in </a></li>
+<li><a href="#orgheadline48">5.8. <span class="todo TODO">TODO</span> rename icon<sub>size</sub> -&gt; node<sub>size</sub></a></li>
+<li><a href="#orgheadline49">5.9. <span class="todo TODO">TODO</span> open pdf based on file property, not on inferred key value</a></li>
+<li><a href="#orgheadline50">5.10. <span class="todo TODO">TODO</span> interpret bibtex types, assign icons, warn when required fields not present</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Idea</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Goal: get overview over certain scientific field by taking advantage
+of the information that is usually provided by reference managers,
+in addition to information that is usually provided by task planning systems.</li>
+<li>extract information from BibTeX files:
+<ul class="org-ul">
+<li>author-paper relation</li>
+<li>number of citations per paper (custom field)</li>
+</ul></li>
+<li>combine with:
+<ul class="org-ul">
+<li>personal progress on papers</li>
+<li>personal classification on papers</li>
+</ul></li>
+<li>several visualization modes
+<ol class="org-ol">
+<li>Collaboration Graph</li>
+<li>Classification (WIP)</li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">2</span> Usage</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Open <code>index.html</code> (with Firefox).
+</p>
+
+<p>
+When the page loads, an example graph is displayed.  To display your
+own data, drag a file onto the canvas graph and drop it.
+</p>
+
+<p>
+The layout is responsive, and nodes can be dragged with the mouse.
+Dragging the background will pan the view, and mouse wheel can be used
+to zoom.
+</p>
+
+<p>
+Clicking a paper will try to open a pdf file with the same name in the
+current directory. (Note: this will be changed to use the file name
+property in the BibTex file.)
+</p>
+
+<p>
+Clicking an author will redirect to a Google Scholar search with that author.
+</p>
+
+<p>
+Only tested on Firefox.
+</p>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Advanced</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+If something unexpected happened during BibTeX file loading, a warning
+or error message is printed to the browser's console.
+</p>
+
+<p>
+Additional information in non-standard fields is taken into account:
+</p>
+
+<dl class="org-dl">
+<dt><code>note</code></dt><dd>number of citations, as generated by the Zotero citations
+plugin</dd>
+<dt><code>state</code></dt><dd>personal reading state, causes colored representation of
+said state.  Currently supported values: <code>unread</code>, <code>started</code>,
+<code>overview</code>, and <code>read</code></dd>
+<dt><code>classification</code></dt><dd>(WIP) classification of a paper in the form of
+<code>category/sub category 1/further sub-category</code></dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline39" class="outline-2">
+<h2 id="orgheadline39"><span class="section-number-2">3</span> Implementation</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The application basically consists of one html file that includes the
+necessary CSS and Javascript.
+</p>
+
+<p>
+It depends on d3.js for the
+visualization, and on md5.js and a modified version of jdenticon for
+identicon generation.
+</p>
+
+<p>
+The <a href="#orgheadline4">Parser</a> responsible for extracting the information from the BibTex
+files is generated using PEG.js.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;<span style="color: #a020f0;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #0000ff;">head</span>&gt;
+  &lt;<span style="color: #0000ff;">meta</span> <span style="color: #a0522d;">charset</span>=<span style="color: #8b2252;">"utf-8"</span>&gt;
+  &lt;<span style="color: #0000ff;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">BibTeX Graph Visualization (with d3.js)</span>&lt;/<span style="color: #0000ff;">title</span>&gt;
+&lt;/<span style="color: #0000ff;">head</span>&gt;
+&lt;<span style="color: #0000ff;">style</span>&gt;
+
+  &lt;&lt;<span style="color: #0000ff;">css-definitions</span>&gt;&gt;
+
+&lt;/<span style="color: #0000ff;">style</span>&gt;
+&lt;<span style="color: #0000ff;">body</span>&gt;
+  &lt;<span style="color: #0000ff;">svg</span> <span style="color: #a0522d;">height</span>=<span style="color: #8b2252;">"100%"</span> <span style="color: #a0522d;">width</span>=<span style="color: #8b2252;">"100%"</span>&gt;&lt;/<span style="color: #0000ff;">svg</span>&gt;
+  &lt;<span style="color: #0000ff;">div</span> <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"footer"</span>&gt;
+    &lt;<span style="color: #0000ff;">p</span>&gt; Drag'n'Drop your BibTeX file onto the graph to open.
+      Bugs/Ideas/Comments &lt;<span style="color: #0000ff;">a</span> <span style="color: #a0522d;">href</span>=<span style="color: #8b2252;">"https://github.com/timor/refgraph"</span>&gt; welcome&lt;/<span style="color: #0000ff;">a</span>&gt;
+    &lt;/<span style="color: #0000ff;">p</span>&gt;
+  &lt;/<span style="color: #0000ff;">div</span>&gt;
+  &lt;<span style="color: #0000ff;">script</span> <span style="color: #a0522d;">src</span>=<span style="color: #8b2252;">"http://d3js.org/d3.v3.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+  &lt;<span style="color: #0000ff;">script</span> <span style="color: #a0522d;">src</span>=<span style="color: #8b2252;">"scripts/jdenticon-1.3.2.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+  &lt;<span style="color: #0000ff;">script</span> <span style="color: #a0522d;">src</span>=<span style="color: #8b2252;">"https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+  &lt;<span style="color: #0000ff;">script</span> <span style="color: #a0522d;">src</span>=<span style="color: #8b2252;">"scripts/parser.js"</span>&gt;&lt;/<span style="color: #0000ff;">script</span>&gt;
+  &lt;<span style="color: #0000ff;">script</span>&gt;
+
+    &lt;&lt;<span style="color: #0000ff;">javascript-graph-functionality</span>&gt;&gt;
+
+  &lt;/<span style="color: #0000ff;">script</span>&gt;
+&lt;/<span style="color: #0000ff;">body</span>&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">3.1</span> Styling</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">3.1.1</span> General CSS Classes</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+General page layout:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #0000ff;">html, body </span>{ <span style="color: #a0522d;">overflow</span>: hidden }
+<span style="color: #0000ff;">svg </span>{ <span style="color: #a0522d;">position</span>: fixed;
+      <span style="color: #a0522d;">top</span>: 0;
+      <span style="color: #a0522d;">left</span>: 0;
+      <span style="color: #a0522d;">width</span>: 100%;
+      <span style="color: #a0522d;">height</span>: 90%;
+    }
+
+<span style="color: #0000ff;">#footer </span>{ <span style="color: #a0522d;">position</span>: fixed;
+          <span style="color: #a0522d;">top</span>: 90%
+        }
+
+<span style="color: #0000ff;">* </span>{
+    <span style="color: #a0522d;">font-family</span>: sans-serif;
+}
+</pre>
+</div>
+
+<p>
+CSS Classes used:
+</p>
+
+<dl class="org-dl">
+<dt><code>.node</code></dt><dd>elements representing nodes (papers and authors)</dd>
+<dt><code>.node_bg</code></dt><dd>the background of the node images (to allow image
+containing transparency to be more visible)</dd>
+<dt><code>.node_bg_glow</code></dt><dd>the glowing background of nodes (used for visualizing state
+information)</dd>
+<dt><code>.link</code></dt><dd>the lines representing the links between nodes</dd>
+<dt><code>.&lt;state-class&gt;</code></dt><dd>contains the actual specification for each state
+of a paper</dd>
+<dt><code>.author</code></dt><dd>author nodes</dd>
+<dt><code>.paper</code></dt><dd>paper nodes</dd>
+</dl>
+
+<p>
+All text in the nodes should use sans serif fonts, and be
+non-selectable, because that interferes with dragging.  The background
+of paper nodes is created by applying a <a href="#orgtarget1">glow filter</a> to the rectangle
+behind.  Depending on the personal state of the paper, different
+colors are chosen.  The background of author nodes is hidden
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #0000ff;">.node text </span>{
+    // pointer-events: none;
+    <span style="color: #a0522d;">font</span>: 10px sans-serif;
+    <span style="color: #a0522d; font-style: italic;">-webkit-user-select</span>: none;  <span style="color: #b22222;">/* </span><span style="color: #b22222;">Chrome all / Safari all </span><span style="color: #b22222;">*/</span>
+    <span style="color: #a0522d; font-style: italic;">-moz-user-select</span>: none;     <span style="color: #b22222;">/* </span><span style="color: #b22222;">Firefox all </span><span style="color: #b22222;">*/</span>
+    <span style="color: #a0522d; font-style: italic;">-ms-user-select</span>: none;      <span style="color: #b22222;">/* </span><span style="color: #b22222;">IE 10+ </span><span style="color: #b22222;">*/</span>
+    <span style="color: #a0522d;">user-select</span>: none;          <span style="color: #b22222;">/* </span><span style="color: #b22222;">Likely future </span><span style="color: #b22222;">*/</span>
+}
+
+<span style="color: #0000ff;">.node_bg </span>{
+    <span style="color: #a0522d;">fill</span>: white;
+    <span style="color: #a0522d;">stroke-width</span>: 3px;
+    <span style="color: #a0522d;">stroke</span>: gray;
+}
+
+<span style="color: #0000ff;">.node_bg_glow.paper </span>{
+    <span style="color: #a0522d;">opacity</span>: 0.3;
+    <span style="color: #a0522d;">filter</span>: url(#glow);
+}
+
+<span style="color: #0000ff;">.node_bg.paper.read </span>{
+    <span style="color: #a0522d;">stroke</span>:green;
+}
+
+<span style="color: #0000ff;">.node_bg.paper.unread </span>{
+    <span style="color: #a0522d;">stroke</span>:red;
+}
+
+<span style="color: #0000ff;">.node_bg.paper.started </span>{
+    <span style="color: #a0522d;">stroke</span>:orange;
+}
+
+<span style="color: #0000ff;">.node_bg.paper.overview </span>{
+    <span style="color: #a0522d;">stroke</span>:yellow;
+}
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">TBR </span><span style="color: #b22222;">*/</span>
+<span style="color: #0000ff;">.node_bg_glow.author </span>{
+    <span style="color: #a0522d;">visibility</span>: hidden;
+}
+
+<span style="color: #0000ff;">.link </span>{
+    <span style="color: #a0522d;">stroke</span>: #ccc;
+}
+</pre>
+</div>
+
+<p>
+Elements that are faded out in <a href="#orgheadline5">Highlight on Hover</a>.  To make it a bit
+smoother, add a transition effect for all nodes when changing opacity.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #0000ff;">.faded </span>{
+    <span style="color: #a0522d;">opacity</span>: 0.5;
+}
+
+<span style="color: #0000ff;">.node </span>{
+    <span style="color: #a0522d;">transition</span>: opacity 0.2s;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">3.1.2</span> Circle-Packing CSS Classes</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Specifically for the circle packing layout, which is currently used
+for the Classification view:
+</p>
+
+<dl class="org-dl">
+<dt><code>.pack</code></dt><dd>elements inside the pack layout</dd>
+<dt><code>.leaf</code></dt><dd>the leaf nodes of pack layout</dd>
+</dl>
+
+<p>
+All the circles in the pack layout are bluish, transparent and have a
+thin border stroke.  The circles for the leaf nodes(the actual papers)
+are not shown.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #0000ff;">circle.pack </span>{
+    <span style="color: #a0522d;">fill</span>: rgb(31,119,180);
+    <span style="color: #a0522d;">fill-opacity</span>: .25;
+    <span style="color: #a0522d;">stroke-width</span>: 1px;
+}
+
+<span style="color: #0000ff;">.leaf </span>{
+    <span style="color: #a0522d;">visibility</span>: hidden;
+}
+
+<span style="color: #0000ff;">text.pack </span>{
+    <span style="color: #a0522d;">font</span>: 12px sans-serif;
+    <span style="color: #a0522d;">stroke</span>: #fcc;
+    <span style="color: #a0522d;">fill</span>: #fcc;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">3.1.3</span> Tooltip</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+The tooltip is styled here.
+</p>
+<dl class="org-dl">
+<dt><code>.tooltip_text</code></dt><dd>text of tooltips</dd>
+<dt><code>.tooltip_bg</code></dt><dd>background (svg rect) of tooltips</dd>
+</dl>
+
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #0000ff;">.tooltip_text </span>{
+    <span style="color: #a0522d;">font</span>: 12px sans-serif;
+}
+
+<span style="color: #0000ff;">.tooltip_bg</span>{
+    <span style="color: #a0522d;">fill</span>: white;
+    <span style="color: #a0522d;">stroke</span>: black;
+    <span style="color: #a0522d;">stroke-width</span>: 1;
+    <span style="color: #a0522d;">opacity</span>: 0.85;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">3.2</span> Code</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">3.2.1</span> Global Variables</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+For lack of better programming style, the following information is
+defined in global variables:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock1"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">width</span> = 1200,               <span style="color: #b22222;">// </span><span style="color: #b22222;">width of the svg (not used correctly)</span>
+
+    height = 900,               <span style="color: #b22222;">// </span><span style="color: #b22222;">height of the svg portion (not used correctly)</span>
+
+    icon_size = 16,             <span style="color: #b22222;">// </span><span style="color: #b22222;">base size of icons for nodes</span>
+
+    jdenticon_size = 50        <span style="color: #b22222;">// </span><span style="color: #b22222;">base size of the identicons, note</span>
+                                <span style="color: #b22222;">// </span><span style="color: #b22222;">that jdenticon does not allow</span>
+                                <span style="color: #b22222;">// </span><span style="color: #b22222;">images smaller than 30, and padding</span>
+                                <span style="color: #b22222;">// </span><span style="color: #b22222;">is added to that, so 40 should be a</span>
+                                <span style="color: #b22222;">// </span><span style="color: #b22222;">safe minimum</span>
+</pre>
+</div>
+
+<p>
+For the imported json data, globals are defined for the top-level
+elements of that data (TODO link to json data layout)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock2"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">nodes</span>=[], <span style="color: #a0522d;">links</span>=[], <span style="color: #a0522d;">tree</span>;
+</pre>
+</div>
+
+<p>
+Other globals are defined before their respective usage.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">3.2.2</span> SVG DOM Structure</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+generally, d3.js functionality is used to generate the DOM structure.
+</p>
+
+<p>
+The svg element should fill the whole width of the browser page, but
+leave some space below for controls.  Also, pointer events have to be
+caught explicitly.  These are actually later caught by the big background
+rectangle (and I suppose bubbled to the svg element) to implement zooming and panning.
+</p>
+
+<p>
+Note that the variable <code>svg</code> actually contains a <code>g</code> (group).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">svg</span> = d3.select(<span style="color: #8b2252;">"svg"</span>)
+    .attr(<span style="color: #8b2252;">"pointer-events"</span>, <span style="color: #8b2252;">"all"</span>)
+    .append(<span style="color: #8b2252;">"g"</span>)
+    .call(d3.behavior.zoom().on(<span style="color: #8b2252;">'zoom'</span>, redraw))
+;
+</pre>
+</div>
+
+<p>
+There is a transparent background rectangle for catching mouse
+events.  It is made as big as the screen to make sure that all
+background is covered.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js">svg.append(<span style="color: #8b2252;">"rect"</span>)
+    .attr(<span style="color: #8b2252;">"width"</span>, screen.width)
+    .attr(<span style="color: #8b2252;">"height"</span>, screen.height)
+    .style(<span style="color: #8b2252;">"fill"</span>, <span style="color: #8b2252;">"none"</span>)
+;
+</pre>
+</div>
+
+<p>
+There is a container group for all interactive content.  This is also
+the one that the zoom and pan transformations are performed upon:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">container</span> = svg.append(<span style="color: #8b2252;">"g"</span>).attr(<span style="color: #8b2252;">"id"</span>,<span style="color: #8b2252;">"interactivecontainer"</span>);
+</pre>
+</div>
+
+<p>
+When updating the layout later (e.g. by loading new data), new nodes
+and links will be created.  If they are simply appended, links will
+end up on top of nodes.  This clutters the view.  To prevent that,
+links and nodes get their own respective sub-groups that they are
+created in:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">link_container</span> = container.append(<span style="color: #8b2252;">"g"</span>);
+<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">node_container</span> = container.append(<span style="color: #8b2252;">"g"</span>);
+</pre>
+</div>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline11"></a>Tooltips<br  /><div class="outline-text-5" id="text-3-2-2-1">
+<p>
+Tooltips appear when hovering over papers, showing the full title.
+</p>
+
+<p>
+There is only one tooltip consisting of a rect and text which live in the top group,
+and are placed as needed.
+</p>
+
+<p>
+The content of the tool tip is dependent on whether it is a paper or
+author node.  Currently, only author nodes have tooltips.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">tooltip</span> = svg.append(<span style="color: #8b2252;">"rect"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>,<span style="color: #8b2252;">"tooltip_bg"</span>)
+    .attr(<span style="color: #8b2252;">"id"</span>,<span style="color: #8b2252;">"tooltip_bg"</span>)
+    .attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>)
+    .attr(<span style="color: #8b2252;">"rx"</span>, 4)
+    .attr(<span style="color: #8b2252;">"ry"</span>, 4)
+    .attr(<span style="color: #8b2252;">"height"</span>,16)
+    .attr(<span style="color: #8b2252;">"width"</span>,52);
+
+<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">tooltip_text</span> = svg.append(<span style="color: #8b2252;">"text"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>,<span style="color: #8b2252;">"tooltip_text"</span>)
+    .attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>);
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">show_tooltip</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #a020f0;">if</span> (d.type == <span style="color: #8b2252;">"paper"</span>) {
+        x = d3.event.clientX;
+        y = d3.event.clientY;
+        tooltip_text
+            .text(`${d.display_title}(${d.year})`)
+            .attr(<span style="color: #8b2252;">"visibility"</span>,<span style="color: #8b2252;">"visible"</span>)
+            .attr(<span style="color: #8b2252;">"x"</span>, x + 11)
+            .attr(<span style="color: #8b2252;">"y"</span>, y + 27);
+        tooltip
+            .attr(<span style="color: #8b2252;">"visibility"</span>,<span style="color: #8b2252;">"visible"</span>)
+            .attr(<span style="color: #8b2252;">"x"</span>, x + 8)
+            .attr(<span style="color: #8b2252;">"y"</span>, y + 14)
+            .attr(<span style="color: #8b2252;">"width"</span>, tooltip_text.node().getComputedTextLength()+8);
+    }
+}
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">hide_tooltip</span>(<span style="color: #a0522d;">d</span>) {
+    tooltip.attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>)
+    tooltip_text.attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>)
+}
+</pre>
+</div>
+
+<p>
+The <code>show_tooltip</code> and <code>hide_tooltip</code> functions are later used as
+onMouseover and onMouseout handlers when the actual nodes are created
+(TODO: link)
+</p>
+</div></li>
+
+<li><a id="orgheadline12"></a>Filter for Node Background<a id="orgtarget1"></a><br  /><div class="outline-text-5" id="text-3-2-2-2">
+<p>
+The blur effect of the node background is created here.  The defs node
+is attached directly to the <code>svg</code> DOM node.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">defs</span> = d3.select(<span style="color: #8b2252;">"svg"</span>).append(<span style="color: #8b2252;">"defs"</span>);
+<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">filter</span> = defs.append(<span style="color: #8b2252;">"filter"</span>)
+    .attr(<span style="color: #8b2252;">"id"</span>, <span style="color: #8b2252;">"glow"</span>);
+filter.append(<span style="color: #8b2252;">"feGaussianBlur"</span>)
+    .attr(<span style="color: #8b2252;">"stdDeviation"</span>, <span style="color: #8b2252;">"3.5"</span>)
+    .attr(<span style="color: #8b2252;">"result"</span>, <span style="color: #8b2252;">"coloredBlur"</span>);
+</pre>
+</div>
+</div></li></ol>
+</div>
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">3.2.3</span> Zooming</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+Zooming is provided as d3.js-provided behavior, with the following
+being the zoom event handler.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock3"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">redraw</span>() {
+    container.attr(<span style="color: #8b2252;">"transform"</span>, <span style="color: #8b2252;">"translate("</span> + d3.event.translate + <span style="color: #8b2252;">")scale("</span> + d3.event.scale +<span style="color: #8b2252;">")"</span>);
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">svg.attr("transform", "translate(" + d3.event.translate + ")");</span>
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">3.2.4</span> View Modes</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+(This section will change soon, since layout modes will be implemented
+differently)
+</p>
+<ul class="org-ul">
+<li>phase out change<sub>mode</sub></li>
+</ul>
+
+<p>
+The different layout modes are switched using <code>change_mode</code>, which
+takes a mode string as a single argument.  Depending on the mode,
+different parameters are used for the layouts.  In the end, opacities
+are adjusted according to the mode, and the force layout is restarted
+with the changed parameters.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock4"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">change_mode</span>(<span style="color: #a0522d;">mode</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">pack_opacity</span>, <span style="color: #a0522d;">new_alpha</span>, <span style="color: #a0522d;">collab_opacity</span>, <span style="color: #a0522d;">link_strength</span>, <span style="color: #a0522d;">node_charge_mul</span>;
+
+    <span style="color: #a020f0;">switch</span>(mode) {
+    <span style="color: #a020f0;">case</span> <span style="color: #8b2252;">'collaboration'</span>:
+        &lt;&lt;collaboration-mode-parameters&gt;&gt;
+        <span style="color: #a020f0;">break</span>;
+    <span style="color: #a020f0;">case</span> <span style="color: #8b2252;">'category'</span>:
+        &lt;&lt;classification-mode-parameters&gt;&gt;
+        <span style="color: #a020f0;">break</span>;
+    }
+    d3.select(<span style="color: #8b2252;">"#pack_svg"</span>).attr(<span style="color: #8b2252;">"opacity"</span>, pack_opacity);
+    link_container.selectAll(<span style="color: #8b2252;">".link"</span>).attr(<span style="color: #8b2252;">"opacity"</span>, collab_opacity);
+    node_container.selectAll(<span style="color: #8b2252;">".node"</span>).filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> d.type == <span style="color: #8b2252;">"author"</span>}).attr(<span style="color: #8b2252;">"opacity"</span>, collab_opacity);
+    <span style="color: #b22222;">/*</span><span style="color: #b22222;">force.charge(function(d) { return ((1-i) * node_charge(d))})*/</span>
+
+    force.charge(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> collab_charge(d) * node_charge_mul })
+        .linkStrength(link_strength)
+        .start()
+        .alpha(new_alpha);
+}
+</pre>
+</div>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline15"></a>Collaboration Graph<br  /><div class="outline-text-5" id="text-3-2-4-1">
+<p>
+For the Collaboration Graph
+</p>
+<ul class="org-ul">
+<li>all paper nodes are attracted towards an individual point determined
+by <a href="#orgsrcblock5">1</a></li>
+<li>the horizontal force towards this target is lower then the vertical
+force</li>
+<li>the classification layout is hidden</li>
+<li>link strength is reduced to allow better clustering with papers as
+centers</li>
+</ul>
+
+
+<div class="org-src-container">
+
+<pre class="src src-js">kx = 0.15;
+ky = 0.4;
+node_charge_mul = 1;
+new_alpha = 1;
+pack_opacity = 0;
+collab_opacity = 1;
+link_strength = 0.5;
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="orgheadline16"></a>Classification Layout<br  /><div class="outline-text-5" id="text-3-2-4-2">
+<p>
+For the classification layout
+</p>
+<ul class="org-ul">
+<li>attractor force is the same for x and y</li>
+<li>node charge and link strength are zeroed to allow exact paper
+positioning</li>
+<li>the authors and links are made invisible, because they just flood
+the layout</li>
+<li>the attraction point for the paper nodes are set to the circle
+packing layout positions using <a href="#orgsrcblock6">1</a></li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-js">kx = 1;
+ky = 1;
+node_charge_mul = 0;
+new_alpha = 0.1;
+pack_opacity = 1;
+collab_opacity = 0;
+link_strength = 0;
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">set the target coordinates for the papers*/</span>
+<span style="color: #b22222;">// </span><span style="color: #b22222;">nodes.forEach(function(node) {</span>
+<span style="color: #b22222;">//     </span><span style="color: #b22222;">set_category_paper_targets(node);</span>
+<span style="color: #b22222;">// </span><span style="color: #b22222;">});</span>
+</pre>
+</div>
+
+<p>
+The attractor positions are simply the centers of the calculated classification layout:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock6"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">set_category_paper_targets</span>(<span style="color: #a0522d;">node</span>) {
+    <span style="color: #a020f0;">if</span> (node.pack_node) {
+        node.x_target = node.pack_node.x;
+        node.y_target = node.pack_node.y;
+    }
+}
+</pre>
+</div>
+</div></li></ol>
+</div>
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32"><span class="section-number-4">3.2.5</span> Used Layouts</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<p>
+Several different d3.js layouts are used.  All of them are defined
+here.  This follows the general update pattern suggested <a href="https://bl.ocks.org/mbostock/3808218">here</a>.
+</p>
+
+<p>
+Currently, only the force layout is supported and generated.
+</p>
+
+<p>
+For some reason it is important that the force layout is
+created last.  Also, the initial mode is set to the collaboration
+layout.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock7"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">update_layout</span>() {
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">make_pack_layout();</span>
+
+    update_force_layout();
+
+}
+</pre>
+</div>
+</div>
+<ol class="org-ol"><li><a id="orgheadline29"></a>Force Layout<br  /><div class="outline-text-5" id="text-3-2-5-1">
+<p>
+The force layout is used to display the collaboration graph.
+All the global properties are set when creating the initial <code>force</code>
+object.  Interactive aspects of the layout are handled in
+<a href="#orgsrcblock4"><code>change_mode</code></a>.
+</p>
+
+<p>
+The d3 selections representing the nodes and links of the layout (NOT
+the globals holding the actual data)
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">force_link</span>,                   <span style="color: #b22222;">// </span><span style="color: #b22222;">selection of created svg elements for link representation</span>
+
+    force_node                    <span style="color: #b22222;">// </span><span style="color: #b22222;">selection of created svg elements for node representation</span>
+</pre>
+</div>
+
+<p>
+For different modes, different settings are used for the following
+global variables:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">kx_mul</span> = 0.15,              <span style="color: #b22222;">// </span><span style="color: #b22222;">multiplier for attractor force in x direction</span>
+
+    ky_mul = 0.4                <span style="color: #b22222;">// </span><span style="color: #b22222;">multiplier for attractor force in y direction</span>
+</pre>
+</div>
+
+<p>
+<b>The actual layout object</b>
+</p>
+
+<p>
+Gravity is turned off because all paper nodes have an attractor, so
+the layout does face the danger of expanding indefinitely.  Charge
+Distance is set, but it seems it does not have a notable influence on
+performance.  It seems because charges are quite high, friction was
+"increased" from the default 0.9 to 0.7 to stop high-speed movement.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-javascript" id="orgsrcblock8"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">force</span> = d3.layout.force()
+    .nodes(nodes)
+    .links(links)
+    .linkStrength(0.5)
+    .gravity(0)
+    .distance(50)
+    .chargeDistance(700)
+    .charge(collab_charge)
+    .friction(0.7)
+    .size([width, height])
+    .on(<span style="color: #8b2252;">"tick"</span>,force_tick);
+</pre>
+</div>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline22"></a>Node Property Helper functions<br  /><div class="outline-text-6" id="text-3-2-5-1-1">
+<p>
+Several node properties are data-dependent.  The following definitions
+are used to calculate the relevant values for the layout.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline18"></a>Node Significance<br  /><div class="outline-text-7" id="text-3-2-5-1-1-1">
+<p>
+Used as basis for other layout properties.
+</p>
+
+<p>
+The significance of authors is determined by the balls they have, and
+weighted using a fractional-exponent exponential function, to be able
+to distinguish the less-significant authors better, since there are
+usually more of them.
+</p>
+
+<p>
+The significance of papers is the number of citations they have.  This
+is weighted logarithmically for similar reasons.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-javascript" id="orgsrcblock9"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">node_significance</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #a020f0;">if</span> (d.type == <span style="color: #8b2252;">"author"</span>)
+        <span style="color: #b22222;">// </span><span style="color: #b22222;">return icon_size * (1 + (d.balls/20);</span>
+        <span style="color: #a020f0;">return</span> (1 + (Math.pow((d.balls-1), 0.8) * 0.5));
+    <span style="color: #a020f0;">else</span>
+        <span style="color: #a020f0;">return</span> (1 + Math.log10(1 + (d.citations || 0)));
+}
+</pre>
+</div>
+</div></li>
+
+<li><a id="orgheadline19"></a>Node Image Positioning<br  /><div class="outline-text-7" id="text-3-2-5-1-1-2">
+<p>
+The node image size depends on the significance.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-javascript" id="orgsrcblock10"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">node_image_size</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #a020f0;">return</span> icon_size * node_significance(d);
+};
+</pre>
+</div>
+
+<p>
+Used to center the image for a node.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-javascript" id="orgsrcblock11"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">node_image_offset</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #a020f0;">return</span> - (node_image_size(d) / 2);
+}
+</pre>
+</div>
+</div></li>
+
+<li><a id="orgheadline20"></a>Node Charge<br  /><div class="outline-text-7" id="text-3-2-5-1-1-3">
+<p>
+For the collaboration layout, the node charge is made dependent on the
+node significance.  This way, it is easier to place lesser-significant
+nodes around the more central nodes.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-javascript" id="orgsrcblock12"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">collab_charge</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #a020f0;">return</span> (node_significance(d) * -300);
+}
+</pre>
+</div>
+</div></li>
+
+<li><a id="orgheadline21"></a>Node Attractor Targets<br  /><div class="outline-text-7" id="text-3-2-5-1-1-4">
+<p>
+The attractor positions of the papers are a virtual grid, where the
+papers are ordered in x-direction by the first letter of the bibtex
+key, and in y-direction by the year of publication.  The y positions
+are compressed in a way that recent publications are spaced wider than
+older publications.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock5"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">set_collab_paper_targets</span>(<span style="color: #a0522d;">node</span>) {
+    <span style="color: #a020f0;">if</span> (node.type == <span style="color: #8b2252;">"paper"</span>) {
+        <span style="color: #b22222;">// </span><span style="color: #b22222;">node.y_target = (((2016 - node.year))*20) + 200;</span>
+        node.y_target = (Math.sqrt(2016 - node.year) * 100) + 200;
+        xmin = <span style="color: #8b2252;">"A"</span>.charCodeAt(0);
+        xmax = <span style="color: #8b2252;">"Z"</span>.charCodeAt(0);
+        xnode = node.name.toUpperCase().charCodeAt(0);
+        node.x_target = Math.max(((xnode - xmin) / (xmax - xmin)) * width, 1);
+    }
+}
+</pre>
+</div>
+</div></li></ol></li>
+<li><a id="orgheadline23"></a>Node Dragging Behaviour<br  /><div class="outline-text-6" id="text-3-2-5-1-2">
+<p>
+Dragging is provided by a d3.js behavior, but the default event
+handlers are not used.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">drag</span> = d3.behavior.drag()
+    .origin(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d; })
+    .on(<span style="color: #8b2252;">"dragstart"</span>, dragstarted)
+    .on(<span style="color: #8b2252;">"drag"</span>, dragged)
+    .on(<span style="color: #8b2252;">"dragend"</span>, dragended);
+</pre>
+</div>
+
+<p>
+Instead, the following handlers are implemented.  Note that they rely
+on undocumented internals (the meaning of the individual bits of the
+<code>fixed</code> property).  These are copied from the original functions.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock13"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">dragstarted</span>(<span style="color: #a0522d;">d</span>) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(<span style="color: #008b8b;">this</span>).classed(<span style="color: #8b2252;">"dragging"</span>, <span style="color: #008b8b;">true</span>);
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">force.d3_layout_forceDragstart(d);</span>
+    d.fixed |= 2; <span style="color: #b22222;">// </span><span style="color: #b22222;">set bit 2</span>
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock14"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">dragged</span>(<span style="color: #a0522d;">d</span>) {
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);</span>
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">d.x = d3.event.x, d.y = d3.event.y;</span>
+    d.px = d3.event.x, d.py = d3.event.y;
+    force.resume(); <span style="color: #b22222;">// </span><span style="color: #b22222;">restart annealing</span>
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock15"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">dragended</span>(<span style="color: #a0522d;">d</span>) {
+    d3.select(<span style="color: #008b8b;">this</span>).classed(<span style="color: #8b2252;">"dragging"</span>, <span style="color: #008b8b;">false</span>);
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">force.d3_layout_forceDragend(d);</span>
+    d.fixed &amp;= ~6; <span style="color: #b22222;">// </span><span style="color: #b22222;">unset bits 2 and 3</span>
+}
+</pre>
+</div>
+</div></li>
+<li><a id="orgheadline5"></a><a id="ID-3bfce9ed-52e5-4fb7-8b8c-7cf798dbef31"></a>Highlight on Hover<br  /><div class="outline-text-6" id="text-3-2-5-1-3">
+<p>
+When hovering over a node, all non-connected nodes should be faded out
+to better highlight the currently selected node.
+</p>
+
+<p>
+The following function is for <code>mouseover</code> and <code>mouseout</code> handlers,
+respectively, and change the class of the non-highlighted mode to be
+faded out.
+</p>
+
+<p>
+The argument determines wether to return a fade-in or a fade-out handler.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock16"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">highlight_nodes</span>(<span style="color: #a0522d;">highlight_p</span>) {
+    <span style="color: #a020f0;">return</span> <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d0</span>) {
+        force_node
+            .filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {
+                <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">match</span> =
+                    ( d == d0) ||
+                    ((d0.type == <span style="color: #8b2252;">"paper"</span>) &amp;&amp; d0.authors.includes(d)) ||
+                    ((d0.type == <span style="color: #8b2252;">"author"</span>) &amp;&amp; d0.papers.includes(d));
+                <span style="color: #a020f0;">return</span> !match;
+            })
+            .classed(<span style="color: #8b2252;">"faded"</span>, highlight_p);
+    }
+}
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="orgheadline28"></a>Force Layout Creation <a id="orgtarget2"></a><br  /><div class="outline-text-6" id="text-3-2-5-1-4">
+<p>
+Here is the force layout initialization.  It must be called after data is
+available.  See <a href="#orgtarget2">3.2.5.1.4</a> for what actually happens, and <a href="#orgheadline24">Force Layout Tick Handler</a>
+for the tick event handler that is attached.
+</p>
+
+<p>
+It follows the examples <a href="http://bl.ocks.org/mbostock/1095795">here</a>, and <a href="http://stackoverflow.com/questions/9539294/adding-new-nodes-to-force-directed-layout">here</a>.
+</p>
+
+<p>
+d3.js's enter selection mechanism is used to get the actually created
+svg DOM nodes for the links (lines) and the nodes (groups).  The
+creation is handled functions for the specific node types.  Labels are
+created in the same way all node types, but link to scholar searches
+for authors, and pdf files for papers.
+</p>
+
+<p>
+Also cause computation of the attractor targets.
+</p>
+
+<p>
+To help converging, the layout is initialized by setting all the nodes
+with attractor targets to their calculated target positions.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock17"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">update_force_layout</span>() {
+    force.stop();
+
+    force.links(links)
+        .nodes(nodes);
+
+    force_link = link_container.selectAll(<span style="color: #8b2252;">".link"</span>)
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">.data(force.links(), function(d) {return d.source.name + "-" + d.target.name});</span>
+        .data(force.links());
+
+    force_link
+        .enter().append(<span style="color: #8b2252;">"line"</span>)
+        .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"link"</span>);
+
+    force_link.exit().remove();
+
+    force_node = node_container.selectAll(<span style="color: #8b2252;">".node"</span>)
+        .data(force.nodes(), <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> d.name+d.state+d.bibtype+d.citations+d.balls});
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">.data(force.nodes());</span>
+    force_node
+        .enter().append(<span style="color: #8b2252;">"g"</span>)
+        .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"node"</span>)
+        .on(<span style="color: #8b2252;">"mouseover.tool_tip"</span>, show_tooltip)
+        .on(<span style="color: #8b2252;">"mouseout.tool_tip"</span>, hide_tooltip)
+        .on(<span style="color: #8b2252;">"mouseover.highlight"</span>, highlight_nodes(<span style="color: #008b8b;">true</span>))
+        .on(<span style="color: #8b2252;">"mouseout.hightlight"</span>, highlight_nodes(<span style="color: #008b8b;">false</span>))
+        .call(draw_node)
+        .call(drag)
+    ;
+
+    force_node.exit().remove();
+
+    force.start().alpha(1);
+}
+</pre>
+</div>
+
+<p>
+The creation of all the objects and setting the attributes beneath the
+node element itself is delegated into <code>draw_node</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock18"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">draw_node</span>(<span style="color: #a0522d;">node</span>) {
+    node.filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">n</span>) {<span style="color: #a020f0;">return</span> n.type == <span style="color: #8b2252;">"author"</span>})
+        .call(draw_author_node);
+
+    node.filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">n</span>) {<span style="color: #a020f0;">return</span> n.type == <span style="color: #8b2252;">"paper"</span>})
+        .call(draw_paper_node);
+
+    node.append(<span style="color: #8b2252;">"g"</span>)
+        .append(<span style="color: #8b2252;">"a"</span>)
+        .attr(<span style="color: #8b2252;">"xlink:href"</span>,<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {
+            <span style="color: #a020f0;">if</span> (d.type == <span style="color: #8b2252;">"author"</span>)
+                <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">"http://scholar.google.com/scholar?q="</span> + encodeURIComponent(d.name)
+            <span style="color: #a020f0;">else</span>
+                <span style="color: #a020f0;">return</span> d.key+<span style="color: #8b2252;">".pdf"</span>})
+        .append(<span style="color: #8b2252;">"text"</span>)
+        .attr(<span style="color: #8b2252;">"dx"</span>, 12)
+        .attr(<span style="color: #8b2252;">"dy"</span>, 16)
+        .attr(<span style="color: #8b2252;">"text-anchor"</span>, <span style="color: #8b2252;">"middle"</span>)
+        .text(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.name });
+}
+</pre>
+</div>
+</div>
+<ol class="org-ol"><li><a id="orgheadline25"></a>Author Nodes<br  /><div class="outline-text-7" id="text-3-2-5-1-4-1">
+<p>
+Author nodes are represented by a generic image.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock19"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">draw_author_node</span>(<span style="color: #a0522d;">node</span>) {
+    node.append(<span style="color: #8b2252;">"image"</span>)
+        .attr(<span style="color: #8b2252;">"xlink:href"</span>, <span style="color: #8b2252;">"graph-assets/user.png"</span>)
+        .attr(<span style="color: #8b2252;">"x"</span>, node_image_offset)
+        .attr(<span style="color: #8b2252;">"y"</span>, node_image_offset)
+        .attr(<span style="color: #8b2252;">"width"</span>, node_image_size)
+        .attr(<span style="color: #8b2252;">"height"</span>, node_image_size);
+}
+</pre>
+</div>
+</div></li>
+<li><a id="orgheadline27"></a>Paper Nodes<br  /><div class="outline-text-7" id="text-3-2-5-1-4-2">
+<p>
+For papers that have already been started reading, show an identicon.
+Otherwise, an empty placeholder.  This should make it easier to
+recognize papers by their identicon over time, also visualizing where
+there are still "gaps" in the research.
+</p>
+
+<p>
+A small symbol represents the publication type, e.g. conference paper,
+journal paper, PhD Thesis, etc.  For now, only one symbol is used,
+though.  This symbol shall eventually be made optional, since it
+crowds the whole layout quite a bit.  Also, this symbol is hidden by
+default. See <a href="#orgheadline26">3.2.6</a>.
+</p>
+
+<p>
+In order to make distinguishing the papers easier, md5 and jdenticon
+are used to calculate hash values of the bibtex key.  The hash is
+stored in the DOM attribute <code>data-jdenticon-hash</code>.  This is a
+non-standard attribute so far, and is accessed by the modified
+jdenticon code.
+</p>
+
+<p>
+The identicon gets a white background, to make it easier to
+distinguish visually.
+</p>
+
+<p>
+A small circle should surround the icon which represents the personal
+reading state.
+</p>
+
+<p>
+Clicking the label will open a pdf.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock20"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">draw_paper_node</span>(<span style="color: #a0522d;">node</span>) {
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">glow</span>
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">node.append("rect")</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("x", node_image_offset)</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("y", node_image_offset)</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("width", node_image_size)</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("height", node_image_size)</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("class", function(d) {</span>
+    <span style="color: #b22222;">//         </span><span style="color: #b22222;">var s= "node_bg_glow " + d.type;</span>
+    <span style="color: #b22222;">//         </span><span style="color: #b22222;">if (d.type == "paper" &amp;&amp; d.state) s = s + " " + d.state;</span>
+    <span style="color: #b22222;">//         </span><span style="color: #b22222;">return s;</span>
+    <span style="color: #b22222;">//     </span><span style="color: #b22222;">});</span>
+
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">white background circle with colored stroke</span>
+    node.append(<span style="color: #8b2252;">"circle"</span>)
+        .attr(<span style="color: #8b2252;">"r"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> node_image_size(d) / 2.2})
+        .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {
+            <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">s</span> = `node_bg ${d.type}`;
+            <span style="color: #a020f0;">if</span> (d.state) s = s + <span style="color: #8b2252;">" "</span> + d.state;
+            <span style="color: #a020f0;">return</span> s;
+        })
+    ;
+
+    <span style="color: #b22222;">//</span><span style="color: #b22222;">jdenticon for partially read papers</span>
+    node.filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">n</span>) { <span style="color: #a020f0;">return</span> (n.state &amp;&amp; n.state != <span style="color: #8b2252;">"unread"</span>)})
+        .append(<span style="color: #8b2252;">"g"</span>)
+        .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"jdenticon"</span>)
+        .attr(<span style="color: #8b2252;">"data-width"</span>, jdenticon_size)
+        .attr(<span style="color: #8b2252;">"data-height"</span>, jdenticon_size)
+        .attr(<span style="color: #8b2252;">"data-jdenticon-hash"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> md5(d.name)})
+        .attr(<span style="color: #8b2252;">"transform"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">"scale("</span> + node_significance(d) * (icon_size / jdenticon_size)  + <span style="color: #8b2252;">")"</span>; });
+
+    <span style="color: #b22222;">//</span><span style="color: #b22222;">type symbols</span>
+    node.append(<span style="color: #8b2252;">"image"</span>)
+        .attr(<span style="color: #8b2252;">"xlink:href"</span>, <span style="color: #8b2252;">"graph-assets/note.svg"</span>)
+        .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"pub_type"</span>)
+        .attr(<span style="color: #8b2252;">"x"</span>, node_image_offset)
+        .attr(<span style="color: #8b2252;">"y"</span>, node_image_offset)
+        .attr(<span style="color: #8b2252;">"width"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> node_image_size(d) / 2.5})
+        .attr(<span style="color: #8b2252;">"height"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> node_image_size(d) / 2.5})
+        .attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>);
+
+}
+</pre>
+</div>
+</div></li></ol></li>
+<li><a id="orgheadline24"></a><a id="ID-7f4afd30-c9b3-431e-9b0c-b1f1faa074de"></a>Force Layout Tick Handler<br  /><div class="outline-text-6" id="text-3-2-5-1-5">
+<p>
+This is the "hot loop" that actually updates all the svg elements
+according to the internal simulation.  It implements the attraction
+forces and updates the position of the svg nodes as well as their
+links.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock21"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">force_tick</span>(<span style="color: #a0522d;">e</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">kx</span> = e.alpha * kx_mul;
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">ky</span> = e.alpha * ky_mul;
+
+    nodes.forEach(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">node</span>) {
+        <span style="color: #a020f0;">if</span> (node.x_target)
+            node.x += (node.x_target - node.x) * kx;
+        <span style="color: #a020f0;">if</span> (node.y_target)
+            node.y += (node.y_target - node.y) * ky;
+    });
+
+    force_link.attr(<span style="color: #8b2252;">"x1"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.source.x; })
+        .attr(<span style="color: #8b2252;">"y1"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.source.y; })
+        .attr(<span style="color: #8b2252;">"x2"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.target.x; })
+        .attr(<span style="color: #8b2252;">"y2"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.target.y; });
+
+    force_node.attr(<span style="color: #8b2252;">"transform"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">"translate("</span> + d.x + <span style="color: #8b2252;">","</span> + d.y + <span style="color: #8b2252;">")"</span>; });
+}
+</pre>
+</div>
+</div></li></ol></li>
+<li><a id="orgheadline31"></a>Circle Packing Layout<br  /><div class="outline-text-5" id="text-3-2-5-2">
+<p>
+The circle packing layout is currently used for the classification
+view.
+</p>
+
+<p>
+The node value for this layout is a constant, resulting in
+evenly-sized leaf nodes (papers), which themselves are not actually
+displayed but only used as an attraction center point.
+(see <a href="#orgheadline9">3.1</a>)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">pack</span> = d3.layout.pack()
+    .size([width , width])
+    .value(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> 50; });
+</pre>
+</div>
+
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock22"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">make_pack_layout</span>() {
+    &lt;&lt;pack-layout-initialization&gt;&gt;
+}
+</pre>
+</div>
+</div>
+<ol class="org-ol"><li><a id="orgheadline30"></a>Pack Layout Initialization <a id="orgtarget3"></a><br  /><div class="outline-text-6" id="text-3-2-5-2-1">
+<p>
+The Layout itself is created after data has been loaded by creating a
+svg group element for it (initially invisible).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js">pack_svg = container.append(<span style="color: #8b2252;">"g"</span>)
+    .attr(<span style="color: #8b2252;">"id"</span>, <span style="color: #8b2252;">"pack_svg"</span>)
+    .attr(<span style="color: #8b2252;">"opacity"</span>,0);
+</pre>
+</div>
+
+<p>
+<code>tnode</code> holds the actually created svg elements, using d3.js's enter
+selection mechanism.  If a node has no children, it is assigned the
+<code>leaf</code> class.  Also, the positions are already assigned here.  The
+actual representation is a <code>circle</code> element.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">tnode</span> = pack_svg.datum(tree).selectAll(<span style="color: #8b2252;">".tnode"</span>)
+    .data(pack.nodes)
+    .enter().append(<span style="color: #8b2252;">"g"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.children ? <span style="color: #8b2252;">"tnode"</span> : <span style="color: #8b2252;">"leaf tnode"</span>; })
+    .attr(<span style="color: #8b2252;">"transform"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">"translate("</span> + d.x + <span style="color: #8b2252;">","</span> + d.y + <span style="color: #8b2252;">")"</span>; });
+
+tnode.append(<span style="color: #8b2252;">"title"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"pack"</span>)
+    .text(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> d.name});
+
+tnode.append(<span style="color: #8b2252;">"circle"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"pack"</span>)
+    .attr(<span style="color: #8b2252;">"r"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {<span style="color: #a020f0;">return</span> d.r});
+</pre>
+</div>
+
+
+<p>
+Labels for the categories are created, and moved a bit up from the
+center to increase readability.  The name is be clipped if it is too
+long.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js">tnode.filter(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.children; }).append(<span style="color: #8b2252;">"g"</span>)
+    .attr(<span style="color: #8b2252;">"transform"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">"translate(0,"</span> + (-d.r/10) + <span style="color: #8b2252;">")scale("</span> + Math.sqrt(d.r/50) + <span style="color: #8b2252;">")"</span>;})
+    .append(<span style="color: #8b2252;">"text"</span>)
+    .attr(<span style="color: #8b2252;">"class"</span>, <span style="color: #8b2252;">"pack"</span>)
+    .style(<span style="color: #8b2252;">"text-anchor"</span>, <span style="color: #8b2252;">"middle"</span>)
+    .text(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) { <span style="color: #a020f0;">return</span> d.name.substring(0, d.r / 3); });
+</pre>
+</div>
+</div></li></ol></li></ol>
+</div>
+
+<div id="outline-container-orgheadline26" class="outline-4">
+<h4 id="orgheadline26"><span class="section-number-4">3.2.6</span> Controls</h4>
+<div class="outline-text-4" id="text-3-2-6">
+<p>
+At the bottom of the screen, there is space for some user interface
+controls.  This allows live customization of the layout.
+</p>
+
+<p>
+The controls are created using d3.js.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline33"></a>Display of Publication Type Symbols<br  /><div class="outline-text-5" id="text-3-2-6-1">
+<p>
+The symbols used to display the type of publication tend to crowd the
+layout, that is why they can be switched on/off. (functionality
+deactivated, useless right now)
+</p>
+
+<p>
+(Currently only one is used, and that one does not distinguish between
+types yet)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">controls</span> = d3.select(<span style="color: #8b2252;">"#footer"</span>)
+    .append(<span style="color: #8b2252;">"div"</span>);
+
+<span style="color: #b22222;">// </span><span style="color: #b22222;">controls.append("label")</span>
+<span style="color: #b22222;">//     </span><span style="color: #b22222;">.text("Display Type of Publication");</span>
+
+<span style="color: #b22222;">// </span><span style="color: #b22222;">controls.append("input")</span>
+<span style="color: #b22222;">//     </span><span style="color: #b22222;">.attr("type", "checkbox")</span>
+<span style="color: #b22222;">//     </span><span style="color: #b22222;">// .attr("name", "show_symbols")</span>
+<span style="color: #b22222;">//     </span><span style="color: #b22222;">.on("click", toggle_symbols);</span>
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">toggle_symbols</span>() {
+    <span style="color: #a020f0;">if</span> (<span style="color: #008b8b;">this</span>.checked)
+        d3.selectAll(<span style="color: #8b2252;">".pub_type"</span>).attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"visible"</span>);
+    <span style="color: #a020f0;">else</span>
+        d3.selectAll(<span style="color: #8b2252;">".pub_type"</span>).attr(<span style="color: #8b2252;">"visibility"</span>, <span style="color: #8b2252;">"hidden"</span>);
+}
+</pre>
+</div>
+</div></li></ol>
+</div>
+
+<div id="outline-container-orgheadline36" class="outline-4">
+<h4 id="orgheadline36"><span class="section-number-4">3.2.7</span> BibTex File Loading</h4>
+<div class="outline-text-4" id="text-3-2-7">
+<p>
+A Drag handler on the SVG element reacts to dropping a file onto the
+canvas.  This causes the file to be parsed as BibTex File (see
+<a href="#orgheadline4">3.2.7.3</a>).  Nodes are compared to the existing ones.  If any
+change happened, the layout is updated.
+</p>
+
+<p>
+<a href="https://github.com/d3/d3/wiki/Selections#on">API reference for ".on()"</a>
+<a href="https://www.nczonline.net/blog/2012/05/08/working-with-files-in-javascript-part-1/">Information about FileReader with Drag'n'Drop</a>
+<a href="https://www.nczonline.net/blog/2012/05/15/working-with-files-in-javascript-part-2/">Information about reading file contents</a>
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline34"></a>Read Files on Drag'n'Drop<br  /><div class="outline-text-5" id="text-3-2-7-1">
+<p>
+The drop handler triggers reading the supplied file.  This (not
+visible here) in turn triggers processing the file, as described in
+the rest of the section.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js">d3.select(<span style="color: #8b2252;">"svg"</span>)
+    .on(<span style="color: #8b2252;">"dragover"</span>, <span style="color: #a020f0;">function</span>() {
+        d3.event.preventDefault(); })
+    .on(<span style="color: #8b2252;">"drop"</span>, <span style="color: #a020f0;">function</span>() {
+        d3.event.preventDefault();
+        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">files</span>=d3.event.dataTransfer.files;
+        <span style="color: #a020f0;">if</span> (files.length == 1) {
+            <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">f</span> = files[0];
+            console.log(<span style="color: #8b2252;">"Filename: "</span> + f.name);
+            console.log(<span style="color: #8b2252;">"Type: "</span> + f.type);
+            console.log(<span style="color: #8b2252;">"Size: "</span> + f.size + <span style="color: #8b2252;">" bytes"</span>);
+            reader.readAsText(f);
+        }
+    });
+</pre>
+</div>
+
+<p>
+A <code>FileReader</code> is instantiated to asynchronously load the data.
+Further processing (see also <a href="#orgsrcblock23">1</a>) is initiated from its
+<code>onload</code> handler.  This includes analyzing the bibtex data and
+(re-)creating the layout.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">reader</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">FileReader</span>();
+reader.onload = <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">event</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">content</span> = event.target.result;
+    console.log(<span style="color: #8b2252;">"File loaded"</span>);
+    load_bibtex(content);
+};
+
+reader.onerror = <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">event</span>) {
+    console.error(<span style="color: #8b2252;">"Unable to read file (Code: "</span> + event.target.error.code + <span style="color: #8b2252;">")"</span>);
+};
+</pre>
+</div>
+
+<p>
+<code>load_bibtex_file</code> is used to actually perform the reading and
+trigger update of the graph.  It is taking the bibtex file as text as input.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock24"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">load_bibtex</span>(<span style="color: #a0522d;">content</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">entries</span> = parse_bibtex_file(content);
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">result</span> = analyze_bibtex_entries(entries);
+    nodes = result.nodes;
+    links = result.links;
+
+    nodes.forEach(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">node</span>) {
+        set_collab_paper_targets(node)  <span style="color: #b22222;">/* </span><span style="color: #b22222;">set the target coordinates for the papers */</span>
+        <span style="color: #a020f0;">if</span> (node.x_target) node.x = node.x_target;
+        <span style="color: #a020f0;">if</span> (node.y_target) node.y = node.y_target;
+    });
+
+    update_layout();
+}
+</pre>
+</div>
+</div></li>
+
+<li><a id="orgheadline35"></a>Analyze BibTex file<br  /><div class="outline-text-5" id="text-3-2-7-2">
+<p>
+The main information extraction happens here.  Each entry corresponds
+to a paper.  The original bibtex fields are in the `bibtex` member of
+the parsed entry.  Some additional properties are computed and added
+to the entry itself for later use:
+</p>
+
+<dl class="org-dl">
+<dt><code>authors</code></dt><dd>list of parsed author objects for the paper</dd>
+<dt><code>type</code></dt><dd>node type to distinguish during rendering.  Right now,
+`paper` and `author` are supported, and all these entries are set
+to `paper`</dd>
+<dt><code>name</code></dt><dd>display name of the paper</dd>
+<dt><code>citationse</code></dt><dd>number of times the paper has been cited.
+Determines the size of the node.  Right now, hardcoded to use the
+value of the field "note", because that is where the zotero
+scholar citations plugin stores the information.</dd>
+<dt><code>display_title</code></dt><dd>de-BibTex'd title</dd>
+<dt><code>year</code></dt><dd>publication year, just interpret bibtex field as integer</dd>
+<dt><code>state</code></dt><dd>personal reading state</dd>
+</dl>
+
+<p>
+Iterating through all the nodes, link and node information is built,
+and returned in a result object.  <code>authors</code> and <code>papers</code> are global
+for debugging purposes.
+</p>
+
+<p>
+The entries that the parser returned are reused as paper
+objects, later becoming the paper nodes of the layout.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock25"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">authors</span>, <span style="color: #a0522d;">papers</span>;
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">analyze_bibtex_entries</span>(<span style="color: #a0522d;">entries</span>) {
+    authors = [];
+    papers = [];
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">links</span> = [];
+    entries.forEach(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">e</span>) {
+        <span style="color: #a020f0;">if</span> (!e.bibtex.author) { console.error(`BibTeX entry ${e.key} has no author!`); <span style="color: #a020f0;">return</span>;}
+        as = author_ws_cleanup(e.bibtex.author).split(<span style="color: #8b2252;">" and "</span>).map(normalize_author).map(find_author);
+        e.authors = as; <span style="color: #b22222;">//</span><span style="color: #b22222;">replace author list with a list of author objects</span>
+        e.type = <span style="color: #8b2252;">"paper"</span>;
+        e.name = e.key;
+        <span style="color: #a020f0;">if</span> (e.bibtex.state) e.state = e.bibtex.state.toLowerCase();
+        e.citations = parseInt(e.bibtex.note) <span style="color: #b22222;">// </span><span style="color: #b22222;">this is hardcoded right now according to zotero citations plugin</span>
+        <span style="color: #a020f0;">if</span> (!e.bibtex.title) {
+            console.warn(`BibTeX entry ${e.key} has no title, using key instead!`)
+            e.display_title = e.key;
+        } <span style="color: #a020f0;">else</span>
+            e.display_title = e.bibtex.title;
+        e.year = parseInt(e.bibtex.year);
+        e.authors.forEach(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">author</span>) {
+            author.papers.push(e);
+            links.push({source: author, target: e});
+            <span style="color: #b22222;">// </span><span style="color: #b22222;">this one is deprecated once the old json import is phased out:</span>
+            author.balls = (author.balls || 0) + 1;
+        });
+        papers.push(e);
+    });
+    <span style="color: #a020f0;">return</span> {nodes: papers.concat(authors), links: links};
+}
+</pre>
+</div>
+<p>
+Several helpers are used in above code.
+</p>
+
+<p>
+<code>author_ws_cleanup</code> gets rid of leading and trailing white space of an
+author string, and replaces all sequences of tabs, spaces and newlines
+with just a single space.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock26"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">author_ws_cleanup</span>(<span style="color: #a0522d;">a</span>) {
+    <span style="color: #a020f0;">return</span> a.trim().replace(<span style="color: #8b2252;">/\s+/</span>g,<span style="color: #8b2252;">" "</span>);
+}
+</pre>
+</div>
+
+<p>
+To see if a paper is attributed to a certain author, first the full
+author names are compared.  If that does not match, only the first
+letter of the first name is taken into account for the comparison.
+This caters to the fact that authors are sometimes given by full name,
+sometimes only by short name.  Note that this possibly results in
+mis-attributions in the graph, when authors with the same last name
+and the same first letter of the given name exist.
+</p>
+
+<p>
+In this case it would be advisable to change the BibTeX source to
+include the author's full name(s).
+</p>
+
+<p>
+Note that when adding an author to the list of known authors, the
+object previously returned by <code>normalize_author</code> is re-used and
+initialized with more properties.  This is currently only the list of
+attributed papers, though.
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock27"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">find_author</span>(<span style="color: #a0522d;">a</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">found</span> = authors.find(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">item</span>) {
+        <span style="color: #a020f0;">return</span> item.last == a.last &amp;&amp; item.given == a.given }) ||
+        authors.find(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">item</span>) {
+            <span style="color: #a020f0;">return</span> item.last == a.last &amp;&amp; item.given[0] == a.given[0]});
+    <span style="color: #a020f0;">if</span> (found)
+        <span style="color: #a020f0;">return</span> found;
+    <span style="color: #a020f0;">else</span> {
+        <span style="color: #b22222;">// </span><span style="color: #b22222;">initialize author fields here</span>
+        a.papers = [];
+        a.type = <span style="color: #8b2252;">"author"</span>;
+        a.name = a.last;        <span style="color: #b22222;">// </span><span style="color: #b22222;">display name</span>
+        <span style="color: #a020f0;">if</span> (a.given) a.name = a.name + <span style="color: #8b2252;">", "</span> + a.given;
+        authors.push(a);
+        <span style="color: #a020f0;">return</span> a;
+    }
+}
+</pre>
+</div>
+
+<p>
+This one is responsible for normalizing an author name of an
+entry.  Note that this does not follow BibTex guidelines completely,
+but is able to extract the most common cases.  When in doubt,
+specifying the names using "Last, First" is always the most
+unambiguous way.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock28"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">normalize_author</span>(<span style="color: #a0522d;">s</span>) {
+    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">c</span> = s.split(<span style="color: #8b2252;">", "</span>);
+    <span style="color: #a020f0;">if</span> (c.length == 1) {        <span style="color: #b22222;">// </span><span style="color: #b22222;">no commas?</span>
+        c = c[0].split(<span style="color: #8b2252;">" "</span>);    <span style="color: #b22222;">// </span><span style="color: #b22222;">split by spaces</span>
+        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">last</span> = c.pop();
+        <span style="color: #a020f0;">return</span> {given: c.join(<span style="color: #8b2252;">" "</span>), last: last};
+    } <span style="color: #a020f0;">else</span>
+        <span style="color: #a020f0;">return</span> {given: c[c.length-1].split(<span style="color: #8b2252;">" "</span>)[0], last: c[0]};
+}
+</pre>
+</div>
+</div></li>
+
+<li><a id="orgheadline4"></a><a id="ID-034811f6-5a5d-4c94-9bd2-7afa932aafe0"></a>BibTex Parser<br  /><div class="outline-text-5" id="text-3-2-7-3">
+<p>
+BibTex files are parsed using <a href="https://github.com/pegjs/pegjs">PEG.js</a>.
+</p>
+
+<p>
+Limitations:
+</p>
+<ul class="org-ul">
+<li>no support for "@string" (if someone tells me how to handle state
+during parser execution, that would be quite easy to add)</li>
+<li>when encountering variables, they are not substituted</li>
+</ul>
+
+<p>
+This should not really matter, since the information in such fields is
+not displayed anyways (yet).
+</p>
+
+<p>
+<a href="http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html">This page</a> has very nice information about the BibTex Syntax.
+</p>
+
+<p>
+This expression is used to
+generate the parser:
+</p>
+
+<pre class="example">
+start = bibtex
+
+_ "whitespace" = [ \t\n\r]*
+
+name = value:[a-zA-Z0-9_-]+ { return value.join("").toLowerCase() }
+number = value:[0-9]+ { return parseInt(value.join(""),10) }
+month_const = "jan"/"feb"/"mar"/"apr"/"may"/"jun"/"jul"/"aug"/"sep"/"oct"/"nov"/"dec"
+
+non_brace = value: [^{}]+ { return value.join("") }
+non_quote_non_brace = value: [^{}"]+ { return value.join("") }
+
+braced_value = "{" values: (non_brace / braced_value)* "}" { return values.join("") }
+quoted_value = "\"" values: (non_quote_non_brace / braced_value)* "\"" { return values.join("") }
+
+//fallback: when encountering an unquoted or unbrace value, assume variable name, without doing substitutions
+value = braced_value / quoted_value / number / month_const / name
+
+key = value:[^,]+ { return value.join("") }
+
+field = name:name _ "=" _ value:value { return { name:name, value:value}}
+field_with_separator = _ field:field _ "," { return field }
+
+normal_entry = "@" type:name _ "{" _ key:key _ "," fields:(field_with_separator)* _ last_field:field? _ '}'
+  { if (last_field) fields.push(last_field);
+    var ret = {bibtype: type, key: key, bibtex: {}};
+    fields.forEach(function(f) { if (!ret.bibtex[f.name]) ret.bibtex[f.name] = f.value});
+  return ret; }
+
+string = "@STRING"i _ "{" _ f:field _ "}" {error("@string directive not supported")}
+
+preamble = "@PREAMBLE"i _ "{" value "}"
+
+comment_body = value:[^@]+ {return value.join("")}
+
+comment_entry = "@COMMENT"i _ comment:braced_value { return comment }
+
+comment = comment_entry / comment_body
+
+entry = string / preamble / comment / normal_entry
+
+bibtex = elements:(entry / comment)* { return elements.filter(function(e) {return typeof(e) == "object"})}
+</pre>
+
+<p>
+Now we need to generate the necessary node and link data from the
+parsed BibTex.  For debugging purposes, the parse tree is stored
+globally.
+</p>
+
+<p>
+If an exception is encountered during parsing, the parser error message is
+displayed in a message box.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock23"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">parse_tree</span>;
+
+<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">parse_bibtex_file</span>(<span style="color: #a0522d;">content</span>) {
+    <span style="color: #a020f0;">try</span> {
+        parse_tree = bibtex_parser.parse(content);
+        <span style="color: #a020f0;">return</span> parse_tree;
+    } <span style="color: #a020f0;">catch</span> (e) {
+        alert(`Line ${e.location.start.line}, Column ${e.location.start.column}: ${e.message}`);
+        <span style="color: #a020f0;">throw</span>(e);
+    }
+}
+</pre>
+</div>
+</div></li></ol>
+</div>
+
+<div id="outline-container-orgheadline37" class="outline-4">
+<h4 id="orgheadline37"><span class="section-number-4">3.2.8</span> Application Initialization/Data Loading</h4>
+<div class="outline-text-4" id="text-3-2-8">
+<p>
+When the Application is loaded, a local file "example.bib" is opened.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js">d3.text(<span style="color: #8b2252;">"example.bib"</span>, <span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">error</span>, <span style="color: #a0522d;">content</span>) {
+    <span style="color: #a020f0;">if</span> (error) <span style="color: #a020f0;">throw</span>(error);
+    load_bibtex(content);
+});
+</pre>
+</div>
+
+
+<p>
+<b>Old JSON loading code below:</b>
+</p>
+
+<p>
+(connect<sub>node</sub> is deprecated, since loading JSON will be phased out in
+favor of loading BibTeX directly)
+</p>
+
+<p>
+Since we are using d3.js's json load function, everything that needs
+to happen after loading must be clumsily put into the event handler to
+that function.
+</p>
+
+<p>
+This helper iterates through all the nodes in the <code>tree</code> data member
+and creates links to the flat listed nodes.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js" id="orgsrcblock29"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">connect_node</span>(<span style="color: #a0522d;">pnode</span>) {
+    <span style="color: #a020f0;">if</span> (pnode.children) pnode.children.forEach(connect_node);
+    <span style="color: #a020f0;">else</span> {
+        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">fnode</span> = nodes.find(<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">d</span>) {
+            <span style="color: #a020f0;">return</span> d.name == pnode.name
+        });
+        <span style="color: #a020f0;">if</span> (fnode) {
+            pnode.force_node = fnode;
+            fnode.pack_node = pnode;
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+After loading, the <a href="#orgsrcblock2">data globals</a> are actually assigned the correct
+values.  <a href="#orgsrcblock7">1</a> is responsible for actually creating all
+layouts.  Change the initial mode to collaboration, which starts the
+actual layout.  Trigger generating all jdenticon icons.
+</p>
+
+<pre class="example">
+d3.json("graph.json", function(error, json) {
+    if (error) throw error;
+
+    nodes = json.nodes;
+    links = json.links;
+    tree = json.tree;
+
+    nodes.forEach(function(node) {
+        set_collab_paper_targets(node)  /* set the target coordinates for the papers */
+        if (node.x_target) node.x = node.x_target;
+        if (node.y_target) node.y = node.y_target;
+    });
+
+
+    connect_node(tree);
+
+    update_layout();
+
+    jdenticon.update(".jdenticon");
+
+    change_mode('collaboration');
+
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline40" class="outline-2">
+<h2 id="orgheadline40"><span class="section-number-2">4</span> Hacking</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This file is used to generate code and documentation.  It requires
+org-mode which is supplied by emacs.  To (re-)generate the code file,
+open this document and evaluate <code>org-babel-tangle</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline51" class="outline-2">
+<h2 id="orgheadline51"><span class="section-number-2">5</span> Plan</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41"><span class="section-number-3">5.1</span> <span class="todo TODO">TODO</span> correctly implement data update mechanism</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+see
+</p>
+<ul class="org-ul">
+<li><a href="https://bl.ocks.org/mbostock/3808218">https://bl.ocks.org/mbostock/3808218</a></li>
+<li><a href="https://bost.ocks.org/mike/join/">https://bost.ocks.org/mike/join/</a></li>
+<li><a href="https://bost.ocks.org/mike/constancy/">https://bost.ocks.org/mike/constancy/</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42"><span class="section-number-3">5.2</span> <span class="todo TODO">TODO</span> rename <a href="#orgsrcblock12">1</a></h3>
+</div>
+<div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43"><span class="section-number-3">5.3</span> <span class="todo TODO">TODO</span> re-implement classification layout without actually using the targets as attractors</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+blend the current attractor position with the classification target
+position instead.  This way, no actual simulation has to be done when
+switching modes
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">5.4</span> <span class="todo TODO">TODO</span> rename category -&gt; classification</h3>
+</div>
+<div id="outline-container-orgheadline45" class="outline-3">
+<h3 id="orgheadline45"><span class="section-number-3">5.5</span> <span class="todo TODO">TODO</span> remove hardcoding 2016, substitute for current year</h3>
+</div>
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46"><span class="section-number-3">5.6</span> <span class="todo TODO">TODO</span> switch to radial cluster for classification layout</h3>
+</div>
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">5.7</span> <span class="todo TODO">TODO</span> fix initial positioning in <a href="#orgtarget2">3.2.5.1.4</a></h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+Problem: initial positioning causes very unstable initial layouting.
+</p>
+
+<p>
+Idea: place papers first, then add authors one after each other (at
+one of their papers) to allow for settling a bit before adding
+another.
+</p>
+
+<p>
+Can that be done still using the entry selection?
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48"><span class="section-number-3">5.8</span> <span class="todo TODO">TODO</span> rename icon<sub>size</sub> -&gt; node<sub>size</sub></h3>
+</div>
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49"><span class="section-number-3">5.9</span> <span class="todo TODO">TODO</span> open pdf based on file property, not on inferred key value</h3>
+</div>
+<div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50"><span class="section-number-3">5.10</span> <span class="todo TODO">TODO</span> interpret bibtex types, assign icons, warn when required fields not present</h3>
+<div class="outline-text-3" id="text-5-10">
+<p>
+The idea is to catch probably unintended mistakes, but be robust for
+other kinds of non-well-defined fields
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: timor</p>
+<p class="date">Created: 2016-06-16 Do 11:13</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
