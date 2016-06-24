@@ -1149,14 +1149,13 @@ see
 - https://bost.ocks.org/mike/join/
 - https://bost.ocks.org/mike/constancy/
 ** TODO rename [[collab_charge]]
-** TODO re-implement classification layout without actually using the targets as attractors
-blend the current attractor position with the classification target
-position instead.  This way, no actual simulation has to be done when
-switching modes
+** TODO re-implement classification layout
+- build tree, maybe use circular tree/ radial clustering as target attractors
 ** TODO rename category -> classification
 ** TODO remove hardcoding 2016, substitute for current year
-** TODO switch to radial cluster for classification layout
-** TODO fix initial positioning in [[force-init]]
+** Improve layout for big files
+*** TODO use paper attractor targets as initial positions only
+*** TODO fix initial positioning in [[force-init]]
 Problem: initial positioning causes very unstable initial layouting.
 
 Idea: place papers first, then add authors one after each other (at
@@ -1164,6 +1163,8 @@ one of their papers) to allow for settling a bit before adding
 another.
 
 Can that be done still using the entry selection?
+*** TODO switch to new d3.js api and implement a local directional force, in effect enforcing ordering locally, only.
+- maybe not needed if other two options give satisfying results
 ** TODO rename icon_size -> node_size
 ** TODO open pdf based on file property, not on inferred key value
 ** TODO interpret bibtex types, assign icons, warn when required fields not present
