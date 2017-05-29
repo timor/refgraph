@@ -504,8 +504,8 @@ older publications.
 #+BEGIN_SRC js
   function set_collab_paper_targets(node) {
       if (node.type == "paper") {
-          // node.y_target = (((2016 - node.year))*20) + 200;
-          node.y_target = (Math.sqrt(2016 - node.year) * 100) + 200;
+          // node.y_target = (((2020 - node.year))*20) + 200;
+          node.y_target = (Math.sqrt(2020 - node.year) * 100) + 200;
           xmin = "A".charCodeAt(0);
           xmax = "Z".charCodeAt(0);
           xnode = node.name.toUpperCase().charCodeAt(0);
